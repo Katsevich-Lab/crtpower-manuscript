@@ -354,7 +354,7 @@
 
 	
 \begin{abstract}
-For testing conditional independence (CI) of a response $Y$ and a predictor $X$ given covariates $Z$, the recently introduced model-X (MX) framework has been the subject of active methodological research, especially in the context of MX knockoffs and their successful application to genome-wide association studies. In this paper, we study the power of MX CI tests, yielding quantitative explanations for empirically observed phenomena and novel insights to guide the design of MX methodology. We focus our analysis on the conditional randomization test (CRT), \color{red} whose validity conditional on $Y,Z$ allows us to view it as a test of a point null hypothesis involving the conditional distribution of $X$. We use the Neyman-Pearson lemma to derive the most powerful CRT statistic against a point alternative \color{black} as well as an analogous result for MX knockoffs. \color{red} We define CRT-style analogs of $t$- and $F$-tests with explicit critical values, \color{black} and show that they have uniform asymptotic Type-I error control under the assumption that \textit{only the first two moments of $X$ given $Z$ are known}, a significant relaxation of MX. \textcolor{red}{Also asymptotic equivalence to the CRT.} Finally, we derive expressions for the power of these tests against local semiparametric alternatives, explicitly capturing the prediction error of the underlying learning algorithm. 
+For testing conditional independence (CI) of a response $Y$ and a predictor $X$ given covariates $Z$, the recently introduced model-X (MX) framework has been the subject of active methodological research, especially in the context of MX knockoffs and their successful application to genome-wide association studies. In this paper, we study the power of MX CI tests, yielding quantitative explanations for empirically observed phenomena and novel insights to guide the design of MX methodology. We show that any valid MX CI test must also be valid conditionally on $\sry, \srz$; this conditioning allows us to reformulate the problem as testing a point null hypothesis involving the conditional distribution of $X$. The Neyman-Pearson lemma then implies that the conditional randomization test (CRT) based on a likelihood statistic is the most powerful MX CI test against a point alternative. We also obtain a related optimality result for MX knockoffs. We show that the CRT resampling distribution of an appropriately normalized test statistic converges to a standard normal distribution under the MX assumption, leading to an asymptotically equivalent test based on explicit critical values (and therefore no need for resampling) with uniform asymptotic type-I error control. In fact, this test is valid under the assumption that \textit{only the first two moments of $X$ given $Z$ are known}, a significant relaxation of MX. Finally, we derive expressions for the power of this test (and that of the asymptotically equivalent CRT) against local semiparametric alternatives, explicitly capturing the prediction error of the underlying learning algorithm. 
 \end{abstract}
 	
 %	\begin{keyword}
@@ -868,7 +868,7 @@ See also Algorithm~\ref{alg:MX(2)-F-test}, and recall that $c_{d,1-\alpha}$ is d
 		\end{algorithm}
 	\end{minipage}
 \end{center}
-\color{red} Note that a one-sided version of this test (the \textit{MX(2) $t$-test}) can be defined for $d = 1$ by rejecting for large values of $U_n(\srx, \sry, \srz)$. \color{black}
+Note that a one-sided version of this test (the \textit{MX(2) $t$-test}) can be defined for $d = 1$ by rejecting for large values of $U_n(\srx, \sry, \srz)$.
 
 Next, we formally state asymptotic type-I error control for the MX(2) $F$-test and claim that it is asymptotically equivalent to the CRT based on the same test statistic. 
 
@@ -929,7 +929,7 @@ Theorem~\ref{thm:equivalence} is a statement about the asymptotic equivalence be
 
 \subsection{Finite-sample convergence assessment} \label{sec:simulations}
 
-Theorem~\ref{thm:asymptotic-alpha-level} states that $U_n(\srx, \sry, \srz)$ converges to $N(0, I_d)$ unconditionally, while Theorem~\ref{thm:equivalence} is related to the convergence of $U_n(\srx, \sry, \srz)$ to $N(0, I_d)$ conditionally on $\sry, \srz$. In this section, we describe a numerical simulation designed to assess both convergence statements in finite samples. \textcolor{red}{code?}
+Theorem~\ref{thm:asymptotic-alpha-level} states that $U_n(\srx, \sry, \srz)$ converges to $N(0, I_d)$ unconditionally, while Theorem~\ref{thm:equivalence} is related to the convergence of $U_n(\srx, \sry, \srz)$ to $N(0, I_d)$ conditionally on $\sry, \srz$. In this section, we describe a numerical simulation designed to assess both convergence statements in finite samples. Code to reproduce the simulation is available online at \url{https://github.com/ekatsevi/crtpower-manuscript}.
 
 \paragraph{Simulation setup.}
 
@@ -978,13 +978,13 @@ Next, we study the asymptotic power of the MX(2) $F$-test (and by Theorem~\ref{t
 \clearpage
 
 \begin{figure}[h!]
-	\includegraphics[width = \textwidth]{../simulation/unconditional.png}
+	\includegraphics[width = \textwidth]{unconditional.png}
 	\caption{Unconditional distribution of $U_n(\srx, \sry, \srz)$ across the nine simulation settings.}
 	\label{fig:unconditional}
 \end{figure}
 
 \begin{figure}[h!]
-	\includegraphics[width = \textwidth]{../simulation/conditional.png}
+	\includegraphics[width = \textwidth]{conditional.png}
 	\caption{Conditional distribution of $U_n(\srx, \sry, \srz)|\sry,\srz$ across the nine simulation settings.}
 	\label{fig:conditional}
 \end{figure}
