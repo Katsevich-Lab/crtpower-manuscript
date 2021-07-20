@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+*.aux
+*.run.xml
+*.bib
+*.gz
+*.out
+*.Rhistory
+*.RData
+*.bbl
+*.blg
