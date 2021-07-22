@@ -2,7 +2,7 @@
 *.log
 *.aux
 *.run.xml
-*.bib
+*blx.bib
 *.gz
 *.out
 *.Rhistory
