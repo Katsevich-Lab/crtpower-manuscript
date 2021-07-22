@@ -58,16 +58,6 @@
  \newtheorem{example}{Example}
  % \makeatletter
  
- % \newtheorem*{rep@theorem}{\rep@title}
- % \newcommand{\newreptheorem}[2]
- % {\newenvironment{rep#1}[1]
- % 	{\def\rep@title{#2 \ref{##1}} \begin{rep@theorem}}%
- % 		{\end{rep@theorem}}}
- % \makeatother
- % \newreptheorem{theorem}{Theorem}
- % \newreptheorem{lemma}{Lemma}
- % \newreptheorem{corollary}{Corollary}
- % \newreptheorem{proposition}{Proposition}
  
  
  
@@ -108,25 +98,7 @@
  
  \setlength{\headheight}{35pt} 
  
- 
- %----------------------------------------------------------
- % Math operator macros
- %----------------------------------------------------------
- % \DeclareMathOperator{\rank}{rank}
- % \DeclareMathOperator{\diag}{diag}
- % \DeclareMathOperator{\trace}{trace}
- % \DeclareMathOperator{\cov}{Cov}
- % \DeclareMathOperator{\var}{Var}
- % \DeclareMathOperator{\sign}{sign}
- % \DeclareMathOperator{\spn}{span}
- % \DeclareMathOperator{\supp}{support}
- % \DeclareMathOperator{\conv}{conv} % Convex hull
- % \DeclareMathOperator{\cone}{cone} % Conic hull
- % \DeclareMathOperator*{\argmax}{arg\,max}
- % \DeclareMathOperator*{\argmin}{arg\,min}
- % \providecommand{\myfloor}[1]{\left \lfloor #1 \right \rfloor }
- % \providecommand{\myceil}[1]{\left \lceil #1 \right \rceil }
- 
+  
  
  %----------------------------------------------------------
  % Other macros
@@ -219,14 +191,6 @@
  
   \def\CRT{\textnormal{CRT}}
  
- 
- 
- % \newcommand{\thetitle}{Towards ``simultaneous selective inference'':\\
- 	% post hoc bounds on the false discovery proportion} % on directed acyclic graphs}
- 
- %\newcommand{\thetitle}{p-filter+ : a general framework for \\ improving power and precision in multiple testing using \\   weights, null-proportion adaptivity and group structures}
- 
-  
  % \usepackage[mmddyy]{datetime}
  % \renewcommand{\dateseparator}{.}
  
@@ -235,53 +199,14 @@
  %----------------------------------------------------------
  % Document-specific macros & settings
  %----------------------------------------------------------
- 
- % \newcommand{\ov}{\textnormal{ov}}
- % \newcommand{\grp}{\textnormal{grp}}
  \newcommand{\nulls}{\mathcal{H}^0}
- % \newcommand{\nullsg}{\mathcal{H}^0_{\grp}}
- % \newcommand{\nullsm}{\mathcal{H}^0_m}
- % \newcommand{\unif}{\textnormal{Unif}[0,1]}
  \newcommand{\fdp}{\textnormal{FDP}}
  \newcommand{\fdr}{\textnormal{FDR}}
  \newcommand{\fdx}{\textnormal{FDX}}
- % \newcommand{\fdpo}{\fdp_{\ov}}
- % \newcommand{\fdpg}{\fdp_{\grp}}
- % \newcommand{\fdpm}{\fdp^m}
  \newcommand{\fdphat}{\widehat{\textnormal{FDP}}}
  \newcommand{\fdpbar}{\overline{\textnormal{FDP}}}
  \newcommand{\fdphmu}{\widehat{\fdp^m_u}}
- % \newcommand{\fdpohat}{\fdphat_{\ov}}
- % \newcommand{\fdpghat}{\fdphat_{\grp}}
- % \newcommand{\tov}{t_{\ov}}
- % \newcommand{\tg}{t_{\grp}}
- % \newcommand{\ttov}{\tilde t_{\ov}}
- % \newcommand{\ttg}{\tilde t_{\grp}}
- % \renewcommand{\th}{\widehat{t}}
- % \newcommand{\thov}{\th_{\ov}}
- % \newcommand{\thg}{\th_{\grp}}
- % \newcommand{\qov}{\alpha_{\ov}}
- % \newcommand{\qg}{\alpha_{\grp}}
  \newcommand{\bh}{\textnormal{BH}}
- % \newcommand{\ssbh}{\textnormal{ssBH}}
- % \newcommand{\ppbh}{\textnormal{ppBH}}
- % \newcommand{\Simes}{\textnormal{Simes}}
- % \newcommand{\talpha}{\widetilde{\alpha}}
- % \newcommand{\ssSimes}{\textnormal{ssSimes}}
- % \newcommand{\stbh}{\textnormal{St-BH}}
- % \newcommand{\stssbh}{\textnormal{Storey-ssBH}}
- % \newcommand{\stSimes}{\textnormal{St-Simes}}
- % \newcommand{\pf}{\textnormal{p-filter}}
- % \newcommand{\pl}{P^{( g)}}
- % \newcommand{\pli}{\pl_i}
- % \newcommand{\Sh}{\widehat{S}}
- % \newcommand{\Shm}{\Sh_m}
- % \newcommand{\Shg}{\Sh_{\grp}}
- % \newcommand{\Tset}{\widehat{\mathcal{T}}}
- % \newcommand{\One}[1]{{\bf{1}}\left\{{#1}\right\}}
- % \newcommand{\filt}{\mathcal{F}}
- % \newcommand{\kh}{\widehat{k}}
- % \newcommand{\jh}{\widehat{j}}
  \newcommand{\pih}{\widehat{\pi}}
  \newcommand{\alphah}{\widehat{\alpha}}
  \newcommand{\vh}{\widehat{V}}
@@ -291,46 +216,10 @@
  \def\G{\mathcal{G}}
  \def\M{\mathcal{M}}
  \def\H{\mathcal{H}}
- % \def\Parents{\mathrm{Par}}
- % \def\Depth{\mathrm{Depth}}
- % \def\Subgraph{\mathrm{Sub}}
- % \def\Children{\mathrm{Child}}
- % \def\Leaves{\mathcal{L}}
  \def\cR{\mathcal{R}}
  \def\False{\mathcal{V}}
  
  
- % \makeatletter
- % \newcommand{\dotfrac}[2]{
- % 	\mathchoice
- % 	{\ooalign{$\genfrac{}{}{0pt}{0}{#1}{#2}$\cr\leavevmode\cleaders\hb@xt@ .22em{\hss $\displaystyle\cdot$\hss}\hfill\kern\z@\cr}}
- % 	{\ooalign{$\genfrac{}{}{0pt}{1}{#1}{#2}$\cr\leavevmode\cleaders\hb@xt@ .22em{\hss $\textstyle\cdot$\hss}\hfill\kern\z@\cr}}
- % 	{\ooalign{$\genfrac{}{}{0pt}{2}{#1}{#2}$\cr\leavevmode\cleaders\hb@xt@ .22em{\hss $\scriptstyle\cdot$\hss}\hfill\kern\z@\cr}}
- % 	{\ooalign{$\genfrac{}{}{0pt}{3}{#1}{#2}$\cr\leavevmode\cleaders\hb@xt@ .22em{\hss $\scriptscriptstyle\cdot$\hss}\hfill\kern\z@\cr}}
- % }
- % \makeatother
- 
- % \usepackage{algorithm,algorithmic}
- %\newcommand{\theHalgorithm}{\arabic{algorithm}}
- 
- % \newcommand{\red}[1]{\textcolor{red}{#1}}
- 
- % \newcommand{\mjwcomment}[1]{{\bf{{\red{{MJW --- #1}}}}}}
- % \newcommand{\defn}{\ensuremath{:\, =}}
- 
- % \newcommand{\myorder}[2]{\ensuremath{#1_{(#2)}}}
- 
- % % Set
- % \newcommand{\Dset}{\ensuremath{\mathcal{D}}}
- 
- % \newcommand{\Rplus}{\ensuremath{\R_+}}
- 
- % \newcommand{\MYSUM}[2]{\ensuremath{S(#1, #2)}}
- 
- % \newcommand{\MYPROB}{\ensuremath{\mbox{Pr}}}
- % \newcommand{\Calg}{\ensuremath{C_{\text{alg}}}}
- % \newcommand{\calg}{\ensuremath{c_{\text{alg}}}}
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % \endlocaldefs
 
@@ -394,19 +283,19 @@ This fundamental problem---determining whether a predictor is associated with a 
 %consider a neuroscience experiment where we wish to determine if a particular \textit{voxel} (volume pixel) in the visual cortex responds preferentially to faces using an fMRI (functional magnetic resonance imaging) experiment involving showing a subject a sequence of $n$ images. Here, $\pry \in \mathbb R$ would be the fMRI brain recording 6 seconds after showing the image, $\prx \in \mathbb R$ would be a count of the number of faces in the image, and $\prz \in \mathbb R^{100}$ would include other visual features (counts of non-face objects, edge-detectors, color/brightness).
 % \textcolor{red}{To keep an example in mind throughout the paper, consider $\pry \in \mathbb R^1$ cholesterol level, $\prx \in \{0,1,2\}^{10}$ the genotypes of an individual at 10 nearby polymorphic sites, and $\prz \in \{0,1,2\}^{500,000}$ the genotypes of the individual at other polymorphic sites across the genome.} 
 
-As formalized by Shah and Peters \cite{Shah2018}, the problem \eqref{conditional-independence} is fundamentally impossible without assumptions on the distribution $\mathcal L(\prx,\pry, \prz)$, in which case no asymptotically uniformly valid test of this hypothesis can have nontrivial power against any alternative. In special cases, the problem is more tractable, for example if $\prz$ has discrete support, or if we were willing to make (semi)parametric assumptions on the form of $\mathcal L(\pry|\prx, \prz)$ (henceforth ``model-$Y|X$''). We will not be making such assumptions in this work.
+As formalized by Shah and Peters \cite{Shah2018}, the problem \eqref{conditional-independence} is fundamentally impossible without assumptions on the distribution $\mathcal L(\prx,\pry, \prz)$, in which case no asymptotically uniformly valid test of this hypothesis can have nontrivial power against \emph{any} alternative. In special cases, the problem is more tractable, for example if $\prz$ has discrete support, or if we were willing to make (semi)parametric assumptions on the form of $\mathcal L(\pry|\prx, \prz)$ (henceforth ``model-$Y|X$''). We will not be making such assumptions in this work.
 % A complementary recent line of work has focused on shifting assumptions to the distribution $f_{\prx, \prz}$. In particular, 
-Instead, we follow the lead of Candes et al. \cite{CetL16}, who proposed to avoid assumptions on $\mathcal L(\pry|\prx, \prz)$, but assume that we have access to $\mathcal L(\prx|\prz)$:\footnote{Candes et al actually require that the full joint distribution $\mathcal L(\prx,\prz)$ is known, but this is because they also test for conditional associations between $\prz$ and $\pry$. We focus only on the relationship between $\prx$ and $\pry$ given $\prz$ and therefore require a weaker assumption.} 
+Instead, we follow the lead of Candes et al. \cite{CetL16}, who proposed to avoid assumptions on $\mathcal L(\pry|\prx, \prz)$, but assume that we have access to $\mathcal L(\prx|\prz)$:\footnote{Candes et al. actually require that the full joint distribution $\mathcal L(\prx,\prz)$ is known, but this is because they also test for conditional associations between $\prz$ and $\pry$. We focus only on the relationship between $\prx$ and $\pry$ given $\prz$ and therefore require a weaker assumption.} 
 \begin{equation} \label{eq:modelX}
-\textit{model-X (MX) assumption}: \mathcal L(\prx| \prz)=  f^*_{\prx|\prz} \text{ for a known } f^*_{\prx|\prz}. 
+\textit{model-X (MX) assumption}: \mathcal L(\prx| \prz)=  f^*_{\prx|\prz} \text{ for some known } f^*_{\prx|\prz}. 
 \end{equation}
-Candes et al argue that while both model-$Y|X$ and MX are strong assumptions---especially when $p,d$ are large---in certain cases much more is known about $\prx | \prz$ than about $\pry|\prx, \prz$. In the aforementioned GWAS example, $\prx|\prz$ reflects the joint distribution of genotypes at SNPs across the genome, which is well described by hidden Markov models from population genetics \cite{SetC17}. On the other hand, the distribution $\pry|\prx,\prz$ represents the genetic basis of a complex trait, about which much less is known. In the context of (stratified) randomized experiment, the distribution $\mathcal L(\prx | \prz)$ is the propensity function \cite{Imai2004} (the analog of the propensity score for non-binary treatments \cite{Rosenbaum1983}) and is experimentally controlled. In general causal inference contexts, the MX assumption can be viewed as the assumption that the propensity function is known. 
+Candes et al.\ argue that while both model-$Y|X$ and MX are strong assumptions---especially when $p,d$ are large---in certain cases much more is known about $\prx | \prz$ than about $\pry|\prx, \prz$. In the aforementioned GWAS example, $\prx|\prz$ reflects the joint distribution of genotypes at SNPs across the genome, which is well described by hidden Markov models from population genetics \cite{SetC17}. On the other hand, the distribution $\pry|\prx,\prz$ represents the genetic basis of a complex trait, about which much less is known. In the context of (stratified) randomized experiments, the distribution $\mathcal L(\prx | \prz)$ is the propensity function \cite{Imai2004} (the analog of the propensity score for non-binary treatments \cite{Rosenbaum1983}) and is experimentally controlled. In general causal inference contexts, the MX assumption can be viewed as the assumption that the propensity function is known. 
 
 \subsection{MX methodology and open questions}
 
-Testing CI hypotheses in the MX framework has been the subject of active methodological research. The most popular methodology is MX knockoffs \cite{CetL16}. This method is based on the idea of constructing synthetic negative controls (knockoffs) for each predictor variable in a rigorous way that is based on the MX assumption; see Section~\ref{sec:knockoffs-overview} for a brief overview. Rapid progress has been made on the construction of knockoffs in various cases \cite{SetC17,Romano2019a,Bates2019,Huang2019} and on the application of this methodology to GWAS \cite{SetC17, SetS19}. The conditional randomization test (CRT) \cite{CetL16}, initially less popular than knockoffs due to its computational cost, is receiving renewed attention as computationally efficient variants are proposed, such as the holdout randomization test (HRT) \cite{Tansey2018}, the digital twin test \cite{Bates2020}, and the distilled CRT (dCRT) \cite{Liu2020}. We describe this methodology next.
+Testing CI hypotheses in the MX framework has been the subject of active methodological research. The most popular methodology is MX knockoffs \cite{CetL16}. This method is based on the idea of constructing synthetic negative controls (knockoffs) for each predictor variable in a rigorous way that is based on the MX assumption; see Section~\ref{sec:knockoffs-overview} for a brief overview. Rapid progress has been made on the construction of knockoffs in various cases \cite{SetC17,Romano2019a,Bates2019,Huang2019} and on the application of this methodology to GWAS \cite{SetC17, SetS19}. The conditional randomization test (CRT) \cite{CetL16}, initially less popular than knockoffs due to its computational cost, is receiving renewed attention as computationally efficient variants are proposed, such as the holdout randomization test (HRT) \cite{Tansey2018}, the digital twin test \cite{Bates2020}, and the distilled CRT (dCRT) \cite{Liu2020}. We describe the CRT methodology next.
 
-We start with any test statistic $T(\srx, \sry, \srz)$ measuring the association between $\prx$ and $\pry$, given $\prz$. Usually, this statistic involves learning some estimate $\widehat f_{\pry|\prx,\prz}$ based on machine learning, e.g. the magnitude of the fitted coefficient for $\prx$ (assuming $\text{dim}(\prx) = 1$) in a cross-validated lasso~\cite{T96} of $\sry$ on $\srx$ and $\srz$ \cite{CetL16} . To calculate the distribution of $T$ under the null hypothesis~\eqref{conditional-independence}, first define a matrix  $\srxk \in \mathbb R^{n \times d}$ where the $i$th row $\srxk_i$ is a sample from $\mathcal L(\prx \mid \prz = \srz_i)$. In other words, for each sample $i$, we resample $\srx_i$ based on its distribution conditional on the observed covariate values $Z_i$ in that sample. We then use these resamples to build a null distribution $T(\srxk, \sry, \srz)$, from which we extract the upper quantile
+We start with any test statistic $T(\srx, \sry, \srz)$ measuring the association between $\prx$ and $\pry$, given $\prz$. Usually, this statistic involves learning some estimate $\widehat f_{\pry|\prx,\prz}$ based on machine learning, e.g. the magnitude of the fitted coefficient for $\prx$ (assuming $\text{dim}(\prx) = 1$) in a cross-validated lasso~\cite{T96} of $\sry$ on $\srx$ and $\srz$ \cite{CetL16} . To calculate the distribution of $T$ under the null hypothesis~\eqref{conditional-independence}, first define a matrix  $\srxk \in \mathbb R^{n \times d}$, where the $i$th row $\srxk_i$ is a sample from $\mathcal L(\prx \mid \prz = \srz_i)$. In other words, for each sample $i$, we resample $\srx_i$ based on its distribution conditional on the observed covariate values $Z_i$ in that sample. We then use these resamples to build a null distribution $T(\srxk, \sry, \srz)$, from which we extract the upper quantile
 \begin{equation}
 	C_{\alpha}(\sry,\srz) \equiv Q_{1-\alpha}[T(\srxk, \sry, \srz)|\sry,\srz],
 	\label{upper-quantile}
@@ -422,7 +311,7 @@ where the randomness is over the resampling distribution $\srxk |  \sry, \srz$. 
 		0, \quad &\text{if }T(\srx, \sry, \srz) < C_\alpha(\sry,\srz).
 	\end{cases}
 \end{equation}
-In order to accommodate discreteness, the CRT makes a randomized decision when $T(\srx, \sry, \srz) = C_\alpha(\sry,\srz)$ so that the size of the test is exactly $\alpha$.
+In order to accommodate discreteness, the CRT makes a randomized decision $\gamma$ when $T(\srx, \sry, \srz) = C_\alpha(\sry,\srz)$ so that the size of the test is exactly $\alpha$.
 %rejects with probability \[\gamma \equiv \frac{\alpha - \mathbb {P}[T(\srxk, \sry, \srz) > C_\alpha(\sry,\srz)|\sry,\srz]}{\mathbb {P}[T(\srxk, \sry, \srz) = C_\alpha(\sry,\srz)|\sry,\srz]}\] in cases when the test statistic is exactly equal to the rejection threshold. Note that the above probabilities in the definition of $\gamma$ are over the resampling distribution $\srxk\ |\ \sry, \srz$. 
 In practice, the threshold $C_\alpha(\sry,\srz)$ is approximated by computing $T(\srxk^b, \sry, \srz)$ for a large number $B$ of Monte Carlo resamples $\srxk^b \sim \srx|\srz$. % For $b = 1,\dots, B$, a resample $\srxk^b$ is drawn and the statistic $T(\srxk^b, \sry, \srz)$ is recomputed. Then, the CRT threshold is obtained through the empirical quantile
 %\begin{equation}
@@ -433,11 +322,11 @@ In practice, the threshold $C_\alpha(\sry,\srz)$ is approximated by computing $T
 %The randomization $\gamma$ is not applied in practice, the test rejecting when $T(\srx, \sry, \srz) > \widehat C_\alpha(\sry, \srz)$. The finite-sample validity of the CRT for any $B \leq \infty$ and any $n,d,r,p$ follows from the fact that the resampled triples $(\srxk, \sry, \srz)$ are exchangeable with the original $(\srx, \sry, \srz)$ under the null, much like the argument used for a permutation test. 
 For the sake of clarity, in this paper we consider only the ``infinite-$B$" version of the CRT as defined by equations~\eqref{upper-quantile} and \eqref{eq:randomized-CRT}. In the causal inference setting, the CRT can be viewed as a variant of Fisher's exact test for randomized experiments that incorporates strata of covariates \cite{Zheng2008,Hennessy2016}, basing inference on rerandomizing the treatment to the units. 
 
-The conditional independence testing problem under MX has benefited from a variety of methodological innovations, but there are still many open theoretical questions about this problem, including the following three:
+The conditional independence testing problem under MX has benefited from a variety of methodological innovations, but there are still many open theoretical questions, including the following three:
 \begin{enumerate}
 	\item[Q1.] Are there ``optimal" test statistics for MX methods, in any sense?
 	\item[Q2.] To what extent can the MX assumption be weakened?
-	\item[Q3.] What is the precise connection between the performance of the machine learning (ML) step and the power of the resulting MX method?
+	\item[Q3.] What is the precise connection between the performance of the machine learning (ML) algorithm and the power of the resulting MX method?
 \end{enumerate}
 In this paper, we shed light on these questions. We summarize our findings next.
 
@@ -470,18 +359,18 @@ In this paper, we shed light on these questions. We summarize our findings next.
 
 
 
-We find that the CRT is a natural setting to analyze the MX CI problem; it is simpler to analyze than MX knockoffs and is applicable for testing a single conditional independence hypothesis. For these reasons, we focus mainly on the CRT in the present paper. We obtain the following (partial) answers to the questions posed above.
+We find that for the MX CI problem, the CRT is more natural to analyze; it is simpler to analyze than MX knockoffs and is applicable for testing even a single conditional independence hypothesis. Thus, we focus mainly on the CRT in the present paper. We obtain the following nontrivial answers to the questions posed above.
 
 \paragraph{A1: MX CI is a conditional inference problem and a CRT is most powerful against point alternatives.}
 
-While the composite alternative of the CI problem~\eqref{conditional-independence} suggests that we cannot expect to find a uniformly most powerful test, we may still ask what is the most powerful test against a point alternative. We show that any level $\alpha$ test must also have level $\alpha$ conditionally on $(\sry, \srz)$, which allows us to reduce the composite null to a point null. We can therefore apply the Neyman-Pearson lemma to show (Section~\ref{sec:power}) that the optimal test against a point alternative $\mathcal L$ with $\mathcal L(\pry|\prx,\prz) = \bar f_{\pry|\prx,\prz}$ is the CRT based on the likelihood test statistic:
+While the composite nonparametric alternative of the CI problem~\eqref{conditional-independence} suggests that we cannot expect to find a uniformly most powerful test, we may still ask what is the most powerful test against a point alternative. We show that any level $\alpha$ test must also have level $\alpha$ conditionally on $(\sry, \srz)$, which allows us to reduce the composite null to a point null. We can therefore apply the Neyman-Pearson lemma to show (Section~\ref{sec:power}) that the optimal test against a point alternative $\mathcal L$ with $\mathcal L(\pry|\prx,\prz) = \bar f_{\pry|\prx,\prz}$ is the CRT based on the likelihood test statistic:
 \begin{equation}
 	T^{\text{opt}}(\srx; \sry, \srz) \equiv \prod_{i = 1}^n \bar f(\sry_i|\srx_i, \srz_i).
 \end{equation}
-The same statistic yields the most powerful one-bit $p$-values for MX knockoffs (Section~\ref{sec:knockoffs}). Since the model for $Y|X,Z$ is unknown, this result provides our first theoretical indication of the usefulness of ML models to learn this distribution (Q3). A3 below gives a more quantitative answer to Q3.
+The same statistic yields the most powerful one-bit $p$-values for MX knockoffs (Section~\ref{sec:knockoffs}). Despite the simplicity of the final answer, this result has not been derived before, and appears central to the design of good (powerful) test statistics. Since the model for $Y|X,Z$ is unknown, this result provides our first theoretical indication of the usefulness of ML models to learn this distribution (Q3). A3 below gives a more quantitative answer to Q3.
 
 \paragraph{A2: The MX assumption can be drastically weakened while retaining asymptotic Type-I error control.}
-Huang and Janson \cite{Huang2019} recently showed that finite-sample type-I error control is possible under only the assumption that the model for $(\prx, \prz)$ belongs to a known parametric family. Going further, if asymptotic validity is sufficient, we show in Section~\ref{sec:weakening} that we need only the 
+Huang and Janson \cite{Huang2019} recently showed that finite-sample type-I error control is possible under only the assumption that the model for $(\prx, \prz)$ belongs to a known parametric family. We derive a complementary nonparametric result in Section~\ref{sec:weakening}, showing that if asymptotic validity suffices, then we need only the 
 \begin{equation}
 \begin{split}
 &\textit{MX(2) assumption:} \text{ the first two moments of $\prx|\prz$ are known, i.e.} \\
@@ -499,7 +388,7 @@ It has been widely observed that the better the ML method approximates $\pry|\pr
 H_1: \mathcal L(\pry|\prx,\prz) = N(\prx^T\beta + g(\prz),\sigma^2).
 \label{parametric-alternative-intro}
 \end{equation}
-We analyze the power of a CRT variant that employs a separately trained estimate $\widehat g$ in an asymptotic regime where $d = \text{dim}(\prx)$ remains fixed while $p = \text{dim}(\prz)$ grows arbitrarily with the sample size $n$. We find that this test is consistent no matter what $\widehat g$ is used, while its asymptotic power against local alternatives $\beta_n = h/\sqrt{n}$ depends on the limiting mean-squared prediction error of $\widehat g$ (denoted $\mathcal E^2$) and the limiting expected variance $\mathbb E[\text{Var}[\prx | \prz]]$ (denoted $s^2$). For example, if $d = 1$,
+We analyze the power of a CRT variant that employs a separately trained estimator $\widehat g$ in an asymptotic regime where $d = \text{dim}(\prx)$ remains fixed while $p = \text{dim}(\prz)$ grows arbitrarily with the sample size $n$. We find that this test is consistent no matter what $\widehat g$ is used, while its asymptotic power against local alternatives $\beta_n = h/\sqrt{n}$ depends on the limiting mean-squared prediction error of $\widehat g$ (denoted $\mathcal E^2$) and the limiting expected variance $\mathbb E[\text{Var}[\prx | \prz]]$ (denoted $s^2$). For example, if $d = 1$, the
 \begin{equation*}
 \begin{split}
 \text{CRT power converges to that of normal location test under alternative } N\smash{\left(\frac{hs}{\sqrt{\sigma^2 + \mathcal E^2}},1\right)}.
