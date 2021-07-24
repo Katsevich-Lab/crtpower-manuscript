@@ -23,8 +23,8 @@
 
 \usepackage[uniquename=false, uniquelist = false, url = false, doi = false, isbn = false, sorting = none, natbib = true, backend = bibtex]{biblatex}
 
-%\addbibresource{~/.references/crtpower}
-\addbibresource{crtpower}
+\addbibresource{~/.references/crtpower}
+%\addbibresource{crtpower}
 
 % \usepackage{grffile}
  % \usepackage{subcaption}
@@ -599,7 +599,7 @@ The following theorem states that the CRT based on the likelihood with respect t
 \end{theorem}
 
 %The form of the optimal statistic $T^{\text{opt}}$ may be surprising, as it is a likelihood ratio with respect to $\sry|\srx,\srz$ rather than $\srx|\sry,\srz$. In fact, we see in the proof (Appendix~\ref{sec:proofs-sec2}) that these two likelihood ratios are equivalent, with the former yielding a more explicit expression. Note also that the denominator of $T^{\text{opt}}$ can be omitted if desired, since it is not a function of $\srx$. We keep it for a more direct parallel with the model-$\sry|\srx$ case. % Though this paper is primarily concerned with the CRT, we also obtain a parallel result about MX knockoffs in Section~\ref{sec:knockoffs}. 
-The proof of Theorem~\ref{prop:crt-optimality} is based on the reduction in Section~\ref{sec:reduction-by-conditioning} of the composite null to a point null by conditioning. This argument has similar flavor to the theory of unbiased testing (see Lehmann and Romano \cite[Chapter 4]{TSH}), where uniformly most powerful unbiased tests can be found by conditioning on sufficient statistics for nuisance parameters. Our result is also analogous to but different from Lehmann's derivation of the most powerful permutation tests using conditioning followed by the Neyman-Pearson lemma, in randomization-based causal inference (see the rejoinder of Rosenbaum's 2002 discussion paper \cite{Rosenbaum2002}, Section 5.10 of Lehmann (1986), now Lehmann and Romano \cite[Section 5.9]{TSH}).
+The proof of Theorem~\ref{prop:crt-optimality} is based on the reduction in Section~\ref{sec:reduction-by-conditioning} of the composite null to a point null by conditioning, followed by the Neyman-Pearson lemma. Note that the likelihood ratio in the model $\mathcal L(\prx|\pry, \prz)$ reduces to the likelihood in the model $\mathcal L(\pry|\prx, \prz)$ up to constant factors; see derivation~\eqref{eq:likelihood-ratio-derivation}. This argument has similar flavor to the theory of unbiased testing (see Lehmann and Romano \cite[Chapter 4]{TSH}), where uniformly most powerful unbiased tests can be found by conditioning on sufficient statistics for nuisance parameters. Our result is also analogous to but different from Lehmann's derivation of the most powerful permutation tests using conditioning followed by the Neyman-Pearson lemma, in randomization-based causal inference (see the rejoinder of Rosenbaum's 2002 discussion paper \cite{Rosenbaum2002}, Section 5.10 of Lehmann (1986), now Lehmann and Romano \cite[Section 5.9]{TSH}).
 
 Inspecting the most powerful test given by Theorem~\ref{prop:crt-optimality}, we find that it depends on $\bar{\mathcal L}$ only through $\bar{\mathcal L}(\pry|\prx,\prz)$. This immediately yields the following corollary.
 \begin{corollary} \label{cor:crt-optinality}
@@ -693,7 +693,7 @@ where
 		\mathscr L^{\textnormal{MX(2)}}(\mu_n(\cdot), \Sigma_n(\cdot)) \equiv \{\mathcal L_n: \mathbb E_{\mathcal L_n}[\prx|\prz] = \mu_n(\prz),\ \text{Var}_{\mathcal L_n}[\prx|\prz] = \Sigma_n(\prz)\}.
 	\end{split}
 \end{equation*}
-In Section~\ref{sec:mx2-f-test}, we propose a test of this MX(2) null hypothesis called the \textit{MX(2) $F$-test}. We establish in Section~\ref{sec:MX(2)-regression} that this test controls Type-I error uniformly over subsets of $\mathscr L_0^{\text{MX(2)}}$ satisfying moment conditions and that this test is asymptotically equivalent to the CRT based on the same test statistic (proofs deferred to Appendix~\ref{sec:proofs-sec45}). We compare these results to existing ones in Section~\ref{sec:comparison-to-existing-results-3}, and then check their finite-sample accuracy via numerical simulations in Section~\ref{sec:simulations}.
+In Section~\ref{sec:mx2-f-test}, we propose a test of this MX(2) null hypothesis called the \textit{MX(2) $F$-test}. We establish in Section~\ref{sec:MX(2)-regression} that this test controls Type-I error uniformly over subsets of $\mathscr L_0^{\text{MX(2)}}$ satisfying moment conditions and that this test is asymptotically equivalent to the CRT based on the same test statistic. We compare these results to existing ones in Section~\ref{sec:comparison-to-existing-results-3}, and then check their finite-sample accuracy via numerical simulations in Section~\ref{sec:simulations}. All proofs are deferred to Appendix~\ref{sec:proofs-sec45}.
 
 
 \subsection{The MX(2) $F$-test} \label{sec:mx2-f-test}
@@ -705,7 +705,7 @@ With the estimate $\widehat g_n$ in hand, it is natural to base inference on the
 \widehat \rho_n \equiv \frac1n\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))(\srx_{i} - \mu_n(\srz_i)).
 \label{rho-hat}
 \end{equation}
-In general, $\widehat \rho_n \in \mathbb R^d$, but for $d = 1$, this coincides with the \textit{generalized covariance measure}, proposed by Shah and Peters \cite{Shah2018} for conditional independence testing. Related quantities also have been studied in the semiparametric \cite{Robinson1988, Robins1992} and doubly robust \cite{Robins2001, VanderLaan2003, Chernozhukov2018} estimation contexts; see Section~\ref{sec:comparison-to-existing-results-3} for more discussion. Constructing an asymptotically valid CI test based on $\widehat \rho_n$ requires us to be able to consistently estimate the limiting mean and variance of this quantity under the null. If we have access to the first two moments of $\prx|\prz$, we can compute for any $\mathcal L_n \in \mathscr L_0^{\text{MX(2)}}$ that
+In general, $\widehat \rho_n \in \mathbb R^d$, but for $d = 1$, this coincides with the \textit{generalized covariance measure}, proposed by Shah and Peters \cite{Shah2018} for conditional independence testing. Related quantities also have been studied in the semiparametric \cite{Robinson1988, Robins1992} and doubly robust \cite{Robins2001, VanderLaan2003, Chernozhukov2018} estimation contexts; see Section~\ref{sec:comparison-to-existing-results-3} for more discussion. The quantity $\widehat \rho_n$ can be viewed as an estimator of $\rho_n \equiv \mathbb E_{\mathcal L_n}[\textnormal{Cov}_{\mathcal L_n}[\prx,\pry|\prz]]$, and in fact is a consistent estimator under the MX(2) assumption (see Lemma~\ref{lem:consistency}). Constructing an asymptotically valid CI test based on $\widehat \rho_n$ requires us to be able to consistently estimate the limiting variance of this quantity under the null. If we have access to the first two moments of $\prx|\prz$, we can compute for any $\mathcal L_n \in \mathscr L_0^{\text{MX(2)}}$ that
 \begin{equation}
 \begin{split}
 \text{Var}_{\mathcal L_n}[\sqrt{n}\widehat \rho_n] &=\text{Var}_{\mathcal L_n}[(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))] \\
@@ -828,7 +828,7 @@ Theorem~\ref{thm:asymptotic-alpha-level} states that $U_n(\srx, \sry, \srz)$ con
 
 \paragraph{Simulation setup.}
 
-Note that, if $(\prx,\prz)$ is jointly Gaussian, then $U_n(\srx, \sry, \srz)$ is exactly distributed as $N(0,I_d)$ both unconditionally and conditionally in finite samples; see also Section 2.5 of \cite{Liu2020}. To test the above convergence statements in a nontrivial setting, we instead consider a discrete distribution for $(\prx,\prz)$. In particular, we sample $(\prx, \prz)$ from a Markov chain, as described next. (Such a Markovian setup has often been employed in MX analyses of population GWAS studies {\color{red}CITE}, motivated by genetic recombination models from theoretical biology.)
+Note that, if $(\prx,\prz)$ is jointly Gaussian, then $U_n(\srx, \sry, \srz)$ is exactly distributed as $N(0,I_d)$ both unconditionally and conditionally in finite samples; see also Section 2.5 of \cite{Liu2020}. To test the above convergence statements in a nontrivial setting, we instead consider a discrete distribution for $(\prx,\prz)$. In particular, we sample $(\prx, \prz)$ from a Markov chain, as described next. (Such a Markovian setup has often been employed in MX analyses of GWAS studies \cite{SetC17, SetS19, Bates2020}, motivated by recombination models from population genetics.)
 
 Let's assume for simplicity that $\text{dim}(\prx) = 1$. Define $(\prx,\prz) \in \{0,1\}^{1+p}$ to have the distribution of a Markov chain with 
 \begin{equation*}
@@ -888,7 +888,7 @@ Next, we study the asymptotic power of the MX(2) $F$-test (and by Theorem~\ref{t
 
 \section{The asymptotic power of the CRT} \label{sec:asymptotic-power}
 
-In Section~\ref{sec:power}, we saw how to construct the optimal test against point alternatives specified by $\bar f_{\pry|\prx,\prz}$. In practice, of course we do not have access to this distribution, so we usually estimate it via a statistical machine learning procedure. The goal of this section is to quantitatively assess the power of the CRT as a function of the prediction error of this ML procedure. 
+In Section~\ref{sec:power}, we saw how to construct the optimal test against point alternatives specified by $\bar f_{\pry|\prx,\prz}$. In practice, of course we do not have access to this distribution, so we usually estimate it via a statistical machine learning procedure. The goal of this section is to quantitatively assess the power of the CRT as a function of the prediction error of this ML procedure. All proofs are deferred to Appendix~\ref{sec:proofs-sec45}.
 
 \subsection{Power against semiparametric alternatives} \label{sec:power-results}
 
@@ -950,7 +950,7 @@ Then, we have the following two statements:
 \end{enumerate}
 \end{theorem}
 
-Recalling that $\chi^2_d(\lambda)$ denotes the noncentral chi-square distribution with $d$ degrees of freedom and non-centrality parameter $\lambda$, the second part of Theorem~\ref{thm:power} states that the MX(2) $F$-test and the CRT based on the same test statistic have power equal to that of a $\chi^2$ test of a multivariate normal random vector having mean zero under the alternative $N((\sigma^2I_d +\mathcal E^2)^{-1/2}\overline \Sigma^{1/2} h, I_d)$. This result establishes a direct link between the estimation error in $\widehat g_n$ and the power of the CRT against local alternatives. In particular, the mean-squared error term $\mathcal E^2$ contributes additively to the irreducible error term $\sigma^2 I_d$. We can gain intuition for this result by considering the regression model
+Recalling that $\chi^2_d(\lambda)$ denotes the noncentral chi-square distribution with $d$ degrees of freedom and non-centrality parameter $\lambda$ and $c_{d,1-\alpha}$ denotes the $1-\alpha$ quantile of $\chi^2_d$, the second part of Theorem~\ref{thm:power} states that the MX(2) $F$-test and the CRT based on the same test statistic have power equal to that of a $\chi^2$ test of a multivariate normal random vector having mean zero under the alternative $N((\sigma^2I_d +\mathcal E^2)^{-1/2}\overline \Sigma^{1/2} h, I_d)$. This result establishes a direct link between the estimation error in $\widehat g_n$ and the power of the CRT against local alternatives. In particular, the mean-squared error term $\mathcal E^2$ contributes additively to the irreducible error term $\sigma^2 I_d$. We can gain intuition for this result by considering the regression model
 \begin{equation}
 \begin{split}
 \pry - \widehat g_n(\prz) &= (\prx - \mu_n(\prz))^T\beta_n + (g_n(\prz) - \widehat g_n(\prz) + \bm \eps)
@@ -961,7 +961,7 @@ obtained from the semiparametric model~\eqref{eq:linearity} by subtracting $\wid
 
 \subsection{Example: Power of lasso-based CRT}
 
-A key ingredient in the power formula~\eqref{eq:main-conclusion} is the limiting variance-weighted mean squared error $\mathcal E^2$. This error depends on the machine learning method used to obtain $\widehat g_n$. We can leverage existing results about the asymptotic behavior of prediction error of machine learning methods in high dimensions. In this section, we consider the case when $\widehat g_n$ is trained using the lasso in the orthogonal design case, which was studied by Bayati and Montanari \cite{Bayati2011}.
+A key ingredient in the power formula~\eqref{eq:main-conclusion} is the limiting variance-weighted mean squared error $\mathcal E^2$. This error depends on the machine learning method used to obtain $\widehat g_n$. We can leverage existing results about the asymptotic behavior of prediction error of machine learning methods in high dimensions. In this section, we consider the case when $\widehat g_n$ is trained using the lasso in the orthogonal design case, which was studied by Bayati and Montanari \cite{Bayati2011}. Note that a recent extension of Bayati and Montanari's results to correlated designs \cite{Celentano2020} can also be used in tandem with~\eqref{eq:main-conclusion}, but we focus our exposition on the orthogonal design case for the sake of simplicity.
 
 \begin{setting}[\bf Linear regression with orthogonal design] \label{setting:orthogonal-design}
 Under Setting~\ref{setting:semiparametric}, assume further that $(\prx, \prz) \sim N(0, I_{1+p})$, $\beta_n = h_n/\sqrt{n}$ for some convergent sequence $h_n \rightarrow h \in \mathbb R$, and $g_n(\prz) = \prz^T \gamma_n$. Suppose $\gamma_n \in \mathbb R^p$ is such that the entries of $\sqrt n \gamma_n$ converge weakly to a random variable $\Gamma$ on $\mathbb R$ such that $\mathbb P[\Gamma \neq 0] > 0$ and $\|\sqrt n \gamma_n\|^2/p \rightarrow \mathbb E[\Gamma^2] < \infty$.
@@ -1001,11 +1001,11 @@ Corollary~\ref{cor:lasso} gives the power of these lasso-based methods in a very
 
 \subsection{Comparison to existing results} \label{sec:comparison-to-existing-results-4}
 
-Two other power analyses of the CRT have been recently conducted \cite{Wang2020b, Celentano2020} in parallel to the first version of our paper {\color{red}Add arxiv}, focusing on the case where $g_n(\prz) = \prz^T \gamma_n$, $\widehat g_n$ is trained using the lasso, $n/p \rightarrow \delta$, and the generalized covariance measure test statistic $\widehat \rho_n$ is used. The former study considers the case of orthogonal design (Setting~\ref{setting:orthogonal-design}), while the latter considers arbitrary joint Gaussian distribution for $(\prx,\prz)$. Assuming $\mathbb E_{\mathcal L_n}[\text{Var}_{\mathcal L_n}[\prx|\prz]] \rightarrow s^2$ (the quantity we called $\overline \Sigma$ in Section~\ref{sec:power-results}, with different notation to clarify that for $\text{dim}(\prx) = 1$ the covariance matrix simply becomes a variance), the works \cite{Wang2020b, Celentano2020} found that the power of the CRT with in-sample lasso fit tends to that of a normal location test with alternative mean $sh/\tau_*$, where $\tau_*$ is the effective noise level from AMP theory (in the orthogonal design case, $(\alpha_*, \tau_*)$ are defined by equation~\eqref{eq:amp-system} with $\pi = 1$) and $h$ is the limiting constant of the local alternatives in Setting~\ref{setting:orthogonal-design}. 
+Two other power analyses of the CRT have been recently conducted \cite{Wang2020b, Celentano2020} in parallel to the first version of our paper \cite{Katsevich2020a}, focusing on the case where $g_n(\prz) = \prz^T \gamma_n$, $\widehat g_n$ is trained using the lasso, $n/p \rightarrow \delta$, and the generalized covariance measure test statistic $\widehat \rho_n$ is used. The former study considers the case of orthogonal design (Setting~\ref{setting:orthogonal-design}), while the latter considers arbitrary joint Gaussian distribution for $(\prx,\prz)$. Assuming $\mathbb E_{\mathcal L_n}[\text{Var}_{\mathcal L_n}[\prx|\prz]] \rightarrow s^2$ (the quantity we called $\overline \Sigma$ in Section~\ref{sec:power-results}, with different notation to clarify that for $\text{dim}(\prx) = 1$ the covariance matrix simply becomes a variance), the works \cite{Wang2020b, Celentano2020} found that the power of the CRT with in-sample lasso fit tends to that of a normal location test with alternative mean $sh/\tau_*$, where $\tau_*$ is the effective noise level from AMP theory (in the orthogonal design case, $(\alpha_*, \tau_*)$ are defined by equation~\eqref{eq:amp-system} with $\pi = 1$) and $h$ is the limiting constant of the local alternatives in Setting~\ref{setting:orthogonal-design}. 
 
 This is a similar expression to what we found in Corollary~\ref{cor:lasso} in the orthogonal design case. Furthermore, note that $\tau_*^2 = \sigma^2 + \mathcal E^2$ (i.e. the out-of-sample prediction error of the lasso). It follows that the power expression found by \cite{Wang2020b, Celentano2020} is exactly the same as what we found in part (b) of Theorem~\ref{thm:power}, despite the fact that their $\widehat g_n$ is fit in-sample. 
 % The power of CRT with $\widehat g_n$ fit in-sample is a more subtle object to analyze, as it may depend on the degree to which $\widehat g_n$ overfits. 
-\cite{Wang2020b} also derive a power expression for the CRT when $\widehat g_n$ is fit in-sample via ordinary least squares (allowing correlated covariates, as we do in Setting~\ref{setting:semiparametric}), which also happens to coincide with expression~\eqref{eq:main-conclusion}. Such in-sample results have only been obtained only for these two test statistics.
+\cite{Wang2020b} also derive a power expression for the CRT when $\widehat g_n$ is fit in-sample via ordinary least squares (allowing correlated covariates, as we do in Setting~\ref{setting:semiparametric}), which also happens to coincide with expression~\eqref{eq:main-conclusion}. Such in-sample results have been obtained only for these two test statistics.
 % while our result holds for any $\widehat g_n$. 
 % and it would be interesting whether expression~\eqref{eq:main-conclusion} holds for more general classes of test statistics. 
 By contrast, training $\widehat g_n$ on a separate sample allows us to prove Theorem~\ref{thm:power} for very broad (almost unrestricted) classes of machine learning methods $\widehat g_n$.
@@ -1135,7 +1135,7 @@ MX knockoffs \cite{CetL16} operate differently than the CRT; they simultaneously
 \begin{equation*}
 H_j: \pry \independent \prx_j \mid \prx_{-j}, \quad j = 1, \dots, m.
 \end{equation*}
-Note that $j$ indexes variables, rather than samples. Comparing to our setup, $\prx_j$ plays the role of $\prx$ and $\prx_{-j}$ plays the role of $\prz$. In particular, we allow $\prx_j$ to be a group of variables. Like HRT, knockoffs only requires one model fit, so it too is computationally faster than the CRT. Among these three MX procedures, knockoffs is currently the most popular. We briefly review it next, and then present an optimality result in the spirit of Theorem~\ref{prop:crt-optimality}. Its proof is given in the supplement (Section~\ref{sec:knockoffs-proofs}).
+Note that $j$ indexes variables, rather than samples. Comparing to our setup, $\prx_j$ plays the role of $\prx$ and $\prx_{-j}$ plays the role of $\prz$. In particular, we allow $\prx_j$ to be a group of variables. Like HRT, knockoffs only requires one model fit, so it too is computationally faster than the CRT. Among these three MX procedures, knockoffs is currently the most popular. We briefly review it next, and then present an optimality result in the spirit of Theorem~\ref{prop:crt-optimality}. Its proof is given in Appendix~\ref{sec:knockoffs-proofs}.
 
 \subsection{A brief overview of knockoffs} \label{sec:knockoffs-overview}
 
@@ -1158,7 +1158,7 @@ p_j([\srx, \srxk], \sry) \equiv
 \end{cases}
 \label{one-bit-pvalue}
 \end{equation}
-Here, $[\srx, \srxk]_{\text{swap}(j)}$ is defined as the result of swapping $\srx_{\bullet, j}$ with $\srxk_{\bullet, j}$ in $[\srx, \srxk]$ while keeping all other columns in place. A set of variables with guaranteed false discovery rate control is chosen via the ordered testing procedure \textit{Selective SeqStep} {\color{red}cite}, applied to the $p$-values $p_j$ in the order $\tau$.
+Here, $[\srx, \srxk]_{\text{swap}(j)}$ is defined as the result of swapping $\srx_{\bullet, j}$ with $\srxk_{\bullet, j}$ in $[\srx, \srxk]$ while keeping all other columns in place. A set of variables with guaranteed false discovery rate control is chosen via the ordered testing procedure \textit{Selective SeqStep} \cite{BC15}, applied to the $p$-values $p_j$ in the order $\tau$.
 
 
 \subsection{The most powerful one-bit $p$-value}
@@ -1185,7 +1185,7 @@ It is harder to analyze the power of knockoffs than that of the CRT for several 
 \end{theorem}
 
 %The optimal test statistic~\eqref{log-likelihood-ratio-knockoffs} has a stunning simplicity: it is the likelihood of the response given the observed variables. 
-The reader observes that the optimal test statistic is not a function of the knockoff variables, which may at first seem paradoxical. Recall from the definition~\eqref{one-bit-pvalue}, however, that the one-bit $p$-value compares the test statistic on the original and swapped augmented design $[\srx, \srxk]$. Therefore, the optimal one-bit $p$-value checks whether the original $j$th variable $\srx_{\bullet, j}$ fits with the rest of the data better than does its knockoff $\srxk_{\bullet, j}$. A simple way of operationalizing Theorem~\ref{prop:knockoff-optimality} is to fit a model $\widehat f(\pry|\prx)$ based on $([\srx, \srxk], \sry)$ in any way that treats original variables and knockoffs symmetrically, and then defining $T_j([\srx, \srxk], \sry) \equiv \widehat f(\sry|\srx)$. The above result continues to hold when $\prx_j$ is a \textit{group} of variables, giving a clean way to combine evidence across multiple variables. A conditional version of the optimality statement~\eqref{unconditional-knockoff-optimality} holds; see equation~\eqref{knockoff-conditional-optimality} in the supplement.
+The reader observes that the optimal test statistic is not a function of the knockoff variables, which may at first seem paradoxical. Recall from the definition~\eqref{one-bit-pvalue}, however, that the one-bit $p$-value compares the test statistic on the original and swapped augmented design $[\srx, \srxk]$. Therefore, the optimal one-bit $p$-value checks whether the original $j$th variable $\srx_{\bullet, j}$ fits with the rest of the data better than does its knockoff $\srxk_{\bullet, j}$. A simple way of operationalizing Theorem~\ref{prop:knockoff-optimality} is to fit a model $\widehat f(\pry|\prx)$ based on $([\srx, \srxk], \sry)$ in any way that treats original variables and knockoffs symmetrically, and then defining $T_j([\srx, \srxk], \sry) \equiv \widehat f(\sry|\srx)$. The above result continues to hold when $\prx_j$ is a \textit{group} of variables, giving a clean way to combine evidence across multiple variables. A conditional version of the optimality statement~\eqref{unconditional-knockoff-optimality} holds; see equation~\eqref{knockoff-conditional-optimality} in the appendix.
 
 
 Theorem~\ref{prop:knockoff-optimality} requires that ties occur with probability zero~\eqref{nondegeneracy-assumption}. Proposition~\ref{prop:nondegeneracy-knockoffs} below states that this nondegeneracy condition holds if either $\pry|\prx$ or $\prx_j|\prx_{-j}, \prxk$ has a continuous distribution.
@@ -1334,9 +1334,10 @@ We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments 
 		\end{split}
 	\end{equation*}
 	This is a simple testing problem, with point null and point alternative. By the Neyman-Pearson lemma, the most powerful test is the one that rejects for large values of the likelihood ratio
-	\begin{equation*}
+	\begin{equation}
 		\prod_{i = 1}^n \frac{P_1(\sfx_i|\sfy_i, \sfz_i)}{P_0(\sfx_i|\sfy_i, \sfz_i)} = \prod_{i = 1}^n \frac{f^*(\sfx_i|\sfz_i)\frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)}}{f^*(\sfx_i|\sfz_i)} = \prod_{i = 1}^n \frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)} \propto T^{\text{opt}}(\sfx, \sfy, \sfz),
-	\end{equation*}
+	\label{eq:likelihood-ratio-derivation}
+	\end{equation}
 	verifying the conditional optimality claim~\eqref{conditional-optimality}. To obtain the unconditional optimality claim~\eqref{unconditional}, note that by Proposition~\ref{prop:marginal-implies-conditional} any unconditionally level $\alpha$ test $\phi$ must also have level $\alpha$ in the conditional problem~\eqref{eq:conditional-level}. For any such test, we may therefore conclude
 	\begin{equation*}
 		\begin{split}
@@ -1417,45 +1418,16 @@ By the continuous mapping theorem it follows from asymptotic normality~\eqref{eq
 
 \begin{proof}[Proof of Theorem~\ref{thm:power}]
 	
-	We start by proving consistency. To this end, we claim that
-	\begin{equation}
-	\widehat \rho_n \overset{\mathcal L_n}\rightarrow _p \overline \Sigma \beta.
-	\label{eq:estimation-consistency}
-	\end{equation}
-	Indeed, $\widehat \rho_n$ is the mean of i.i.d. terms with expectation 
-	\begin{equation}
-		\begin{split}
-	&\mathbb E_{\mathcal L_n}[(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))]  \\
-	&\quad = \mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g_n(\prz) - \widehat g_n(\prz))(\prx - \mu_n(\prz))] = \overline \Sigma_n \beta.
-	\end{split}
-	\end{equation}
-	These terms also have bounded second moment, since
-	\begin{equation}
-		\begin{split}
-		&\mathbb E_{\mathcal L_n}[\|(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))\|^2] \\
-		&\quad= 	
-		\mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2] \\
-		&\quad\leq
-		C\mathbb E_{\mathcal L_n}[(\|\prx - \mu_n(\prz)\|^2\|\beta\|^2 + \peps^2 + (g_n(\prz) - \widehat g_n(\prz))^2)\|\prx - \mu_n(\prz)\|^2] \\
-		&\quad=
-		C\|\beta\|^2\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^4] + C\sigma^2\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^2] \\
-		&\quad \quad + C\mathbb E_{\mathcal L_n}[(g_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2].
-		\end{split}
-	\end{equation}	
-Here, $C$ is a constant so that $(a+b+c)^2 \leq C(a^2 + b^2 + c^2)$ for any $a, b, c \geq 0$.
-Taking a supremum over $n$ and using the assumptions~\eqref{eq:eighth-moment-assump-1} and~\eqref{eq:eighth-moment-assump-2} yields
+In Lemma~\ref{lem:consistency}, we show that the estimator $\widehat \rho_n$ is consistent, i.e. 
 \begin{equation}
-	\sup_n\ \mathbb E_{\mathcal L_n}[\|(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))\|^2] < \infty.
+\widehat \rho_n \overset{\mathcal L_n}\rightarrow_p \overline\Sigma \beta. 
+\label{estimation-consistency}
 \end{equation}
-Therefore, the weak law of large numbers implies that
-\begin{equation}
-	\widehat \rho_n - \overline \Sigma_n \beta \overset{\mathcal L_n}\rightarrow _p  0,
-\end{equation}
-from which the statement~\eqref{eq:estimation-consistency} follows by the assumed convergence $\overline \Sigma_n \rightarrow \overline \Sigma$. Next, we derive that
+Next, we derive that
 \begin{equation*}
 T_n(\srx, \sry, \srz) = \|\sqrt n\widehat S_n^{-1}\widehat \rho_n\|^2 = \|\sqrt n\widehat S_n^{-1}S_n S_n^{-1}\widehat \rho_n\|^2 \geq \left(\sqrt{n}\lambda_{\min}(\widehat S_n^{-1}S_n)\lambda_{\min}(S_n^{-1}) \|\widehat \rho_n\|\right)^2.
 \end{equation*}
-Now, we have $\widehat S_n^{-1}S_n \overset{\mathcal L_n}\rightarrow _p  I_d$ by conclusion~\eqref{eq:conv-s-neg-1} of Lemma~\ref{lem:aux}, so the continuous mapping theorem implies that $\lambda_{\min}(\widehat S_n^{-1}S_n) \overset{\mathcal L_n}\rightarrow _p 1$. Furthermore, $\inf_n \lambda_{\min}(S_n^{-1}) > 0$ by conclusion~\eqref{eq:s-n-2-limit-a} of Lemma~\ref{lem:fourth-moment}. Finally, $\|\widehat \rho_n\| \overset{\mathcal L_n}\rightarrow _p \|\overline \Sigma \beta\|$ by equation~\eqref{eq:estimation-consistency}, and 
+Now, we have $\widehat S_n^{-1}S_n \overset{\mathcal L_n}\rightarrow _p  I_d$ by conclusion~\eqref{eq:conv-s-neg-1} of Lemma~\ref{lem:aux}, so the continuous mapping theorem implies that $\lambda_{\min}(\widehat S_n^{-1}S_n) \overset{\mathcal L_n}\rightarrow _p 1$. Furthermore, $\inf_n \lambda_{\min}(S_n^{-1}) > 0$ by conclusion~\eqref{eq:s-n-2-limit-a} of Lemma~\ref{lem:fourth-moment}. Finally, $\|\widehat \rho_n\| \overset{\mathcal L_n}\rightarrow _p \|\overline \Sigma \beta\|$ by equation~\eqref{estimation-consistency}, and 
 \[
 \|\overline \Sigma \beta\| \geq \lambda_{\min}(\overline \Sigma)\|\beta\| = \|\overline \Sigma^{-1}\|^{-1}\|\beta\| \geq \left(\sup_n \|\overline \Sigma_n^{-1}\|\right)^{-1}\|\beta\| > 0,
 \]
@@ -1781,7 +1753,54 @@ First, we state a lemma that gives a sufficient condition for the convergence of
 	By the CLT, the convergence~\eqref{convergence-1} now follows.
 \end{proof}
 
+\begin{lemma} \label{lem:consistency}
 
+In the setting of Theorem~\ref{thm:power}(a), define 
+\begin{equation*}
+\rho_n \equiv \mathbb E_{\mathcal L_n}[\textnormal{Cov}_{\mathcal L_n}[\prx,\pry|\prz]] = \overline \Sigma_n \beta \quad \text{and} \quad \rho \equiv \lim_{n \rightarrow \infty} \rho_n = \overline \Sigma \beta.
+\end{equation*}
+Under the assumptions of Theorem~\ref{thm:power}, the estimator $\widehat \rho_n$ defined in \eqref{rho-hat} is consistent for $\rho$:
+	\begin{equation}
+	\widehat \rho_n \overset{\mathcal L_n}\rightarrow _p \rho = \overline \Sigma \beta.
+	\label{eq:estimation-consistency}
+\end{equation}
+
+\end{lemma}
+
+\begin{proof}
+
+Note that $\widehat \rho_n$ is the mean of i.i.d. terms with expectation 
+\begin{equation}
+	\begin{split}
+		&\mathbb E_{\mathcal L_n}[(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))]  \\
+		&\quad = \mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g_n(\prz) - \widehat g_n(\prz))(\prx - \mu_n(\prz))] = \overline \Sigma_n \beta.
+	\end{split}
+\end{equation}
+These terms also have bounded second moment, since
+\begin{equation}
+	\begin{split}
+		&\mathbb E_{\mathcal L_n}[\|(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))\|^2] \\
+		&\quad= 	
+		\mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2] \\
+		&\quad\leq
+		C\mathbb E_{\mathcal L_n}[(\|\prx - \mu_n(\prz)\|^2\|\beta\|^2 + \peps^2 + (g_n(\prz) - \widehat g_n(\prz))^2)\|\prx - \mu_n(\prz)\|^2] \\
+		&\quad=
+		C\|\beta\|^2\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^4] + C\sigma^2\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^2] \\
+		&\quad \quad + C\mathbb E_{\mathcal L_n}[(g_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2].
+	\end{split}
+\end{equation}	
+Here, $C$ is a constant so that $(a+b+c)^2 \leq C(a^2 + b^2 + c^2)$ for any $a, b, c \geq 0$.
+Taking a supremum over $n$ and using the assumptions~\eqref{eq:eighth-moment-assump-1} and~\eqref{eq:eighth-moment-assump-2} yields
+\begin{equation}
+	\sup_n\ \mathbb E_{\mathcal L_n}[\|(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))\|^2] < \infty.
+\end{equation}
+Therefore, the weak law of large numbers implies that
+\begin{equation}
+	\widehat \rho_n - \overline \Sigma_n \beta \overset{\mathcal L_n}\rightarrow _p  0,
+\end{equation}
+from which the statement~\eqref{eq:estimation-consistency} follows by the assumed convergence $\overline \Sigma_n \rightarrow \overline \Sigma$. 
+	
+\end{proof}
 
 \begin{lemma} \label{lem:fourth-moment}
 	In the setting of Theorem~\ref{thm:power}, define
@@ -2001,7 +2020,7 @@ This verifies statement~\eqref{eq:bounded-inverse}.	To prove statement~\eqref{eq
 %		%We apply the standard i.i.d. central limit theorem to show this result. 
 %	\end{proof}
 %}
-\section{Proofs for Section 7} \label{sec:knockoffs-proofs}
+\section{Proofs for Section~\ref{sec:knockoffs}} \label{sec:knockoffs-proofs}
 
 \begin{proof}[Proof of Theorem~\ref{prop:knockoff-optimality}]
 	% We claim that an even stronger version of the statement~\eqref{conditional-optimality-knockoffs} holds:
