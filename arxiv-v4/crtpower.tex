@@ -326,13 +326,12 @@ In practice, the threshold $C_\alpha(\sry,\srz)$ is approximated by computing $T
 %The randomization $\gamma$ is not applied in practice, the test rejecting when $T(\srx, \sry, \srz) > \widehat C_\alpha(\sry, \srz)$. The finite-sample validity of the CRT for any $B \leq \infty$ and any $n,d,r,p$ follows from the fact that the resampled triples $(\srxk, \sry, \srz)$ are exchangeable with the original $(\srx, \sry, \srz)$ under the null, much like the argument used for a permutation test. 
 For the sake of clarity, this paper considers only the ``infinite-$B$" version of the CRT as defined by~\eqref{upper-quantile} and \eqref{eq:randomized-CRT}. In the causal inference setting, the CRT can be viewed as a variant of Fisher's exact test for randomized experiments that incorporates strata of covariates \cite{Zheng2008,Hennessy2016}, basing inference on rerandomizing the treatment to the units. 
 
-The CI testing problem under MX has benefited from several methodological innovations, but there are still many open theoretical questions, including the following three:
+The CI testing problem under MX has benefited from several methodological innovations, but fundamental questions regarding power and optimality have received less attention. Therefore, in this paper we address the following two primary questions:
 \begin{enumerate}
 	\item[Q1.] Are there ``optimal" test statistics for MX methods, in any sense?
-	\item[Q2.] To what extent can the MX assumption be weakened?
-	\item[Q3.] What is the precise connection between the performance of the machine learning (ML) algorithm and the power of the resulting MX method?
+	\item[Q2.] What is the precise connection between the performance of the machine learning (ML) algorithm and the power of the resulting MX method?
 \end{enumerate}
-In this paper, we shed light on these questions. We summarize our findings next.
+To the best of our knowledge, Q1 has not been considered before, while Q2 has only been indirectly addressed in the context of lasso-based knockoffs \cite{Weinstein2017, Liu2019, Fan2020, Weinstein2020} and CRT \cite{Wang2020b, Celentano2020}. The present paper complements these existing works by considering arbitrary ML methods. We summarize our findings next.
 
 
 %The machine learning procedure used to fit $\widehat f_{\pry|\prx,\prz}$ may be time-consuming, and running the CRT usually requires refitting this model for each resample $(\srxk^b, \sry, \srz)$. This can make the CRT, e.g. as originally a computationally proposed \cite{CetL16}, an expensive procedure. However, this computational cost can be dramatically reduced using special kinds of test statistics $T$. For example, the HRT~\cite{Tansey2018} and the related digital twin test~\cite{Bates2020} proceed by training $\widehat f_{\pry|\prx,\prz}$ on an independent sample, and then defining
@@ -371,34 +370,43 @@ While the composite nonparametric alternative of the CI problem~\eqref{condition
 \begin{equation}
 	T^{\text{opt}}(\srx; \sry, \srz) \equiv \prod_{i = 1}^n \bar f(\sry_i|\srx_i, \srz_i).
 \end{equation}
-The same statistic yields the most powerful one-bit $p$-values for MX knockoffs (Section~\ref{sec:knockoffs}). Despite the simplicity of the final answer, this result has not been derived before, and appears central to the design of good (powerful) test statistics. Since the model for $Y|X,Z$ is unknown, this result provides our first theoretical indication of the usefulness of ML models to learn this distribution (Q3). A3 below gives a more quantitative answer to Q3.
+The same statistic yields the most powerful one-bit $p$-values for MX knockoffs (Section~\ref{sec:knockoffs}). Despite the simplicity of the final answer, this result has not been derived before, and appears central to the design of good (powerful) test statistics. Since the model for $Y|X,Z$ is unknown, this result provides our first theoretical indication of the usefulness of ML models to learn this distribution (Q2). A2 below gives a more quantitative answer to Q2.
 
-\paragraph{A2: The MX assumption can be drastically weakened while retaining asymptotic Type-I error control.}
-Huang and Janson \cite{Huang2019} recently showed that finite-sample type-I error control is possible under only the assumption that the model for $(\prx, \prz)$ belongs to a known parametric family. We derive a complementary nonparametric result in Section~\ref{sec:weakening}, showing that if asymptotic validity suffices, then we need only the 
-\begin{equation}
-\begin{split}
-&\textit{MX(2) assumption:} \text{ the first two moments of $\prx|\prz$ are known, i.e.} \\
-&\mathbb E_{\mathcal L}[\prx|\prz] = \mu(\prz) \text{ and } \text{Var}_{\mathcal L}[\prx|\prz] = \Sigma(\prz) \text{ for known } \mu(\cdot), \Sigma(\cdot).
-\label{MX(2)-intro}
-\end{split}
-\end{equation}
-We show that the CRT, paired with the \textit{generalized covariance measure} statistic of Shah and Peters \cite{Shah2018}, retains asymptotic Type-I error control under the MX(2) assumption. Requiring knowledge of just the first two moments of the conditional distribution $\prx|\prz$, rather than the distribution itself, promises to broaden the scope of application of MX-style methodology.
-
-
-\paragraph{A3: The prediction error of the ML method impacts the asymptotic efficiency of the CRT but not its consistency.}
+\paragraph{A2: The prediction error of the ML method impacts the asymptotic efficiency of the CRT but not its consistency.}
 
 It has been widely observed that the better the ML method approximates $\pry|\prx,\prz$, the higher power the MX method will have. We put this empirical knowledge on a theoretical foundation by expressing the asymptotic power of the CRT in terms of the prediction error of the underlying ML method (Section~\ref{sec:asymptotic-power}). In particular, we consider semiparametric alternatives of the form
 \begin{equation}
-H_1: \mathcal L(\pry|\prx,\prz) = N(\prx^T\beta + g(\prz),\sigma^2).
-\label{parametric-alternative-intro}
+	H_1: \mathcal L(\pry|\prx,\prz) = N(\prx^T\beta + g(\prz),\sigma^2).
+	\label{parametric-alternative-intro}
 \end{equation}
 We analyze the power of a CRT variant that employs a separately trained estimator $\widehat g$ in an asymptotic regime where $d = \text{dim}(\prx)$ remains fixed while $p = \text{dim}(\prz)$ grows arbitrarily with the sample size $n$. We find that this test is consistent no matter what $\widehat g$ is used, while its asymptotic power against local alternatives $\beta_n = h/\sqrt{n}$ depends on the limiting mean-squared prediction error of $\widehat g$ (denoted $\mathcal E^2$) and the limiting expected variance $\mathbb E[\text{Var}[\prx | \prz]]$ (denoted $s^2$). For example, if $d = 1$, the
 \begin{equation*}
-\begin{split}
-\text{CRT power converges to that of normal location test under alternative } N\smash{\left(\frac{hs}{\sqrt{\sigma^2 + \mathcal E^2}},1\right)}.
-\end{split}
+	\begin{split}
+		\text{CRT power converges to that of normal location test under alternative } N\smash{\left(\frac{hs}{\sqrt{\sigma^2 + \mathcal E^2}},1\right)}.
+	\end{split}
 \end{equation*}
-This represents the first explicit quantification of the impact of ML prediction error on the power of an MX method.
+This represents the first explicit quantification of the impact of ML prediction error on the power of an MX method. \\
+
+On the way to addressing Q2, we additionally establish a third result (Section~\ref{sec:weakening}) that may be of independent interest:
+
+\paragraph{A resampling-free second-order approximation to the CRT is equivalent to the CRT and controls Type-I error under weaker assumptions.}
+
+It was recently pointed out that if $\mathcal L(\prx|\prz)$ is Gaussian, then the resampling distribution of the dCRT test statistic can be found in closed form without actual resampling \cite{Liu2020}. Here we show that the resampling-free dCRT based on the first two moments of $\mathcal L(\prx|\prz)$ is asymptotically equivalent to the dCRT based on $\mathcal L(\prx|\prz)$ itself. Furthermore, we show the former test has asymptotic Type-I error control under the
+\begin{equation}
+	\begin{split}
+		&\textit{MX(2) assumption:} \text{ the first two moments of $\prx|\prz$ are known, i.e.} \\
+		&\mathbb E_{\mathcal L}[\prx|\prz] = \mu(\prz) \text{ and } \text{Var}_{\mathcal L}[\prx|\prz] = \Sigma(\prz) \text{ for known } \mu(\cdot), \Sigma(\cdot).
+		\label{MX(2)-intro}
+	\end{split}
+\end{equation}
+This assumption is weaker than the full MX assumption, complementing existing work \cite{Huang2019, Barber2020} on weakening assumptions for MX methods. It also suggests that the resampling-free dCRT may be used in place of the usual dCRT while achieving similar power and controlling Type-I error asymptotically.
+
+% Huang and Jansonrecently showed that finite-sample type-I error control is possible under only the assumption that the model for $(\prx, \prz)$ belongs to a known parametric family. We derive a complementary nonparametric result in Section~\ref{sec:weakening}, showing that if asymptotic validity suffices, then we need only the 
+
+% We show that the CRT, paired with the \textit{generalized covariance measure} statistic of Shah and Peters \cite{Shah2018}, retains asymptotic Type-I error control under the MX(2) assumption. Requiring knowledge of just the first two moments of the conditional distribution $\prx|\prz$, rather than the distribution itself, promises to broaden the scope of application of MX-style methodology.
+
+
+
 %This result clearly shows how the prediction error of $\widehat g$ impacts the asymptotic efficiency of the CRT. Unlike parallel work in causal inference, the above power result holds conditionally on $\sry, \srz$, almost surely. 
 
 %\paragraph{A4: Nonparametric targets can be consistently estimated under MX using causal inference tools.}
@@ -423,7 +431,7 @@ This represents the first explicit quantification of the impact of ML prediction
 These advances shed new light on the nature of the MX problem and can inform methodological design. Our results handle multivariate $\prx$, arbitrarily correlated designs in the model for $\prx$, and any black-box machine learning method to learn $\widehat g$. 
 \paragraph{Notation.}
 
-Recalling equations~\eqref{conditional-independence} and \eqref{eq:xyz}, population-level variables (such as $\prx,\pry,\prz$) are denoted in boldface, while samples of these variables (such as $\srx_i,\sry_i,\srz_i$) are denoted in regular font. All vectors are treated as column vectors. 
+Recalling equations~\eqref{conditional-independence} and \eqref{eq:xyz}, population-level variables (such as $\prx,\pry,\prz$) are denoted in boldface, while samples of these variables (such as $\srx_i,\sry_i,\srz_i$) are denoted in regular font. Note that boldface does \textit{not} distinguish between scalars, vectors, and matrices, as it is sometimes employed. The dimensions of the object in this paper will be clear from context. All vectors are treated as column vectors. 
 % For example, $\srx \in \mathbb R^{n \times d}, \sry \in \mathbb R^{n \times r}, \srz \in \mathbb R^{n \times p}$. 
 We often use uppercase symbols to denote both random variables and their realizations (for either population- or sample-level quantities), but use lowercase to denote the latter when it is important to make this distinction. We use $\mathcal L$ to denote the joint distribution of $(\prx,\pry,\prz)$, though we sometimes use this symbol to denote the joint distribution of $(\srx,\sry,\srz)$ as well. We use the symbol ``$\equiv$" for definitions. We denote by $c_{d,1-\alpha}$ the $1-\alpha$ quantile of the $\chi^2_d$ distribution, and by $\chi^2_d(\lambda)$ the non-central $\chi^2$ distribution with $d$ degrees of freedom and noncentrality parameter $\lambda$.
 
@@ -662,11 +670,11 @@ It remains to be seen whether loss-based or coefficient-based test statistics yi
 %A missing piece of intuition in the design of model-X methods is how exactly to turn the learned model $\widehat f$ into a test statistic, especially when $\prx$ represents a group of variables. While there is no consensus on this question, the prevailing approach  \cite{CetL16, SetC17, SetS19} appears to be to fit a linear model $\pry = \prx^T \widehat \beta + \prz^T \widehat \gamma$, and then use some combination of the coefficients $\widehat \beta$ to form the test statistic, such as the sum of the magnitudes $\sum_j |\widehat \beta_j|$. However, this choice is usually recognized by the authors as somewhat arbitrary. The results in the preceding section can help fill in this missing piece. The example after Theorem~\ref{prop:crt-optimality} and equation~\eqref{F-test} in particular suggest that a better test statistic would be the (log)likelihood ratio of the fitted model for $\pry|\prx, \prz$, i.e. an F-statistic. For generalized linear models, we would obtain the deviance loss. Recall from equation~\eqref{HRT-statistic} that these loss-based test statistics have recently been proposed in the context of the holdout randomization test \cite{Tansey2018} and the digital twin test \cite{Bates2020}. Therefore, Theorem~\ref{prop:crt-optimality} (and Theorem~\ref{prop:knockoff-optimality} for knockoffs) provide a theoretical justification for their choices, and more generally give clear guidance for how to construct test statistics for MX methods.
 
 \paragraph*{}
-Intuitively, the results of this section suggest that the more successful $\widehat f_{\pry|\prx,\prz}$ is at approximating the true alternative $f_{\pry|\prx,\prz}$, the more powerful the corresponding CRT will be. We make this relationship precise in an asymptotic setting in Section~\ref{sec:asymptotic-power}. Before examining the asymptotic power of the CRT, we establish in the next section that asymptotic Type-I error control can be obtained under a weaker form of the MX assumption.
+Intuitively, the results of this section suggest that the more successful $\widehat f_{\pry|\prx,\prz}$ is at approximating the true alternative $f_{\pry|\prx,\prz}$, the more powerful the corresponding CRT will be. We make this relationship precise in an asymptotic setting in Section~\ref{sec:asymptotic-power}. We prepare for these results in the next section by exploring an easier-to-analyze asymptotic equivalent to the CRT.
 
 \section{An asymptotic equivalent to the distilled CRT} \label{sec:weakening}
 
-In Section~\ref{sec:power}, we saw how to construct the optimal test against point alternatives specified by $\bar f_{\pry|\prx,\prz}$. In practice, of course we do not have access to this distribution, so we usually estimate it via a statistical machine learning procedure. The goal of this section and the next is to quantitatively assess the power of the CRT as a function of the prediction error of this ML procedure. Specifically, we consider  the power of a specific instance of the CRT against a set of semiparametric alternatives (Section~\ref{sec:asymptotic-setup}). We prepare to assess the power of this test by showing its asymptotic equivalence to the simpler-to-analyze \textit{MX(2) $F$-test} (Section~\ref{sec:second-order-approx}), which is of independent interest due to its closed form and weaker assumptions (Section~\ref{sec:mx2-f-test}). We examine the finite-sample Type-I error control of the MX(2) $F$-test in numerical simulations (Section~\ref{sec:simulations}) and put this section's results into perspective (Section~\ref{sec:comparison-to-existing-results-3}) before moving on to stating the desired power results in the next section (Section~\ref{sec:asymptotic-power}).
+In Section~\ref{sec:power}, we saw how to construct the optimal test against point alternatives specified by $\bar f_{\pry|\prx,\prz}$. In practice, of course we do not have access to this distribution, so we usually estimate it via a statistical machine learning procedure. The goal of this section and the next is to quantitatively assess the power of the CRT as a function of the prediction error of this ML procedure. Specifically, we consider  the power of a specific instance of the CRT (the \textit{distilled CRT} \cite{Liu2020})  against a set of semiparametric alternatives (Section~\ref{sec:asymptotic-setup}). We prepare to assess the power of this test by showing its asymptotic equivalence to the simpler-to-analyze \textit{MX(2) $F$-test} (Section~\ref{sec:second-order-approx}), which is of independent interest due to its closed form and weaker assumptions (Section~\ref{sec:mx2-f-test}). We examine the finite-sample Type-I error control of the MX(2) $F$-test in numerical simulations (Section~\ref{sec:simulations}) and put this section's results into perspective (Section~\ref{sec:comparison-to-existing-results-3}) before moving on to stating the desired power results in the next section (Section~\ref{sec:asymptotic-power}).
 
 
 \subsection{Semiparametric alternatives and the distilled CRT} \label{sec:asymptotic-setup}
@@ -682,26 +690,26 @@ Now, consider a set of semiparametric alternatives $\mathcal L_n(\pry|\prx,\prz)
 	\pry = (\prx-\mu_n(\prz))^T \beta_n + g_n(\prz) + \peps; \quad \peps \sim N(0, \sigma^2 ),\ \sigma^2 > 0
 	\label{eq:linearity}
 \end{equation}
-for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. By Theorem~\ref{thm:power}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
+for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. By Theorem~\ref{prop:crt-optimality}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
 \begin{equation}
-T^{\text{opt}}(\srx, \sry, \srz) = \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T \beta_n - g_n(\srz_i)\right)^2\right).
+T_n^{\text{opt}}(\srx, \sry, \srz) = \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T \beta_n - g_n(\srz_i)\right)^2\right).
 \end{equation}
 Assuming local alternatives $\beta_n = h/\sqrt n$ and taking a logarithm, we obtain
 \begin{equation}
 	\begin{split}
-		\log T^{\text{opt}}(\srx, \sry, \srz) &= -\frac n 2 \log(2\pi) - \frac{1}{2\sigma^2}\sum_{i = 1}^n\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T h/\sqrt{n} - g_n(\srz_i)\right)^2 \\
+		\log T_n^{\text{opt}}(\srx, \sry, \srz) &= -\frac n 2 \log(2\pi) - \frac{1}{2\sigma^2}\sum_{i = 1}^n\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T h/\sqrt{n} - g_n(\srz_i)\right)^2 \\
 		&\approx   \frac{h^T}{\sigma^2}\frac{1}{\sqrt{n}}\sum_{i = 1}^n(\sry_i - g_n(\srz_i))(\srx_i-\mu_n(\srz_i)) + C,
 	\end{split}
 \label{eq:optimal-semiparametric}
 \end{equation}
 where $C$ is a constant that does not depend on $\srx$ and therefore does not change upon resampling. 
 
-Of course, inference based on $T^{\text{opt}}$ is infeasible because the function $g_n$ is unknown in practice. Suppose we have an estimate $\widehat g_n$ of this function. Then, the derivation~\eqref{eq:optimal-semiparametric} motivates us to base inference on the sample covariance between $\prx$ and $\pry$ after adjusting for $\prz$:
+Of course, inference based on $T_n^{\text{opt}}$ is infeasible because the function $g_n$ is unknown in practice. Suppose we have an estimate $\widehat g_n$ of this function. Then, the derivation~\eqref{eq:optimal-semiparametric} motivates us to base inference on the sample covariance between $\prx$ and $\pry$ after adjusting for $\prz$:
 \begin{equation}
 	\widehat \rho_n(\srx, \sry, \srz) \equiv \frac1n\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))(\srx_{i} - \mu_n(\srz_i)).
 	\label{rho-hat}
 \end{equation}
-For $d = 1$, the CRT rejecting for large values of $|\widehat \rho_n|$ is an instance of the \textit{distilled CRT}  (dCRT) \cite{Liu2020}, proposed for its computational speed: If $\widehat g_n$ is fit only on $(\sry, \srz)$, then it need not be refit upon resampling $\widetilde X$. The above reasoning suggests that the dCRT is also a natural test to study in the context of power against semiparametric alternatives~\eqref{eq:linearity}. In preparation to study this test's power, we extend it to $d > 1$ and propose an asymptotically equivalent test that is easier to understand.
+Consider first the case $d = 1$. In this case, $\widehat \rho_n$ coincides with the recently introduced \textit{generalized covariance measure} (GCM) \cite{Shah2018}; see Section~\ref{sec:comparison-to-existing-results-3} for more a comparison to the latter work. The CRT rejecting for large values of $|\widehat \rho_n|$ is an instance of the dCRT \cite{Liu2020}, proposed for its computational speed: If $\widehat g_n$ is fit only on $(\sry, \srz)$, then it need not be refit upon resampling $\widetilde X$. The above reasoning suggests that the dCRT is also a natural test to study in the context of power against semiparametric alternatives~\eqref{eq:linearity}. In preparation to study this test's power, we extend it to $d > 1$ and propose an asymptotically equivalent test that is easier to understand.
 
 \subsection{A second-order approximation to the dCRT} \label{sec:second-order-approx}
 
@@ -739,7 +747,7 @@ It follows that the dCRT based on test statistic $T_n(\srx, \sry, \srz)$ yields 
 \phi^{N(\mu_n, \Sigma_n)}_n(\srx, \sry, \srz) \equiv \mathbbm 1(T_n(\srx, \sry, \srz) > c_{d,1-\alpha}),
 \label{eq:crt-closed-form}
 \end{equation}
-where we recall that $c_{d,1-\alpha}$ is defined as the $1-\alpha$ quantile of $\chi^2_d$. 
+where we recall that $c_{d,1-\alpha}$ is defined as the $1-\alpha$ quantile of $\chi^2_d$. Note that all tests $\phi$ in Sections~\ref{sec:weakening} and~\ref{sec:asymptotic-power} will be (d)CRTs based on the test statistic $T_n$~\eqref{t-n}. To ease notation, we therefore omit the subscript $T_n$ and the superscript ``CRT'' from the notation introduced in equation~\eqref{eq:randomized-CRT}, replacing these with $n$ and the distribution of $\prx|\prz$ with respect to which resampling is done, respectively. For example, the superscript in the test defined in equation~\eqref{eq:crt-closed-form} is based on the resampling distribution $\prx|\prz \sim N(\mu_n(\prz), \Sigma_n(\prz))$.
 
 If the conditional distribution $\mathcal L_n(\prx|\prz)$ is not Gaussian, then the dCRT $\phi_n^{\mathcal L_n}$ based on $T_n(\srx, \sry, \srz)$ will not reduce to the closed-form expression~\eqref{eq:crt-closed-form}. However, we can think of the test $\phi^{N(\mu_n, \Sigma_n)}_n$ as a kind of second-order approximation for $\phi_n^{\mathcal L_n}$ as long as $\mathcal L_n(\prx|\prz)$ has first and second moments given by $\mu_n(\prz)$ and $\Sigma_n(\prz)$, respectively. Indeed, it is easy to check that the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ matches that derived in the normal case~\eqref{eq:normal-resampling-distribution} up to two moments. Under a few assumptions, we can make this intuition precise by showing that $\phi_n^{\mathcal L_n}$ is asymptotically equivalent to $\phi^{N(\mu_n, \Sigma_n)}_n$ (Theorem~\ref{thm:equivalence} below). We require the distribution $\mathcal L_n$ to satisfy the following moment conditions for fixed $c_1, c_2 > 0$:
 \small
@@ -798,7 +806,7 @@ where
 	\end{split}
 \end{equation*}
 
-Under the MX(2) assumption, the CRT is undefined because there is no conditional distribution $\mathcal L_n(\prx|\prz)$ to resample from. Nevertheless, we may define the \textit{MX(2) $F$-test} by running the resampling-free dCRT as through $\mathcal L_n(\prx|\prz)$ were normal, with the given first and second moments (Algorithm~\ref{alg:MX(2)-F-test}). We denote this test $\phi_n^{N(\mu_n, \Sigma_n)}$, as before.
+Under the MX(2) assumption, the CRT is undefined because there is no conditional distribution $\mathcal L_n(\prx|\prz)$ to resample from. Nevertheless, we may define the \textit{MX(2) $F$-test} by running the resampling-free dCRT as though $\mathcal L_n(\prx|\prz)$ were normal, with the given first and second moments (Algorithm~\ref{alg:MX(2)-F-test}). We denote this test $\phi_n^{N(\mu_n, \Sigma_n)}$, as before.
 \begin{center}
 	\begin{minipage}{\linewidth}
 		\begin{algorithm}[H]
@@ -906,7 +914,8 @@ For each of the nine simulation settings, we produce normal QQ plots of the  $z$
 
 \paragraph{Comparison to model-X literature.}
 
-The preceding results suggest that the MX(2) $F$-test is a useful alternative to the dCRT: the power of these methods is asymptotically the same (Theorem~\ref{thm:equivalence}), while the MX(2) $F$-test is computationally faster because it does not require resampling (Table~\ref{tab:summary-1}). On the other hand, note that we have proven Type-I error control for the MX(2) $F$-test only when $\widehat g_n$ is fit out of sample and only asymptotically, while the dCRT gives finite-sample Type-I error with in-sample fit $\widehat g_n$. However, numerical simulations suggest good finite-sample Type-I error control for the MX(2) $F$-test even when $\widehat g_n$ is fit in sample. Furthermore, Theorem~\ref{thm:asymptotic-alpha-level} shows that asymptotic Type-I error control of MX-style methodologies can be achieved under the weaker MX(2) assumption~\eqref{eq:mx-2-assumption}, requiring only two moments of the conditional distribution $\mathcal L_n(\prx|\prz)$ rather than the entire conditional distribution (Table~\ref{tab:summary-2}). If strict Type-I error control in finite samples is desired, however, then we must continue to rely on the full MX assumption. Nevertheless, our simulation suggests the MX(2) $F$-test has fairly good Type-I error control in finite samples as well. Finally, note that the MX(2) assumption still requires \textit{exact} knowledge of the first and second conditional moments; we leave as an important future direction to examine the robustness of these tests to errors in these quantities (bounds on the worst-case Type-I error of the CRT have been obtained in the context of a misspecified $\mathcal L_n(\prx|\prz)$ \cite{Berrett2019}).
+The preceding results suggest that the MX(2) $F$-test is a useful alternative to the dCRT: the power of these methods is asymptotically the same (Theorem~\ref{thm:equivalence}), while the MX(2) $F$-test is computationally faster because it does not require resampling (Table~\ref{tab:summary-1}). On the other hand, note that we have proven Type-I error control for the MX(2) $F$-test only when $\widehat g_n$ is fit out of sample and only asymptotically, while the dCRT gives finite-sample Type-I error control with in-sample fit $\widehat g_n$. However, numerical simulations suggest good finite-sample Type-I error control for the MX(2) $F$-test even when $\widehat g_n$ is fit in sample. Furthermore, Theorem~\ref{thm:asymptotic-alpha-level} shows that asymptotic Type-I error control of MX-style methodologies can be achieved under the weaker MX(2) assumption~\eqref{eq:mx-2-assumption}, requiring only two moments of the conditional distribution $\mathcal L_n(\prx|\prz)$ rather than the entire conditional distribution (Table~\ref{tab:summary-2}). If strict Type-I error control in finite samples is desired, however, then we must continue to rely on the full MX assumption. %Nevertheless, our simulation suggests the MX(2) $F$-test has fairly good Type-I error control in finite samples as well. 
+Finally, note that the MX(2) assumption still requires \textit{exact} knowledge of the first and second conditional moments; we leave as an important future direction to examine the robustness of these tests to errors in these quantities. Note that bounds on the worst-case Type-I error of the CRT have been obtained in the context of a misspecified $\mathcal L_n(\prx|\prz)$ \cite{Berrett2019}.
 
 
 %Importantly, the sample used for training $\widehat g_n$ \emph{need not come from the same distribution} as $\mathcal L_n$ and can therefore be much larger. For example, in the context of the digital twin test \cite{Bates2020} it was pointed out that large observational datasets can be used to train $\widehat f_{\pry|\prx,\prz}$, while applying a variant of the CRT to a smaller (randomized) experimental dataset to obtain a causal guarantee. Hence, our setting could be viewed from the lens of sample splitting, or in the spirit of drawing inferences when having a (typically large) observational dataset and a (likely small) experimental dataset. Both viewpoints will be useful in later sections.
@@ -915,7 +924,7 @@ The preceding results suggest that the MX(2) $F$-test is a useful alternative to
 
 \paragraph{Comparison to doubly-robust literature.}
 
-The semiparametric model~\eqref{eq:linearity} has been extensively studied (see e.g. the classic works \cite{Robinson1988, Robins1992}), in which context estimation of the parameter $\beta_n$ is well understood. By contrast, we do not assume the validity of the semiparametric model, using it only as an alternative against which to evaluate power. A related and perhaps more relevant line of work is non-parametric doubly robust testing \cite{Shah2018, Dukes2020}  and estimation \cite{VanderLaan2011, Chernozhukov2018}. Here, the inferential target is some functional of the data-generating distribution. The most relevant such functional is the expected conditional covariance $\rho_n \equiv \mathbb E_{\mathcal L_n}[\text{Cov}_{\mathcal L_n}[\prx, \pry|\prz]]$. Note that a valid test of the null hypothesis $H_0: \rho_n = 0$ is also a valid test of the conditional independence hypothesis $H_0: \prx \independent \pry \mid \prz$, since conditional independence implies that $\rho_n = 0$ (though the converse is not true in general). The quantity $\widehat \rho_n$ turns out to be a consistent estimator of $\rho_n$ under the MX(2) assumption (Lemma~\ref{lem:consistency}). Such product-of-residuals estimators are also commonly employed in the semi- and non-parametric literatures, as discussed next.
+The semiparametric model~\eqref{eq:linearity} has been extensively studied (see e.g. the classic works \cite{Robinson1988, Robins1992}), in which context estimation of the parameter $\beta_n$ is well understood. By contrast, we do not assume the validity of the semiparametric model, using it only as an alternative against which to evaluate power. A related and perhaps more relevant line of work is non-parametric doubly robust testing \cite{Shah2018, Dukes2020}  and estimation \cite{VanderLaan2011, Chernozhukov2018}. Here, the inferential target is some functional of the data-generating distribution. The most relevant such functional is the expected conditional covariance $\rho_n \equiv \mathbb E_{\mathcal L_n}[\text{Cov}_{\mathcal L_n}[\prx, \pry|\prz]]$. Note that a valid test of the null hypothesis $H_0: \rho_n = 0$ is also a valid test of the conditional independence hypothesis $H_0: \prx \independent \pry \mid \prz$, since conditional independence implies that $\rho_n = 0$ (though the converse is not true in general). The quantity $\widehat \rho_n$ turns out to be a consistent estimator of $\rho_n$ under the MX(2) assumption (Lemma~\ref{lem:consistency}). Such product-of-residuals estimators are also commonly employed in the semi- and non-parametric literatures \cite{Robinson1988, Robins1992, Li2011}.
 
 To compare our results with those in non-parametric doubly robust inference, we consider the closest representative of the latter: the generalized covariance measure (GCM) test of Shah and Peters \cite{Shah2018}. For $d = 1$, the GCM test statistic is defined as
 \begin{equation}
@@ -987,11 +996,11 @@ Next, we study the asymptotic power of the dCRT (and by Theorem~\ref{thm:equival
 
 \section{dCRT power against semiparametric alternatives} \label{sec:asymptotic-power}
 
-Having prepared the groundwork in Section~\ref{sec:mx2-f-test}, we present our results on the power of the dCRT against the semiparametric alternatives~\eqref{eq:linearity}. We state these results first (Section~\ref{sec:power-results}), then apply these to lasso-based dCRT (Section~\ref{sec:power-lasso-based}), and finally compare our results to existing ones (Section~\ref{sec:comparison-to-existing-results-4}). All proofs are deferred to Appendix~\ref{sec:proofs-sec45}.
+Having prepared the groundwork in Section~\ref{sec:weakening}, we present our results on the power of the dCRT against the semiparametric alternatives~\eqref{eq:linearity}. We state these results first (Section~\ref{sec:power-results}), then apply these to lasso-based dCRT (Section~\ref{sec:power-lasso-based}), and finally compare our results to existing ones (Section~\ref{sec:comparison-to-existing-results-4}). All proofs are deferred to Appendix~\ref{sec:proofs-sec45}.
 
 \subsection{Power against semiparametric alternatives} \label{sec:power-results}
 
-In Theorem~\ref{thm:power} below, we express the asymptotic power of the MX(2) $F$-test against alternatives~\eqref{eq:linearity} in terms of the variance-weighted mean square  error of $\widehat g_n$:
+In Theorem~\ref{thm:power} below, we express the asymptotic power of the dCRT against alternatives~\eqref{eq:linearity} in terms of the variance-weighted mean square  error of $\widehat g_n$:
 \begin{equation} 
 	\mathcal E^2_n \equiv  \mathbb E_{\mathcal L_n}\left[(\widehat g_n(\prz)-g_n(\prz))^2 \cdot \overline \Sigma_n^{-1/2}\Sigma_n(\prz)\overline \Sigma_n^{-1/2}\right], \quad \text{where} \ \overline \Sigma_n\equiv \mathbb E_{\mathcal L_n}[\Sigma_n(\prz)].
 \end{equation}
@@ -1018,17 +1027,17 @@ Suppose $\mathcal L_n$ and $\widehat g_n$ (trained out of sample) are such that 
 \end{equation}
 Then, we have the following two statements:
 \begin{enumerate}
-\item[(a)] (Consistency) If $\beta_n = \beta \neq 0$ for each $n$, then the MX(2) $F$-test and the CRT based on the same statistic are consistent:
+\item[(a)] (Consistency) If $\beta_n = \beta \neq 0$ for each $n$, then the dCRT $\phi_n^{\mathcal L_n}$ and the MX(2) $F$-test $\phi_n^{N(\mu_n, \Sigma_n)}$ are consistent:
 \begin{equation}
 	\begin{split}
-		\lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi^{\textnormal{MX(2)}}_n(\srx, \sry, \srz)\right] &= \lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi^{\textnormal{CRT}}_n(\srx, \sry, \srz)\right] = 1.
+		\lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi_n^{\mathcal L_n}(\srx, \sry, \srz)\right] &= \lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi_n^{N(\mu_n, \Sigma_n)}(\srx, \sry, \srz)\right] = 1.
 		\label{eq:consistency}
 	\end{split}
 \end{equation}
 \item[(b)] (Power against local alternatives) If $\beta_n = h_n/\sqrt{n}$ for a convergent sequence ${h_n \rightarrow h \in \mathbb R^d}$, then
 \begin{equation}
 	\begin{split}
-		\lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi^{\textnormal{MX(2)}}_n(\srx, \sry, \srz)\right] &= \lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi^{\textnormal{CRT}}_n(\srx, \sry, \srz)\right] \\
+			\lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi_n^{\mathcal L_n}(\srx, \sry, \srz)\right] &= \lim_{n \rightarrow \infty} \mathbb E_{\mathcal L_n}\left[\phi_n^{N(\mu_n, \Sigma_n)}(\srx, \sry, \srz)\right] \\
 		&= \mathbb P[\chi^2_d(\|(\sigma^2I_d +\mathcal E^2)^{-1/2}\overline \Sigma^{1/2} h\|^2) > c_{d,1-\alpha}].
 		\label{eq:main-conclusion}
 	\end{split}
@@ -1036,14 +1045,14 @@ Then, we have the following two statements:
 \end{enumerate}
 \end{theorem}
 
-Recalling that $\chi^2_d(\lambda)$ denotes the noncentral chi-square distribution with $d$ degrees of freedom and non-centrality parameter $\lambda$ and $c_{d,1-\alpha}$ denotes the $1-\alpha$ quantile of $\chi^2_d$, the second part of Theorem~\ref{thm:power} states that the MX(2) $F$-test and the CRT based on the same test statistic have power equal to that of a $\chi^2$ test of a multivariate normal random vector having mean zero under the alternative $N((\sigma^2I_d +\mathcal E^2)^{-1/2}\overline \Sigma^{1/2} h, I_d)$. This result establishes a direct link between the estimation error in $\widehat g_n$ and the power of the CRT against local alternatives. In particular, the mean-squared error term $\mathcal E^2$ contributes additively to the irreducible error term $\sigma^2 I_d$. We can gain intuition for this result by considering the regression model
+Recalling that $\chi^2_d(\lambda)$ denotes the noncentral chi-square distribution with $d$ degrees of freedom and non-centrality parameter $\lambda$ and $c_{d,1-\alpha}$ denotes the $1-\alpha$ quantile of $\chi^2_d$, the second part of Theorem~\ref{thm:power} states that the dCRT has power equal to that of a $\chi^2$ test of a multivariate normal random vector having mean zero under the alternative $N((\sigma^2I_d +\mathcal E^2)^{-1/2}\overline \Sigma^{1/2} h, I_d)$. This result establishes a direct link between the estimation error in $\widehat g_n$ and the power of the CRT against local alternatives. In particular, the mean-squared error term $\mathcal E^2$ contributes additively to the irreducible error term $\sigma^2 I_d$. We can gain intuition for this result by considering the regression model
 \begin{equation}
 \begin{split}
 \pry - \widehat g_n(\prz) &= (\prx - \mu_n(\prz))^T\beta_n + (g_n(\prz) - \widehat g_n(\prz) + \bm \eps)
 \label{eq:regression-model}
 \end{split}
 \end{equation}
-obtained from the semiparametric model~\eqref{eq:linearity} by subtracting $\widehat g_n(\prz)$ from both sides. The test statistic $T_n$ is based on the quantity $\widehat \rho_n$ defined in equation~\eqref{rho-hat}, which can be viewed as an unnormalized version of the fitted regression coefficients of $\sry - \widehat g_n(\srz)$ on $\srx - \mu_n(\srz)$. The term $g_n(\prz) - \widehat g_n(\prz)$ in the regression model~\eqref{eq:regression-model} contributes additively to the residual error term, so in a traditional regression analysis we would expect the power of the test to depend on the variance of this error term. In fact, standard large-sample OLS theory (see e.g. Section 2.3 of Hayashi's book \cite{Hayashi2000}) states that the power against local alternatives of the $F$-test in the regression model~\eqref{eq:regression-model} is exactly the same as that of the MX(2) $F$-test stated in equation~\eqref{eq:main-conclusion}. Of course, the usual $F$-test applied to the regression~\eqref{eq:regression-model} relies on the validity of this model while the MX(2) $F$-test instead relies on knowledge of $\text{Var}[\prx|\prz]$. Note that \cite{Wang2020b} also find the power of an MX test and a classical OLS test to have the same power (see their Appendix F).
+obtained from the semiparametric model~\eqref{eq:linearity} by subtracting $\widehat g_n(\prz)$ from both sides. The test statistic $T_n$ is based on the quantity $\widehat \rho_n$ defined in equation~\eqref{rho-hat}, which can be viewed as an unnormalized version of the fitted regression coefficients of $\sry - \widehat g_n(\srz)$ on $\srx - \mu_n(\srz)$. The term $g_n(\prz) - \widehat g_n(\prz)$ in the regression model~\eqref{eq:regression-model} contributes additively to the residual error term, so in a traditional regression analysis we would expect the power of the test to depend on the variance of this error term. In fact, standard large-sample OLS theory (see e.g. Section 2.3 of Hayashi's book \cite{Hayashi2000}) states that the power against local alternatives of the $F$-test in the regression model~\eqref{eq:regression-model} is exactly the same as that of the dCRT (and MX(2) $F$-test) stated in equation~\eqref{eq:main-conclusion}. Of course, the usual $F$-test applied to the regression~\eqref{eq:regression-model} relies on the validity of this model while the dCRT and MX(2) $F$-test instead rely on knowledge of $\text{Var}[\prx|\prz]$. Note that \cite{Wang2020b} also find the power of an MX test and a classical OLS test to have the same power (see their Appendix F).
 
 \subsection{Example: Power of lasso-based CRT} \label{sec:power-lasso-based}
 
@@ -1053,11 +1062,11 @@ A key ingredient in the power formula~\eqref{eq:main-conclusion} is the limiting
 Consider a sequence of laws $\mathcal L_n$ such that $\mathcal L_n(\prx, \prz) = N(0, I_{1+p})$ and such that $\mathcal L_n(\pry|\prx, \prz)$ follows the semiparametric model~\eqref{eq:linearity},  with $\beta_n = h_n/\sqrt{n}$ for some convergent sequence $h_n \rightarrow h \in \mathbb R$ and $g_n(\prz) = \prz^T \gamma_n$ for a sequence $\gamma_n \in \mathbb R^p$ such that the entries of $\sqrt n \gamma_n$ converge weakly to a random variable $\Gamma$ on $\mathbb R$ with $\mathbb P[\Gamma \neq 0] > 0$ and $\|\sqrt n \gamma_n\|^2/p \rightarrow \mathbb E[\Gamma^2] < \infty$.
 \end{setting}
 
-Until now, we have denoted by $n$ the sample size used for constructing tests, leaving unspecified the size of the separate sample used to train $\widehat g_n$. To get concrete expressions for the power of the MX(2) $F$-test and the CRT based on a specific machine learning method to obtain $\widehat g_n$, we must take the training sample size into account, which we will do via sample splitting for convenience. We therefore define tests $\varphi_n^{\text{MX(2)}}(\srx, \sry, \srz)$ and $\varphi_n^{\text{CRT}}(\srx, \sry, \srz)$, which for some training proportion $\pi \in (0,1)$ split the data into $\pi n$ training observations $(\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}})$ and $(1-\pi)n$ test observations $(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$. These tests both proceed by first running a lasso of $\sry_{\text{train}}$ on $\srz_{\text{train}}$ with regularization parameter $\lambda$ to obtain an estimate $\widehat \gamma_{\pi n}$. The tests $\varphi_n^{\text{MX(2)}}(\srx, \sry, \srz)$ and $\varphi_n^{\text{CRT}}(\srx, \sry, \srz)$ are then obtained by running the MX(2) $F$-test and the CRT on the test data $(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$ using the estimate $\widehat g_n(\prz) = \prz^T \widehat \gamma_{\pi n}$:
+Until now, we have denoted by $n$ the sample size used for constructing tests, leaving unspecified the size of the separate sample used to train $\widehat g_n$. To get concrete expressions for the power of the dCRT based on a specific machine learning method to obtain $\widehat g_n$, we must take the training sample size into account, which we will do via sample splitting for convenience. We therefore define the test $\varphi_n^{\mathcal L_n}(\srx, \sry, \srz)$, which for some training proportion $\pi \in (0,1)$ split the data into $\pi n$ training observations $(\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}})$ and $(1-\pi)n$ test observations $(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$. This test proceeds by first running a lasso of $\sry_{\text{train}}$ on $\srz_{\text{train}}$ with regularization parameter $\lambda$ to obtain an estimate $\widehat \gamma_{\pi n}$. The test $\varphi_n^{\mathcal L_n}(\srx, \sry, \srz)$ is then obtained by running the dCRT on the test data $(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$ using the estimate $\widehat g_n(\prz) = \prz^T \widehat \gamma_{\pi n}$:
 \begin{equation*}
-	\varphi_n^{\text{MX(2)}}(\srx, \sry, \srz) \equiv \phi_{(1-\pi)n}^{\text{MX(2)}}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}}) \ \ \text{and} \ \ \varphi_n^{\text{CRT}}(\srx, \sry, \srz) \equiv \phi_{(1-\pi)n}^{\text{CRT}}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}}).
+	\varphi_n^{\mathcal L_n}(\srx, \sry, \srz) \equiv \phi_{(1-\pi)n}^{\mathcal L_n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}}).
 \end{equation*}
-Note that the dependence of $\phi_{(1-\pi)n}^{\text{MX(2)}}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$ and $\phi_{(1-\pi)n}^{\text{CRT}}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$ on the training data $(\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}})$ is left implicit. 
+Note that the dependence of $\phi_{(1-\pi)n}^{\mathcal L_n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})$ on the training data $(\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}})$ is left implicit. 
 
 Under Setting~\ref{setting:orthogonal-design}, we can directly use Bayati and Montanari's theory \cite{Bayati2011} to obtain 
 \begin{equation}
@@ -1074,11 +1083,10 @@ where $(\alpha_*,\tau_*)$ is the unique solution of the system below:
 \end{equation}
 Here, $W \sim N(0,1)$ is independent of $\Gamma$ and $\eta(x; \theta) = (|x|-\theta)_+\textnormal{sign}(x)$ is the soft threshold function. This leads to the following corollary of Theorem~\ref{thm:power}, proved in Appendix~\ref{sec:proofs-sec45}:
 \begin{corollary} \label{cor:lasso}
-Under Setting~\ref{setting:orthogonal-design}, the asymptotic power of $\varphi^{\textnormal{CRT}}_{n}$ and $\varphi^{\textnormal{MX(2)}}_{n}$ converges to that of a standard normal location test with alternative mean $\tau_*^{-1} h\sqrt{1-\pi}$:
+Under Setting~\ref{setting:orthogonal-design}, the asymptotic power of the dCRT converges to that of a standard normal location test with alternative mean $\tau_*^{-1} h\sqrt{1-\pi}$:
 \begin{equation}
 	\begin{split}
-	\lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\varphi^{\textnormal{CRT}}_{n}(\srx, \sry, \srz)] &= \lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\varphi^{\textnormal{MX(2)}}_{n}(\srx, \sry, \srz)] \\
-	&=  \mathbb P[|N(\tau_*^{-1} h\sqrt{1-\pi},1)| > z_{1-\alpha/2}].
+	\lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\varphi^{\mathcal L_n}_{n}(\srx, \sry, \srz)] =  \mathbb P[|N(\tau_*^{-1} h\sqrt{1-\pi},1)| > z_{1-\alpha/2}].
 	\label{eq:lasso-power}
 	\end{split}
 \end{equation}
@@ -1235,7 +1243,7 @@ and conditional independence
 \pry \independent \prxk \mid \prx.
 \label{knockoff-conditional-independence}
 \end{equation}
-Given such a construction, a set of knockoff variables $\srxk_{i,\bullet}$ is sampled from  $\mathcal L(\prxk|\prx = \srx_{i,\bullet})$ for each $i$. Knockoff inference is then based on a form of data-carving: variables are given an ordering $\tau(1), \dots, \tau(m)$ determined arbitrarily from $([\srx, \srxk], \sry)$ as long as $\srx_{\bullet, j}$ and $\srxk_{\bullet, j}$ are treated symmetrically, and then tested in that order based on \textit{one-bit $p$-values} $p_j$ measuring the contrast between the strength of association between $\srx_{\bullet, j}$ and $\sry$ and that between $\srxk_{\bullet, j}$ and $\sry$. Given any statistic $T_j([\srx, \srxk], \sry)$ measuring the strength of association between $\srx_j$ and $\sry$, define the one-bit $p$-value
+Here, $\prx_j \in \mathbb R$ denotes the $j$th element of the vector $\prx \in \mathbb R^m$ and $\prx_{-j} \in \mathbb R^{m-1}$ denotes all elements except the $j$th. Also, $\srx_{i,\bullet} \in \mathbb R^{n}$, $\srx_{\bullet, j} \in \mathbb R^m$, and $\srx_{\bullet, -j} \in \mathbb R^{n \times (m-1)}$ denote the $i$th row, $j$th column, and all columns but the $j$th of the matrix $\srx \in \mathbb R^{n \times m}$. Given such a construction, a set of knockoff variables $\srxk_{i,\bullet}$ is sampled from  $\mathcal L(\prxk|\prx = \srx_{i,\bullet})$ for each $i$. Knockoff inference is then based on a form of data-carving: variables are given an ordering $\tau(1), \dots, \tau(m)$ determined arbitrarily from $([\srx, \srxk], \sry)$ as long as $\srx_{\bullet, j}$ and $\srxk_{\bullet, j}$ are treated symmetrically, and then tested in that order based on \textit{one-bit $p$-values} $p_j$ measuring the contrast between the strength of association between $\srx_{\bullet, j}$ and $\sry$ and that between $\srxk_{\bullet, j}$ and $\sry$. Given any statistic $T_j([\srx, \srxk], \sry)$ measuring the strength of association between $\srx_j$ and $\sry$, define the one-bit $p$-value
 \begin{equation}
 p_j([\srx, \srxk], \sry) \equiv 
 \begin{cases}
@@ -1271,7 +1279,7 @@ It is harder to analyze the power of knockoffs than that of the CRT for several 
 \end{theorem}
 
 %The optimal test statistic~\eqref{log-likelihood-ratio-knockoffs} has a stunning simplicity: it is the likelihood of the response given the observed variables. 
-The reader observes that the optimal test statistic is not a function of the knockoff variables, which may at first seem paradoxical. Recall from the definition~\eqref{one-bit-pvalue}, however, that the one-bit $p$-value compares the test statistic on the original and swapped augmented design $[\srx, \srxk]$. Therefore, the optimal one-bit $p$-value checks whether the original $j$th variable $\srx_{\bullet, j}$ fits with the rest of the data better than does its knockoff $\srxk_{\bullet, j}$. A simple way of operationalizing Theorem~\ref{prop:knockoff-optimality} is to fit a model $\widehat f(\pry|\prx)$ based on $([\srx, \srxk], \sry)$ in any way that treats original variables and knockoffs symmetrically, and then defining $T_j([\srx, \srxk], \sry) \equiv \widehat f(\sry|\srx)$. The above result continues to hold when $\prx_j$ is a \textit{group} of variables, giving a clean way to combine evidence across multiple variables. A conditional version of the optimality statement~\eqref{unconditional-knockoff-optimality} holds; see equation~\eqref{knockoff-conditional-optimality} in the appendix.
+The reader observes that the optimal test statistic is not a function of the knockoff variables or of the index $j$, which may at first seem paradoxical. Recall from the definition~\eqref{one-bit-pvalue}, however, that the one-bit $p$-value compares the test statistic on the original augmented design $[\srx, \srxk]$ and its swapped version $[\srx, \srxk]_{\textnormal{swap}(j)}$. Therefore, the optimal one-bit $p$-value checks whether the original $j$th variable $\srx_{\bullet, j}$ fits with the rest of the data better than does its knockoff $\srxk_{\bullet, j}$. Therefore, the optimal one-bit $p$-value is in fact a function of the knockoffs as well as the index $j$. A simple way of operationalizing Theorem~\ref{prop:knockoff-optimality} is to fit a model $\widehat f(\pry|\prx)$ based on $([\srx, \srxk], \sry)$ in any way that treats original variables and knockoffs symmetrically, and then defining $T_j([\srx, \srxk], \sry) \equiv \widehat f(\sry|\srx)$. The above result continues to hold when $\prx_j$ is a \textit{group} of variables, giving a clean way to combine evidence across multiple variables. A conditional version of the optimality statement~\eqref{unconditional-knockoff-optimality} holds; see equation~\eqref{knockoff-conditional-optimality} in the appendix.
 
 
 Theorem~\ref{prop:knockoff-optimality} requires that ties occur with probability zero~\eqref{nondegeneracy-assumption}. Proposition~\ref{prop:nondegeneracy-knockoffs} below states that this nondegeneracy condition holds if either $\pry|\prx$ or $\prx_j|\prx_{-j}, \prxk$ has a continuous distribution.
@@ -1297,7 +1305,7 @@ Finally, we remark that there are a few existing power analyses for knockoffs, a
 \section{Discussion}
 \label{sec:discussion}
 
-In this paper, we gave some answers to the theoretical questions posed in the introduction. We presented the first finite-sample optimality results in the MX framework, exhibited a significantly weakened form of the MX assumption and a methodology valid under only this assumption, and explicitly quantified how the performance of the underlying ML procedure impacts the asymptotic power of the CRT.
+In this paper, we gave some answers to the theoretical questions posed in the introduction. We presented the first finite-sample optimality results in the MX framework and explicitly quantified how the performance of the underlying ML procedure impacts the asymptotic power of the CRT. Along the way, we exhibited a weakened form of the MX assumption and a resampling-free methodology valid under only this assumption.
 
 %Our work establishes bridges between the recently proposed MX framework and more familiar realms of statistics. Working with the point null arising from the conditional interpretation of the CRT facilitated the application of finite-sample Neyman-Pearson optimality theory. Postulating a semiparametric alternative distribution allowed us to use Le Cam's local asymptotic normality theory to quantify the power of the CRT. Interpreting the MX framework as a kind of randomized experiment opened connections to causal inference and semiparametric estimation theory. We hope that these connections will continue to yield theoretical and methodological insights into the MX framework.
 
@@ -1369,7 +1377,7 @@ Much still remains to be done to systematically understand the theoretical prope
 
 
 \section*{Acknowledgments}
-We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments on earlier versions of the manuscript, as well as Ed Kennedy and Larry Wasserman for discussions of the connections to causal inference.
+We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments on earlier versions of the manuscript, as well as Ed Kennedy and Larry Wasserman for discussions of the connections to causal inference. We also thank an anonymous referee for constructive feedback on an earlier version of the manuscript.
 
 
 \printbibliography
@@ -1438,22 +1446,6 @@ as desired.
 
 \subsection{Proofs of main results}
 
-\begin{proof}[Proof of Theorem~\ref{thm:asymptotic-alpha-level}]
-
-Fix any sequence $\mathcal L_n \in \mathscr L_0^{\textnormal{MX(2)}}\cap \mathscr L_n(c_1, c_2)$. Because $\mathcal L_n \in \mathscr L_0$, we have $(\srx, \sry, \srz) \overset d = (\srxk, \sry, \srz)$, where $\srxk_i|\sry,\srz \overset{\text{ind}}\sim \mathcal L_n(\prx|\prz = \srz_i)$. By conclusion~\eqref{convergence-2} of Lemma~\ref{lem:clt}, which applies because $\mathcal L_n \in \mathscr L^{\textnormal{MX(2)}}(\mu_n(\cdot), \Sigma_n(\cdot)) \cap \mathscr L_n(c_1, c_2)$ by assumption, we have $U_n(\srx, \sry,\srz) \overset d = U_n(\srxk, \sry,\srz) \overset{\mathcal L_n}\rightarrow_d N(0, I_d)$. This verifies the asymptotic normality statement~\eqref{eq:asymptotic-normality}.
-
-To show the asymptotic Type-I error control statement~\eqref{asymptotic-alpha-level}, it suffices to show that for any sequence $\mathcal L_n \in \mathscr L_0^{\textnormal{MX(2)}}\cap \mathscr L_n(c_1, c_2)$, we have
-	\begin{equation}
-		\limsup_{n \rightarrow \infty}\ \mathbb E_{\mathcal L_n}[\phi^{\textnormal{MX(2)}}_n(\srx, \sry, \srz)] \leq \alpha.
-	\label{eq:pointwise-alpha-level}
-	\end{equation}
-By the continuous mapping theorem it follows from asymptotic normality~\eqref{eq:asymptotic-normality} that $T_n(\srx,\sry,\srz) = \|U_n(\srx, \sry,\srz)\|^2 \overset{\mathcal L_n}\rightarrow_d \chi^2_d$. Therefore,
-	\begin{equation*}
-		\lim_{n \rightarrow \infty}\ \mathbb E_{\mathcal L_n}[\phi^{\textnormal{MX(2)}}_n(\srx, \sry, \srz)] = \lim_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[T_n(\srx,\sry,\srz) > c_{d,1-\alpha}] = \mathbb P[\chi^2_d > c_{d,1-\alpha}] = \alpha,
-	\end{equation*}
-	from which the conclusion~\eqref{eq:pointwise-alpha-level} follows. This completes the proof.
-\end{proof}
-
 \begin{proof}[Proof of Theorem~\ref{thm:equivalence}]
 	
 	First, conclusion~\eqref{convergence-2} of Lemma~\ref{lem:clt}---which applies because of the assumption $\mathcal L_n \in \mathscr L^{\textnormal{MX(2)}}(\mu_n(\cdot), \Sigma_n(\cdot)) \cap \mathscr L_n(c_1, c_2)$---states that for 
@@ -1479,7 +1471,7 @@ By the continuous mapping theorem it follows from asymptotic normality~\eqref{eq
 	\small
 	\begin{equation*}
 		\begin{split}
-			&\mathbb P_{\mathcal L_n}[\phi^{\textnormal{MX(2)}}_n(\srx, \sry, \srz) \neq \phi^{\textnormal{CRT}}_n(\srx, \sry, \srz)] \\
+			&\mathbb P_{\mathcal L_n}[\phi^{N(\mu_n, \Sigma_n)}_n(\srx, \sry, \srz) \neq \phi^{\mathcal L_n}_n(\srx, \sry, \srz)] \\
 			&\quad = \mathbb P_{\mathcal L_n}[\min(c_{d,1-\alpha},C_n(\sry, \srz))  < T_n(\srx, \sry, \srz) \leq \max(c_{d,1-\alpha},C_n(\sry, \srz))] \\
 			&\quad=\mathbb P_{\mathcal L_n}[\min(c_{d,1-\alpha},C_n(\sry, \srz))  < T_n(\srx, \sry, \srz) \leq \max(c_{d,1-\alpha},C_n(\sry, \srz)), |C_n(\sry, \srz)-c_{d,1-\alpha}| \leq \delta] \\
 			&\quad \quad +  \mathbb P_{\mathcal L_n}[\min(c_{d,1-\alpha},C_n(\sry, \srz))  < T_n(\srx, \sry, \srz) \leq \max(c_{d,1-\alpha},C_n(\sry, \srz)), |C_n(\sry, \srz)-c_{d,1-\alpha}| > \delta]\\
@@ -1494,13 +1486,31 @@ By the continuous mapping theorem it follows from asymptotic normality~\eqref{eq
 	Taking a $\limsup$ on both sides in the display before the last and using the convergence $C_n(\sry,\srz)  \overset{\mathcal L_n}\rightarrow_p c_{d,1-\alpha}$, we find that
 	\begin{equation*}
 		\begin{split}
-			&\limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[\phi^{\textnormal{MX(2)}}_n(\srx, \sry, \srz) \neq \phi^{\textnormal{CRT}}_n(\srx, \sry, \srz)] \\
+			&\limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[\phi^{N(\mu_n, \Sigma_n)}_n(\srx, \sry, \srz) \neq \phi^{\mathcal L_n}_n(\srx, \sry, \srz)] \\
 			&\quad \leq \limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[|T_n(\srx, \sry, \srz)-c_{d,1-\alpha}| \leq \delta]+ \limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[|C_n(\sry, \srz)-c_{d,1-\alpha}| > \delta] \\
 			&\quad = \limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[|T_n(\srx, \sry, \srz)-c_{d,1-\alpha}| \leq \delta].
 		\end{split}
 	\end{equation*}
 	Letting $\delta \rightarrow 0$ and using the assumption~\eqref{eq:non-accumulation}, we arrive at the claimed asymptotic equivalence~\eqref{eq:asymptotic-equivalence}. This completes the proof.
 \end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:asymptotic-alpha-level}]
+
+Fix any sequence $\mathcal L_n \in \mathscr L_0^{\textnormal{MX(2)}}\cap \mathscr L_n(c_1, c_2)$. Because $\mathcal L_n \in \mathscr L_0$, we have $(\srx, \sry, \srz) \overset d = (\srxk, \sry, \srz)$, where $\srxk_i|\sry,\srz \overset{\text{ind}}\sim \mathcal L_n(\prx|\prz = \srz_i)$. By conclusion~\eqref{convergence-2} of Lemma~\ref{lem:clt}, which applies because $\mathcal L_n \in \mathscr L^{\textnormal{MX(2)}}(\mu_n(\cdot), \Sigma_n(\cdot)) \cap \mathscr L_n(c_1, c_2)$ by assumption, we have $U_n(\srx, \sry,\srz) \overset d = U_n(\srxk, \sry,\srz) \overset{\mathcal L_n}\rightarrow_d N(0, I_d)$. This verifies the asymptotic normality statement~\eqref{eq:asymptotic-normality}.
+
+To show the asymptotic Type-I error control statement~\eqref{asymptotic-alpha-level}, it suffices to show that for any sequence $\mathcal L_n \in \mathscr L_0^{\textnormal{MX(2)}}\cap \mathscr L_n(c_1, c_2)$, we have
+	\begin{equation}
+		\limsup_{n \rightarrow \infty}\ \mathbb E_{\mathcal L_n}[\phi^{N(\mu_n, \Sigma_n)}_n(\srx, \sry, \srz)] \leq \alpha.
+	\label{eq:pointwise-alpha-level}
+	\end{equation}
+By the continuous mapping theorem it follows from asymptotic normality~\eqref{eq:asymptotic-normality} that $T_n(\srx,\sry,\srz) = \|U_n(\srx, \sry,\srz)\|^2 \overset{\mathcal L_n}\rightarrow_d \chi^2_d$. Therefore,
+	\begin{equation*}
+		\lim_{n \rightarrow \infty}\ \mathbb E_{\mathcal L_n}[\phi^{N(\mu_n, \Sigma_n)}_n(\srx, \sry, \srz)] = \lim_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[T_n(\srx,\sry,\srz) > c_{d,1-\alpha}] = \mathbb P[\chi^2_d > c_{d,1-\alpha}] = \alpha,
+	\end{equation*}
+	from which the conclusion~\eqref{eq:pointwise-alpha-level} follows. This completes the proof.
+\end{proof}
+
+
 
 \begin{proof}[Proof of Theorem~\ref{thm:power}]
 	
@@ -1520,12 +1530,12 @@ Now, we have $\widehat S_n^{-1}S_n \overset{\mathcal L_n}\rightarrow _p  I_d$ by
 since $\beta \neq 0$ by assumption and assumptions~\eqref{eq:s-n-inverse-assump} and \eqref{eq:limits} imply that $\|\overline \Sigma^{-1}\| \leq \sup_n \|\overline \Sigma_n^{-1}\| < \infty$. Putting these facts together implies that $\sqrt{n}\lambda_{\min}(\widehat S_n^{-1}S_n)\lambda_{\min}(S_n^{-1}) \|\widehat \rho_n\|\overset{\mathcal L_n}\rightarrow _p \infty$, and therefore $T_n(\srx, \sry, \srz) \overset{\mathcal L_n}\rightarrow _p \infty$. Hence,
 \begin{equation}
 \begin{split}
-\mathbb E_{\mathcal L_n}[\phi_n^{\text{MX(2)}}(\srx, \sry, \srz)] = \mathbb P_{\mathcal L_n}[T_n(\srx, \sry, \srz) > c_{d,1-\alpha}] \rightarrow 1.
+\mathbb E_{\mathcal L_n}[\phi_n^{N(\mu_n, \Sigma_n)}(\srx, \sry, \srz)] = \mathbb P_{\mathcal L_n}[T_n(\srx, \sry, \srz) > c_{d,1-\alpha}] \rightarrow 1.
 \end{split}
 \end{equation}
 The fact that $T_n(\srx, \sry, \srz) \overset{\mathcal L_n}\rightarrow _p \infty$ also implies that $\limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[|T_n(\srx, \sry, \srz)-c_{d,1-\alpha}| \leq \delta] = 0$ for any $\delta > 0$. Hence, the condition~\eqref{eq:non-accumulation} of Theorem~\ref{thm:equivalence} is satisfied, so the conclusion~\eqref{eq:asymptotic-equivalence} implies that
 \begin{equation*}
-\lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\phi_n^{\text{CRT}}(\srx, \sry, \srz)] = \lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\phi_n^{\text{MX(2)}}(\srx, \sry, \srz)] = 1.
+\lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\phi_n^{\mathcal L_n}(\srx, \sry, \srz)] = \lim_{n \rightarrow \infty}\mathbb E_{\mathcal L_n}[\phi_n^{N(\mu_n, \Sigma_n)}(\srx, \sry, \srz)] = 1.
 \end{equation*} 
 Thus, we have shown the claimed consistency~\eqref{eq:consistency}, so we have finished the proof of part (a) of the theorem.
 	
@@ -1641,27 +1651,15 @@ To apply this result, we must verify the assumptions of Theorem~\ref{thm:power}.
 The last inequality holds because $\|\widehat \gamma_{\pi n} - \gamma_n\|^4$ has a finite limit according to~\eqref{eq:BM11} and because $\prz$ and $\prx$ have bounded eighth moments since they are Gaussian. Finally, we verify assumption~\eqref{eq:limits} by noting that $\overline \Sigma_n\rightarrow \overline \Sigma \equiv 1$ and $\mathcal E_n^2 \rightarrow \tau_*^2 - \sigma^2 \equiv \mathcal E$, the latter by statement~\eqref{eq:bm-result}. Therefore, Theorem~\ref{thm:power} gives 
 \begin{equation*}
 	\begin{split}
-		\mathbb E_{\mathcal L_n}[\phi^{\textnormal{MX(2)}}_{(1-\pi)n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \overset{\text{a.s.}}\rightarrow \mathbb P[\chi^2_1(\|\tau_*^{-1} h\sqrt{1-\pi}\|^2) > c_{1,1-\alpha}]
-	\end{split}
-\end{equation*}
-and
-\begin{equation*}
-	\begin{split}
-		\mathbb E_{\mathcal L_n}[\phi^{\textnormal{CRT}}_{(1-\pi)n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \overset{\text{a.s.}}\rightarrow \mathbb P[\chi^2_1(\|\tau_*^{-1} h\sqrt{1-\pi}\|^2) > c_{1,1-\alpha}].
+		\mathbb E_{\mathcal L_n}[\phi^{\mathcal L_n}_{(1-\pi)n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \overset{\text{a.s.}}\rightarrow \mathbb P[\chi^2_1(\|\tau_*^{-1} h\sqrt{1-\pi}\|^2) > c_{1,1-\alpha}].
 	\end{split}
 \end{equation*}
 The extra factor of $\sqrt{1-\pi}$ reflects the fact that a sample size of $(1-\pi)n$ is used for testing, so $\beta_n = h_n/\sqrt{n} = h_n\sqrt{1-\pi}/\sqrt{(1-\pi)n}$. In other words, reducing the number of samples for testing from $n$ to $(1-\pi)n$ has the effect of reducing the alternative signal strength from $h_n$ to $h_n \sqrt{1-\pi}$. Noting that $c_{1,1-\alpha} = z^2_{1-\alpha/2}$, we conclude using the dominated convergence theorem that
 \begin{equation*}
 	\begin{split}
-		\mathbb E_{\mathcal L_n}[\varphi^{\textnormal{MX(2)}}_{n}(\srx, \sry, \srz)] &=  
-		\mathbb E_{\mathcal L_n}\left[\mathbb E_{\mathcal L_n}[\phi^{\textnormal{MX(2)}}_{(1-\pi)n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}]\right] \\
-		&\rightarrow \mathbb P[|N(\tau_*^{-1} h\sqrt{1-\pi},1)| > z_{1-\alpha/2}],
-	\end{split}
-\end{equation*}
-and likewise that
-\begin{equation*}
-	\begin{split}
-		\mathbb E_{\mathcal L_n}[\varphi^{\text{CRT}}_{n}(\srx, \sry, \srz)] \rightarrow \mathbb P[|N(\tau_*^{-1} h\sqrt{1-\pi},1)| > z_{1-\alpha/2}].
+		\mathbb E_{\mathcal L_n}[\varphi^{\mathcal L_n}_{n}(\srx, \sry, \srz)] &=  
+		\mathbb E_{\mathcal L_n}\left[\mathbb E_{\mathcal L_n}[\phi^{\mathcal L_n}_{(1-\pi)n}(\srx_{\text{test}}, \sry_{\text{test}}, \srz_{\text{test}})|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}]\right] \\
+		&\rightarrow \mathbb P[|N(\tau_*^{-1} h\sqrt{1-\pi},1)| > z_{1-\alpha/2}].
 	\end{split}
 \end{equation*}
 This completes the proof of the corollary.
