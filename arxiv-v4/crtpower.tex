@@ -22,6 +22,10 @@
 \usepackage[]{caption}
 
 \usepackage[linesnumbered,ruled]{algorithm2e}
+\let\oldnl\nl% Store \nl in \oldnl
+\newcommand{\nonl}{\renewcommand{\nl}{\let\nl\oldnl}}% Remove line number for one line
+\makeatother
+
 
 \usepackage[uniquename=false, uniquelist = false, url = false, doi = false, isbn = false, sorting = none, natbib = true, backend = bibtex]{biblatex}
 
@@ -687,29 +691,63 @@ First, we define an asymptotic framework within which we will work in Sections~\
 
 Now, consider a set of semiparametric alternatives $\mathcal L_n(\pry|\prx,\prz)$ such that
 \begin{equation}
-	\pry = (\prx-\mu_n(\prz))^T \beta_n + g_n(\prz) + \peps; \quad \peps \sim N(0, \sigma^2 ),\ \sigma^2 > 0
+	\pry = \prx^T \beta_n + g_n(\prz) + \peps; \quad \peps \sim N(0, \sigma^2 ),\ \sigma^2 > 0
 	\label{eq:linearity}
 \end{equation}
 for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. By Theorem~\ref{prop:crt-optimality}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
 \begin{equation}
-T_n^{\text{opt}}(\srx, \sry, \srz) = \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T \beta_n - g_n(\srz_i)\right)^2\right).
+\begin{split}
+T_n^{\text{opt}}(\srx, \sry, \srz) &= \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - \srx_i^T \beta_n - g_n(\srz_i)\right)^2\right) \\
+&=\prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T \beta_n - g_n'(\srz_i)\right)^2\right),
+\label{eq:likelihood-ratio}
+\end{split}
+\end{equation}
+where
+\begin{equation}
+g'_n(\prz) \equiv \mathbb E[\pry|\prz] =  \mu_n(\prz)^T\beta_n  + g_n(\prz).
+\label{eq:g-n-prime-def}
 \end{equation}
 Assuming local alternatives $\beta_n = h/\sqrt n$ and taking a logarithm, we obtain
 \begin{equation}
 	\begin{split}
-		\log T_n^{\text{opt}}(\srx, \sry, \srz) &= -\frac n 2 \log(2\pi) - \frac{1}{2\sigma^2}\sum_{i = 1}^n\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T h/\sqrt{n} - g_n(\srz_i)\right)^2 \\
-		&\approx   \frac{h^T}{\sigma^2}\frac{1}{\sqrt{n}}\sum_{i = 1}^n(\sry_i - g_n(\srz_i))(\srx_i-\mu_n(\srz_i)) + C,
+		\log T_n^{\text{opt}}(\srx, \sry, \srz) &= -\frac n 2 \log(2\pi) - \frac{1}{2\sigma^2}\sum_{i = 1}^n\left(\sry_i - (\srx_i-\mu_n(\srz_i))^T h/\sqrt{n} - g'_n(\srz_i)\right)^2 \\
+		&\approx   \frac{h^T}{\sigma^2}\frac{1}{\sqrt{n}}\sum_{i = 1}^n(\sry_i - g'_n(\srz_i))(\srx_i-\mu_n(\srz_i)) + C,
 	\end{split}
 \label{eq:optimal-semiparametric}
 \end{equation}
 where $C$ is a constant that does not depend on $\srx$ and therefore does not change upon resampling. 
 
-Of course, inference based on $T_n^{\text{opt}}$ is infeasible because the function $g_n$ is unknown in practice. Suppose we have an estimate $\widehat g_n$ of this function. Then, the derivation~\eqref{eq:optimal-semiparametric} motivates us to base inference on the sample covariance between $\prx$ and $\pry$ after adjusting for $\prz$:
+Of course, inference based on $T_n^{\text{opt}}$ is infeasible because the function $g'_n$ is unknown in practice. Suppose we have learned an estimate $\widehat g_n$ of this function, possibly in-sample. Then, the derivation~\eqref{eq:optimal-semiparametric} motivates us to base inference on the sample covariance between $\prx$ and $\pry$ after adjusting for $\prz$:
 \begin{equation}
 	\widehat \rho_n(\srx, \sry, \srz) \equiv \frac1n\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))(\srx_{i} - \mu_n(\srz_i)).
 	\label{rho-hat}
 \end{equation}
-Consider first the case $d = 1$. In this case, $\widehat \rho_n$ coincides with the recently introduced \textit{generalized covariance measure} (GCM) \cite{Shah2018}; see Section~\ref{sec:comparison-to-existing-results-3} for more a comparison to the latter work. The CRT rejecting for large values of $|\widehat \rho_n|$ is an instance of the dCRT \cite{Liu2020}, proposed for its computational speed: If $\widehat g_n$ is fit only on $(\sry, \srz)$, then it need not be refit upon resampling $\widetilde X$. The above reasoning suggests that the dCRT is also a natural test to study in the context of power against semiparametric alternatives~\eqref{eq:linearity}. In preparation to study this test's power, we extend it to $d > 1$ and propose an asymptotically equivalent test that is easier to understand.
+Consider first the case $d = 1$. The CRT rejecting for large values of $|\widehat \rho_n|$ is an instance of the dCRT \cite{Liu2020}. The idea of the dCRT (Algorithm~\ref{alg:dCRT}) is to \textit{distill}---usually via machine learning---the information from the high-dimensional $\srz \in \mathbb R^{p \times n}$ about $\srx$ and $\sry$ into a low-dimensional summary $D \in \mathbb R^{q \times n}$,  where $q \ll p$. This is accomplished using a \textit{distillation function} $d: (\sry, \srz) \mapsto D$. Then, the CRT is applied using a test statistic of the form $T_n(\srx, \sry, \srz) \equiv T_n^d(\srx, \sry, D) = T_n^d(\srx, \sry, d(\sry, \srz))$. For example, the CRT based on the statistic $\widehat \rho_n$~\eqref{rho-hat} can be expressed as the dCRT with distillation function $d_i(\sry, \srz) = (\widehat g_n(\srz_i), \mu_n(Z_i))$, where $\widehat g_n$ is learned in-sample on $(\sry, \srz)$. 
+
+\begin{center}
+	\begin{minipage}{\linewidth}
+		\begin{algorithm}[H]
+			%			\SetAlgorithmName{Procedure}{}\; %last arg is the title of listing table		
+			\nonl  \textbf{Input:} $\{(\srx_i, \sry_i, \srz_i)\}_{i=1}^n$, distribution  $f^*_{\prx|\prz}$, distillation function $d$, test statistic $T_n^d$, number of resamples $B$\\
+			Distill information in $\srz$ about $\srx$ and $\sry$ into $D \equiv d(\sry, \srz)$\;
+			\For{$b = 1, 2, \dots, B$}{
+				Resample $\srxk_i^{(b)} \overset{\text{ind}}\sim f^*_{\prx|\prz = \srz_i},\ i = 1, \dots, n$\;
+			}
+			Compute $\widehat p \equiv \frac{1}{B+1}\sum_{b = 1}^B \mathbbm 1(T_n^d(\srxk^{(b)}, \sry, D) \geq T_n^d(\srx, \sry, D)$.\\
+			\nonl \textbf{Output:} dCRT $p$-value $\widehat p$.\\
+			\nonl \textbf{Computational cost:} One $p$-dimensional model fit, and drawing $B$ resamples.
+			\caption{\bf The distilled conditional randomization test}
+			\label{alg:dCRT}
+		\end{algorithm}
+	\end{minipage}
+\end{center}
+
+The dCRT was proposed for its computational speed: The computationally expensive distillation step is a function only of $(\sry, \srz)$, so it need not be refit upon resampling $\widetilde X$. By contrast, the originally proposed instance of the CRT \cite{CetL16} involved learning $\widehat f_{\pry|\prx, \prz}$ on the entire sample $(\srx, \sry, \srz)$, and therefore the learning procedure needed to be re-applied to each resampled dataset $(\srxk^{(b)}, \sry, \srz)$. The derivations~\eqref{eq:likelihood-ratio} and~\eqref{eq:optimal-semiparametric} suggest that the dCRT is not only computationally fast, but also a natural test to consider for power against semiparametric alternatives~\eqref{eq:linearity}. We therefore focus on this class of tests.
+
+In preparation to study the power of the dCRT, we extend it to $d > 1$ and propose an asymptotically equivalent test that is easier to analyze.
+
+% In this case, $\widehat \rho_n$ coincides with the recently introduced \textit{generalized covariance measure} (GCM) \cite{Shah2018}; see Section~\ref{sec:comparison-to-existing-results-3} for more a comparison to the latter work. 
+
 
 \subsection{A second-order approximation to the dCRT} \label{sec:second-order-approx}
 
@@ -728,7 +766,7 @@ where
 	\widehat S_n^2 \equiv \frac{1}{n}\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))^2\Sigma_n(\srz_i).
 	\label{eq:s-n-hat}
 \end{equation}
-When $d = 1$, the dCRT based on the statistic $T_n(\srx, \sry, \srz) = |\sqrt n \cdot \widehat \rho_n(\srx, \sry, \srz)|$ therefore rejects when $T_n(\srx, \sry, \srz) > \widehat S_n \cdot z_{1-\alpha/2}$, requiring no resampling. To extend this to $d > 1$, consider the standardized quantity
+When $d = 1$, the dCRT based on the statistic $T_n(\srx, \sry, \srz) = |\sqrt n \cdot \widehat \rho_n(\srx, \sry, \srz)|$ (and infinitely many resamples $B$) therefore rejects when $T_n(\srx, \sry, \srz) > \widehat S_n \cdot z_{1-\alpha/2}$, requiring no resampling. To extend this to $d > 1$, consider the standardized quantity
 \begin{equation}
 U_n(\srx, \sry, \srz) \equiv \widehat S_n^{-1} \sqrt{n} \widehat \rho_n = \frac{\widehat S_n^{-1}}{\sqrt{n}}\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))(\srx_{i} - \mu_n(\srz_i)) \in \mathbb R^d.
 \label{u-hat}
@@ -773,7 +811,7 @@ Suppose that for each $n$, $\mathcal L_n$ is a law whose first and second condit
 		\lim_{\delta \rightarrow 0}\limsup_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[|T_n(\srx, \sry, \srz)-c_{d,1-\alpha}| \leq \delta] = 0,
 		\label{eq:non-accumulation}
 	\end{equation}
-	then the dCRT $\phi_n^{\mathcal L_n}$ is asymptotically equivalent to its second order approximation $\phi^{N(\mu_n, \Sigma_n)}_n$:
+	then the dCRT $\phi_n^{\mathcal L_n}$ is asymptotically equivalent to its second order approximation $\phi^{N(\mu_n, \Sigma_n)}_n$~\eqref{eq:crt-closed-form}:
 	\begin{equation}
 		\lim_{n \rightarrow \infty}\ \mathbb P_{\mathcal L_n}[\phi^{\mathcal L_n}_n(\srx, \sry, \srz) \neq \phi^{N(\mu_n, \Sigma_n)}_n(\srx, \sry, \srz)] = 0.
 		\label{eq:asymptotic-equivalence}
@@ -823,8 +861,9 @@ Under the MX(2) assumption, the CRT is undefined because there is no conditional
 			% 	Compute $T(\srxk^b,\sry,\srz)$ using steps 3, 4 with $\srxk_i^b$ replacing $\srx_i$\;
 			% }
 			% Compute $\widehat p_j$ based on formula~\eqref{CRT}\;
-			\KwResult{MX(2) $F$-test asymptotic $p$-value $\widehat p \equiv \mathbb P[\chi^2_d > T_n]$.}
-			\textbf{Cost:} One $p$-dimensional model fit.
+			Compute $\widehat p^{\text{MX(2)}} \equiv \mathbb P[\chi^2_d > T_n]$.\\
+			\nonl \textbf{Output:} MX(2) $F$-test asymptotic $p$-value $\widehat p^{\text{MX(2)}}$.\\
+			\nonl \textbf{Computational cost:} One $p$-dimensional model fit.
 			\caption{\bf The MX(2) $\bm F$-test}
 			\label{alg:MX(2)-F-test}
 		\end{algorithm}
@@ -914,8 +953,8 @@ For each of the nine simulation settings, we produce normal QQ plots of the  $z$
 
 \paragraph{Comparison to model-X literature.}
 
-The preceding results suggest that the MX(2) $F$-test is a useful alternative to the dCRT: the power of these methods is asymptotically the same (Theorem~\ref{thm:equivalence}), while the MX(2) $F$-test is computationally faster because it does not require resampling (Table~\ref{tab:summary-1}). On the other hand, note that we have proven Type-I error control for the MX(2) $F$-test only when $\widehat g_n$ is fit out of sample and only asymptotically, while the dCRT gives finite-sample Type-I error control with in-sample fit $\widehat g_n$. However, numerical simulations suggest good finite-sample Type-I error control for the MX(2) $F$-test even when $\widehat g_n$ is fit in sample. Furthermore, Theorem~\ref{thm:asymptotic-alpha-level} shows that asymptotic Type-I error control of MX-style methodologies can be achieved under the weaker MX(2) assumption~\eqref{eq:mx-2-assumption}, requiring only two moments of the conditional distribution $\mathcal L_n(\prx|\prz)$ rather than the entire conditional distribution (Table~\ref{tab:summary-2}). If strict Type-I error control in finite samples is desired, however, then we must continue to rely on the full MX assumption. %Nevertheless, our simulation suggests the MX(2) $F$-test has fairly good Type-I error control in finite samples as well. 
-Finally, note that the MX(2) assumption still requires \textit{exact} knowledge of the first and second conditional moments; we leave as an important future direction to examine the robustness of these tests to errors in these quantities. Note that bounds on the worst-case Type-I error of the CRT have been obtained in the context of a misspecified $\mathcal L_n(\prx|\prz)$ \cite{Berrett2019}.
+The preceding results suggest that the MX(2) $F$-test is a useful alternative to the dCRT: the power of these methods is asymptotically the same (Theorem~\ref{thm:equivalence}), while the MX(2) $F$-test is computationally faster because it does not require resampling (Table~\ref{tab:summary-1}). On the other hand, note that we have proven Type-I error control for the MX(2) $F$-test only when $\widehat g_n$ is fit out of sample and only asymptotically, while the dCRT gives finite-sample Type-I error control with in-sample fit $\widehat g_n$ (albeit under the stronger model-X assumption). However, numerical simulations suggest good finite-sample Type-I error control for the MX(2) $F$-test even when $\widehat g_n$ is fit in sample. Furthermore, Theorem~\ref{thm:asymptotic-alpha-level} shows that asymptotic Type-I error control of MX-style methodologies can be achieved under the weaker MX(2) assumption~\eqref{eq:mx-2-assumption}, requiring only two moments of the conditional distribution $\mathcal L_n(\prx|\prz)$ rather than the entire conditional distribution (Table~\ref{tab:summary-2}). If strict Type-I error control in finite samples is desired, however, then we must continue to rely on the full MX assumption. %Nevertheless, our simulation suggests the MX(2) $F$-test has fairly good Type-I error control in finite samples as well. 
+Finally, note that the MX(2) assumption still requires \textit{exact} knowledge of the first and second conditional moments; we leave as an important future direction to examine the robustness of these tests to errors in these quantities. First steps in this direction have been taken recently \cite{Berrett2019, Li2022a}.
 
 
 %Importantly, the sample used for training $\widehat g_n$ \emph{need not come from the same distribution} as $\mathcal L_n$ and can therefore be much larger. For example, in the context of the digital twin test \cite{Bates2020} it was pointed out that large observational datasets can be used to train $\widehat f_{\pry|\prx,\prz}$, while applying a variant of the CRT to a smaller (randomized) experimental dataset to obtain a causal guarantee. Hence, our setting could be viewed from the lens of sample splitting, or in the spirit of drawing inferences when having a (typically large) observational dataset and a (likely small) experimental dataset. Both viewpoints will be useful in later sections.
@@ -1002,9 +1041,9 @@ Having prepared the groundwork in Section~\ref{sec:weakening}, we present our re
 
 In Theorem~\ref{thm:power} below, we express the asymptotic power of the dCRT against alternatives~\eqref{eq:linearity} in terms of the variance-weighted mean square  error of $\widehat g_n$:
 \begin{equation} 
-	\mathcal E^2_n \equiv  \mathbb E_{\mathcal L_n}\left[(\widehat g_n(\prz)-g_n(\prz))^2 \cdot \overline \Sigma_n^{-1/2}\Sigma_n(\prz)\overline \Sigma_n^{-1/2}\right], \quad \text{where} \ \overline \Sigma_n\equiv \mathbb E_{\mathcal L_n}[\Sigma_n(\prz)].
+	\mathcal E^2_n \equiv  \mathbb E_{\mathcal L_n}\left[(\widehat g_n(\prz)-g'_n(\prz))^2 \cdot \overline \Sigma_n^{-1/2}\Sigma_n(\prz)\overline \Sigma_n^{-1/2}\right], \quad \text{where} \ \overline \Sigma_n\equiv \mathbb E_{\mathcal L_n}[\Sigma_n(\prz)].
 \end{equation}
-Note that if $(\prx, \prz)$ is jointly Gaussian, then $\Sigma_n(\prz) = \overline \Sigma_n$ for all $\prz$ and therefore $\mathcal E_n^2 = \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz)-g_n(\prz))^2] \cdot I_d$. Our result requires the following moment assumptions:
+Recall from definition~\eqref{eq:g-n-prime-def} that $g'_n(\prz) \equiv \mathbb E[\pry|\prz]$. Note that if $(\prx, \prz)$ is jointly Gaussian, then $\Sigma_n(\prz) = \overline \Sigma_n$ for all $\prz$ and therefore $\mathcal E_n^2 = \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz)-g'_n(\prz))^2] \cdot I_d$. Our result requires the following moment assumptions:
 	\begin{equation}
 \sup_{n} \|\overline \Sigma_n^{-1}\| < \infty,
 \label{eq:s-n-inverse-assump}
@@ -1015,7 +1054,7 @@ Note that if $(\prx, \prz)$ is jointly Gaussian, then $\Sigma_n(\prz) = \overlin
 \end{equation}
 and
 \begin{equation}
-	\sup_n\ \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz)-g_n(\prz))^4\|\prx - \mu_n(\prz)\|^4] < \infty.
+	\sup_n\ \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz)-g'_n(\prz))^4\|\prx - \mu_n(\prz)\|^4] < \infty.
 	\label{eq:eighth-moment-assump-2}
 \end{equation}
 
@@ -1048,11 +1087,11 @@ Then, we have the following two statements:
 Recalling that $\chi^2_d(\lambda)$ denotes the noncentral chi-square distribution with $d$ degrees of freedom and non-centrality parameter $\lambda$ and $c_{d,1-\alpha}$ denotes the $1-\alpha$ quantile of $\chi^2_d$, the second part of Theorem~\ref{thm:power} states that the dCRT has power equal to that of a $\chi^2$ test of a multivariate normal random vector having mean zero under the alternative $N((\sigma^2I_d +\mathcal E^2)^{-1/2}\overline \Sigma^{1/2} h, I_d)$. This result establishes a direct link between the estimation error in $\widehat g_n$ and the power of the CRT against local alternatives. In particular, the mean-squared error term $\mathcal E^2$ contributes additively to the irreducible error term $\sigma^2 I_d$. We can gain intuition for this result by considering the regression model
 \begin{equation}
 \begin{split}
-\pry - \widehat g_n(\prz) &= (\prx - \mu_n(\prz))^T\beta_n + (g_n(\prz) - \widehat g_n(\prz) + \bm \eps)
+\pry - \widehat g_n(\prz) &= (\prx - \mu_n(\prz))^T\beta_n + (g'_n(\prz) - \widehat g_n(\prz) + \bm \eps)
 \label{eq:regression-model}
 \end{split}
 \end{equation}
-obtained from the semiparametric model~\eqref{eq:linearity} by subtracting $\widehat g_n(\prz)$ from both sides. The test statistic $T_n$ is based on the quantity $\widehat \rho_n$ defined in equation~\eqref{rho-hat}, which can be viewed as an unnormalized version of the fitted regression coefficients of $\sry - \widehat g_n(\srz)$ on $\srx - \mu_n(\srz)$. The term $g_n(\prz) - \widehat g_n(\prz)$ in the regression model~\eqref{eq:regression-model} contributes additively to the residual error term, so in a traditional regression analysis we would expect the power of the test to depend on the variance of this error term. In fact, standard large-sample OLS theory (see e.g. Section 2.3 of Hayashi's book \cite{Hayashi2000}) states that the power against local alternatives of the $F$-test in the regression model~\eqref{eq:regression-model} is exactly the same as that of the dCRT (and MX(2) $F$-test) stated in equation~\eqref{eq:main-conclusion}. Of course, the usual $F$-test applied to the regression~\eqref{eq:regression-model} relies on the validity of this model while the dCRT and MX(2) $F$-test instead rely on knowledge of $\text{Var}[\prx|\prz]$. Note that \cite{Wang2020b} also find the power of an MX test and a classical OLS test to have the same power (see their Appendix F).
+obtained from the semiparametric model~\eqref{eq:linearity} by subtracting $\widehat g_n(\prz)$ from both sides. The test statistic $T_n$ is based on the quantity $\widehat \rho_n$ defined in equation~\eqref{rho-hat}, which can be viewed as an unnormalized version of the fitted regression coefficients of $\sry - \widehat g_n(\srz)$ on $\srx - \mu_n(\srz)$. The term $g'_n(\prz) - \widehat g_n(\prz)$ in the regression model~\eqref{eq:regression-model} contributes additively to the residual error term, so in a traditional regression analysis we would expect the power of the test to depend on the variance of this error term. In fact, standard large-sample OLS theory (see e.g. Section 2.3 of Hayashi's book \cite{Hayashi2000}) states that the power against local alternatives of the $F$-test in the regression model~\eqref{eq:regression-model} is exactly the same as that of the dCRT (and MX(2) $F$-test) stated in equation~\eqref{eq:main-conclusion}. Of course, the usual $F$-test applied to the regression~\eqref{eq:regression-model} relies on the validity of this model while the dCRT and MX(2) $F$-test instead rely on knowledge of $\text{Var}[\prx|\prz]$. Note that \cite{Wang2020b} also find the power of an MX test and a classical OLS test to have the same power (see their Appendix F).
 
 \subsection{Example: Power of lasso-based CRT} \label{sec:power-lasso-based}
 
@@ -1562,12 +1601,12 @@ Because $T$ has a continuous distribution function, the limit above tends to zer
 	\begin{equation*}
 		\begin{split}
 			&U_n(X,Y,Z) \\
-			&\quad= \frac{\widehat S^{-1}_n}{\sqrt{n}}\sum_{i = 1}^n ((X_i - \mu_n(Z_i))^T \beta_n + \eps_i + g_n(\srz_i) - \widehat g_n(\srz_i))(\srx_i - \mu_n(\srz_i)) \\
+			&\quad= \frac{\widehat S^{-1}_n}{\sqrt{n}}\sum_{i = 1}^n ((X_i - \mu_n(Z_i))^T \beta_n + \eps_i + g'_n(\srz_i) - \widehat g_n(\srz_i))(\srx_i - \mu_n(\srz_i)) \\
 			&\quad= \frac{\widehat S^{-1}_n}{n}\sum_{i = 1}^n (\srx_i - \mu_n(\srz_i))(X_i - \mu_n(Z_i))^T h_n + \frac{\widehat S^{-1}_n}{\sqrt{n}}\sum_{i = 1}^n (Y'_i - \widehat g_n(Z_i))(\srx_i - \mu_n(\srz_i)) \\
 			&\quad \equiv A_n + B_n,
 		\end{split}
 	\end{equation*}
-	where $Y'_i \equiv g_n(\srz_i) + \seps_i.$ It therefore suffices to show that
+	where $Y'_i \equiv g'_n(\srz_i) + \seps_i.$ It therefore suffices to show that
 	\begin{equation}
 		A_n \overset{\mathcal L_n}\rightarrow_p (\overline \Sigma^{1/2}(\sigma^2 I_d + \mathcal E^2)\overline \Sigma^{1/2})^{-1/2}\overline \Sigma h\quad \text{and} \quad B_n \overset{\mathcal L_n}\rightarrow_d N(0, I_d).
 		\label{eq:sufficient}
@@ -1618,7 +1657,7 @@ Because $T$ has a continuous distribution function, the limit above tends to zer
 First we verify the statement~\eqref{eq:bm-result}. To this end, first note that
 \begin{equation}
 	\begin{split}
-		\mathcal E_n^2 &=  \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz) - g_n(\prz))^2\overline \Sigma_n^{-1/2}\Sigma_n(\prz)\overline \Sigma_n^{-1/2} \mid \srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
+		\mathcal E_n^2 &=  \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz) - g'_n(\prz))^2\overline \Sigma_n^{-1/2}\Sigma_n(\prz)\overline \Sigma_n^{-1/2} \mid \srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
 		&= \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz) - g_n(\prz))^2 \mid \srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
 		&= \mathbb E_{\mathcal L_n}[(\widehat \gamma_{\pi n} - \gamma_n)^T \prz \prz^T (\widehat \gamma_{\pi n} - \gamma_n) \mid \srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
 		&= (\widehat \gamma_{\pi n} - \gamma_n)^T\mathbb E_{\mathcal L_n}[ \prz \prz^T](\widehat \gamma_{\pi n} - \gamma_n) \\
@@ -1641,10 +1680,10 @@ Putting together equations~\eqref{eq:error} and~\eqref{eq:BM11} gives the claime
 To apply this result, we must verify the assumptions of Theorem~\ref{thm:power}. The bounded inverse assumption~\eqref{eq:s-n-inverse-assump} holds because $\overline \Sigma_n = 1$ for all $n$ in the orthogonal design setting. The eighth moment assumption~\eqref{eq:eighth-moment-assump-1} holds due to the boundedness of the eighth moments of Gaussian random variables. To verify the moment assumption~\eqref{eq:eighth-moment-assump-2}, we note that, almost surely in the training data,
 \begin{equation*}
 \begin{split}
-&\sup_n\ \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz)-g_n(\prz))^4\|\prx - \mu_n(\prz)\|^4|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
-&\quad= \sup_n\ \mathbb E_{\mathcal L_n}[(\prz \widehat \gamma_{\pi n} - \prz \gamma_n)^4\|\prx - \mu_n(\prz)\|^4|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
-&\quad\leq \sup_n\|\widehat \gamma_{\pi n} - \gamma_n\|^4  \mathbb E_{\mathcal L_n}[\|\prz\|^4\|\prx - \mu_n(\prz)\|^4] \\
-&\quad\leq \sup_n\|\widehat \gamma_{\pi n} - \gamma_n\|^4  \mathbb E_{\mathcal L_n}[\|\prz\|^8]^{1/2} \mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^8]^{1/2} \\
+&\sup_n\ \mathbb E_{\mathcal L_n}[(\widehat g_n(\prz)-g'_n(\prz))^4\|\prx - \mu_n(\prz)\|^4|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
+&\quad= \sup_n\ \mathbb E_{\mathcal L_n}[(\prz \widehat \gamma_{\pi n} - \prz \gamma_n)^4\|\prx\|^4|\srx_{\text{train}}, \sry_{\text{train}}, \srz_{\text{train}}] \\
+&\quad\leq \sup_n\|\widehat \gamma_{\pi n} - \gamma_n\|^4  \mathbb E_{\mathcal L_n}[\|\prz\|^4\|\prx\|^4] \\
+&\quad\leq \sup_n\|\widehat \gamma_{\pi n} - \gamma_n\|^4  \mathbb E_{\mathcal L_n}[\|\prz\|^8]^{1/2} \mathbb E_{\mathcal L_n}[\|\prx\|^8]^{1/2} \\
 &\quad < \infty.
 \end{split}
 \end{equation*}
@@ -1857,7 +1896,7 @@ Note that $\widehat \rho_n$ is the mean of i.i.d. terms with expectation
 \begin{equation}
 	\begin{split}
 		&\mathbb E_{\mathcal L_n}[(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))]  \\
-		&\quad = \mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g_n(\prz) - \widehat g_n(\prz))(\prx - \mu_n(\prz))] = \overline \Sigma_n \beta.
+		&\quad = \mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g'_n(\prz) - \widehat g_n(\prz))(\prx - \mu_n(\prz))] = \overline \Sigma_n \beta.
 	\end{split}
 \end{equation}
 These terms also have bounded second moment, since
@@ -1865,12 +1904,12 @@ These terms also have bounded second moment, since
 	\begin{split}
 		&\mathbb E_{\mathcal L_n}[\|(\pry - \widehat g_n(\prz))(\prx - \mu_n(\prz))\|^2] \\
 		&\quad= 	
-		\mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2] \\
+		\mathbb E_{\mathcal L_n}[((\prx - \mu_n(\prz))^T\beta + \peps + g'_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2] \\
 		&\quad\leq
-		C\mathbb E_{\mathcal L_n}[(\|\prx - \mu_n(\prz)\|^2\|\beta\|^2 + \peps^2 + (g_n(\prz) - \widehat g_n(\prz))^2)\|\prx - \mu_n(\prz)\|^2] \\
+		C\mathbb E_{\mathcal L_n}[(\|\prx - \mu_n(\prz)\|^2\|\beta\|^2 + \peps^2 + (g'_n(\prz) - \widehat g_n(\prz))^2)\|\prx - \mu_n(\prz)\|^2] \\
 		&\quad=
 		C\|\beta\|^2\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^4] + C\sigma^2\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^2] \\
-		&\quad \quad + C\mathbb E_{\mathcal L_n}[(g_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2].
+		&\quad \quad + C\mathbb E_{\mathcal L_n}[(g'_n(\prz) - \widehat g_n(\prz))^2\|\prx - \mu_n(\prz)\|^2].
 	\end{split}
 \end{equation}	
 Here, $C$ is a constant so that $(a+b+c)^2 \leq C(a^2 + b^2 + c^2)$ for any $a, b, c \geq 0$.
@@ -1889,7 +1928,7 @@ from which the statement~\eqref{eq:estimation-consistency} follows by the assume
 \begin{lemma} \label{lem:fourth-moment}
 	In the setting of Theorem~\ref{thm:power}, define
 	\begin{equation}
-		\pry' \equiv g_n(\prz) + \peps, \quad S'^2_{n} \equiv \mathbb E_{\mathcal L_n}[(\pry' - \widehat g_n(\prz))^2 \Sigma_n(\prz)], \quad \text{and} \quad \mathcal L'_n \equiv \mathcal L_n(\prx, \pry', \prz).
+		\pry' \equiv g'_n(\prz) + \peps, \quad S'^2_{n} \equiv \mathbb E_{\mathcal L_n}[(\pry' - \widehat g_n(\prz))^2 \Sigma_n(\prz)], \quad \text{and} \quad \mathcal L'_n \equiv \mathcal L_n(\prx, \pry', \prz).
 		\label{prime-definitions}
 	\end{equation}
 	Under the assumptions of Theorem~\ref{thm:power}(a) or~\ref{thm:power}(b), 
@@ -1944,16 +1983,16 @@ where in the last step we used the fact that
 \begin{equation*}
 	\begin{split}
 		&\mathbb E_{\mathcal L_n}[(\prx - \mu_n(\prz))^T \beta_n( \pry'-\widehat g_n(\prz))\Sigma_n(\prz)] \\
-		&\quad=\mathbb E_{\mathcal L_n}[\mathbb E_{\mathcal L_n}[(\prx - \mu_n(\prz))|\prz]^T \beta_n( g_n(\prz)-\widehat g_n(\prz))\Sigma_n(\prz)] = 0. \\
+		&\quad=\mathbb E_{\mathcal L_n}[\mathbb E_{\mathcal L_n}[(\prx - \mu_n(\prz))|\prz]^T \beta_n( g'_n(\prz)-\widehat g_n(\prz))\Sigma_n(\prz)] = 0. \\
 	\end{split}
 \end{equation*}
 Furthermore, 
 \begin{equation}
 	\begin{split}
 		S'^2_n &= \mathbb E_{\mathcal L_n}[(\pry'-\widehat g_n(\prz))^2 \Sigma_n(\prz)] \\
-		&=\mathbb E_{\mathcal L_n}[( \peps + g_n(\prz)-\widehat g_n(\prz))^2 \Sigma_n(\prz)] \\
-		& = \mathbb E_{\mathcal L_n}[\peps ^2 \Sigma_n(\prz)] + \mathbb E_{\mathcal L_n}[2\peps(g_n(\prz)-\widehat g_n(\prz))\Sigma_n(\prz)]  \\
-		&\quad + \mathbb E_{\mathcal L_n}[(g_n(\prz)-\widehat g_n(\prz))^2\Sigma_n(\prz)] \\
+		&=\mathbb E_{\mathcal L_n}[( \peps + g'_n(\prz)-\widehat g_n(\prz))^2 \Sigma_n(\prz)] \\
+		& = \mathbb E_{\mathcal L_n}[\peps ^2 \Sigma_n(\prz)] + \mathbb E_{\mathcal L_n}[2\peps(g'_n(\prz)-\widehat g_n(\prz))\Sigma_n(\prz)]  \\
+		&\quad + \mathbb E_{\mathcal L_n}[(g'_n(\prz)-\widehat g_n(\prz))^2\Sigma_n(\prz)] \\
 		&= \sigma^2 \overline \Sigma_n + \overline \Sigma_n^{1/2}\mathcal E^2_n \overline \Sigma_n^{1/2}  = \overline \Sigma_n^{1/2}(\sigma^2 I_d + \mathcal E^2_n) \overline \Sigma_n^{1/2}.
 		\label{eq:s-n-2-prime}
 	\end{split}
@@ -1966,10 +2005,10 @@ This verifies statement~\eqref{eq:bounded-inverse}.	To prove statement~\eqref{eq
 	\begin{equation*}
 		\begin{split}
 			&\mathbb E_{\mathcal L_n}\left[ (\pry - \widehat g_n(\prz))^{4}\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}|\prz]\right] \\
-			&\quad= \mathbb E_{\mathcal L_n}\left[ ((\prx - \mu_n(\prz))^T \beta_n + \peps + g_n(\prz)-\widehat g_n(\prz))^4\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}|\prz]\right] \\
-			&\quad\leq C\mathbb E_{\mathcal L_n}\left[(((\prx - \mu_n(\prz))^T \beta_n)^4 + \peps^4 + (g_n(\prz)-\widehat g_n(\prz))^4) \mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}|\prz]\right] \\
+			&\quad= \mathbb E_{\mathcal L_n}\left[ ((\prx - \mu_n(\prz))^T \beta_n + \peps + g'_n(\prz)-\widehat g_n(\prz))^4\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}|\prz]\right] \\
+			&\quad\leq C\mathbb E_{\mathcal L_n}\left[(((\prx - \mu_n(\prz))^T \beta_n)^4 + \peps^4 + (g'_n(\prz)-\widehat g_n(\prz))^4) \mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}|\prz]\right] \\
 			&\quad\leq C\|\beta_n\|^4\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{8}] + 3C\sigma^4\mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}] \\
-			&\quad \quad + C \mathbb E_{\mathcal L_n}\left[(g_n(\prz) - \widehat g_n(\prz))^{4} \|\prx - \mu_n(\prz)\|^{4}\right].
+			&\quad \quad + C \mathbb E_{\mathcal L_n}\left[(g'_n(\prz) - \widehat g_n(\prz))^{4} \|\prx - \mu_n(\prz)\|^{4}\right].
 		\end{split}
 	\end{equation*}
 	Here, $C$ a constant such that $(a + b + c)^4 \leq C(a^4 + b^4 + c^4)$ for all $a,b,c \geq 0$. Taking a supremum over $n$ and using the moment assumptions~\eqref{eq:eighth-moment-assump-1} and \eqref{eq:eighth-moment-assump-2} along with the boundedness of the sequence $\beta_n$ yields the statement~\eqref{eq:bounded-eighth-moment}. 
