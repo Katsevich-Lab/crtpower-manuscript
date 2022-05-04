@@ -27,7 +27,7 @@
 \makeatother
 
 
-\usepackage[uniquename=false, uniquelist = false, url = false, doi = false, isbn = false, sorting = none, natbib = true, backend = bibtex]{biblatex}
+\usepackage[uniquename=false, uniquelist = false, url = false, doi = false, isbn = false, sorting = none, natbib = true, backend = bibtex, maxbibnames=10]{biblatex}
 
 % \addbibresource{~/.references/crtpower}
 \addbibresource{crtpower}
@@ -514,7 +514,7 @@ We often use uppercase symbols to denote both random variables and their realiza
 
 \section{The most powerful test against point alternatives} \label{sec:power}
 
-In this section, we seek the most powerful MX CI test against a point alternative. To accomplish this, we observe that any (marginally) level $\alpha$ test must also have level $\alpha$ conditionally on $\sry, \srz$ (Section~\ref{sec:reduction-by-conditioning}). The latter conditioning step reduces the composite null to a point null. This reduction allows us to invoke the Neyman Pearson lemma to find the most powerful test  (Section~\ref{sec:NP}). Proofs are deferred to Appendix~\ref{sec:proofs-sec2}.
+In this section, we seek the most powerful MX CI test against a point alternative. To accomplish this, we observe that any (marginally) level $\alpha$ test must also have level $\alpha$ conditionally on $\sry, \srz$ (Section~\ref{sec:reduction-by-conditioning}). The latter conditioning step reduces the composite null to a point null. This reduction allows us to invoke the Neyman-Pearson lemma to find the most powerful test  (Section~\ref{sec:NP}). Proofs are deferred to Appendix~\ref{sec:proofs-sec2}.
 
 \subsection{Conditioning reduces the composite null to a point null} \label{sec:reduction-by-conditioning}
 
@@ -733,7 +733,7 @@ Consider first the case $d = 1$. The CRT rejecting for large values of $|\wideha
 			\For{$b = 1, 2, \dots, B$}{
 				Resample $\srxk_i^{(b)} \overset{\text{ind}}\sim f^*_{\prx|\prz = \srz_i},\ i = 1, \dots, n$\;
 			}
-			Compute $\widehat p \equiv \frac{1}{B+1}\sum_{b = 1}^B \mathbbm 1(T_n^d(\srxk^{(b)}, \sry, D) \geq T_n^d(\srx, \sry, D)$.\\
+			Compute $\widehat p \equiv \frac{1}{B+1}\sum_{b = 1}^B \mathbbm 1(T_n^d(\srxk^{(b)}, \sry, D) \geq T_n^d(\srx, \sry, D))$.\\
 			\nonl \textbf{Output:} dCRT $p$-value $\widehat p$.\\
 			\nonl \textbf{Computational cost:} One $p$-dimensional model fit, and drawing $B$ resamples.
 			\caption{\bf The distilled conditional randomization test}
@@ -1115,7 +1115,7 @@ Under Setting~\ref{setting:orthogonal-design}, we can directly use Bayati and Mo
 where $(\alpha_*,\tau_*)$ is the unique solution of the system below:
 \begin{equation}
 	\begin{split}
-		\lambda &= \alpha \tau (1-(\pi\delta)^{-1}\mathbb E[\eta'(\sqrt \pi \Gamma + \tau W; \alpha \tau)]) \\
+		\lambda &= \alpha \tau (1-(\pi\delta)^{-1}\mathbb E[\eta'(\sqrt \pi \Gamma + \tau W; \alpha \tau)]), \\
 		\tau^2 &= \sigma^2 + (\pi\delta)^{-1}\mathbb E[(\eta(\sqrt \pi\Gamma + \tau W; \alpha \tau) - \sqrt \pi\Gamma)^2].
 	\end{split}
 	\label{eq:amp-system}
@@ -1451,7 +1451,7 @@ We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments 
 	In the conditional problem, the alternative $\bar{\mathcal L}$ induces the following distribution for $\srx$:
 	\begin{equation}
 		\begin{split}
-			\bar{\mathcal L}(\srx = \sfx|\sry = \sfy, \srz = \sfz) = \prod_{i = 1}^n  f^*(\sfx_i|\sfz_i)\tfrac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)}
+			\bar{\mathcal L}(\srx = \sfx|\sry = \sfy, \srz = \sfz) = \prod_{i = 1}^n  f^*(\sfx_i|\sfz_i)\tfrac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)},
 			\label{conditional-alternative}
 		\end{split}
 	\end{equation}
