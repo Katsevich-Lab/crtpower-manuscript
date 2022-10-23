@@ -19,6 +19,47 @@
 \newcommand{\Rcal}{\mathcal{R}}
 \newcommand{\Ccal}{\mathcal{C}}
 \newcommand{\Acal}{\mathcal{A}}
+\newcommand{\prx}{\bm X} 
+ \newcommand{\prxu}{\underline{\bm X}} 
+ \newcommand{\srx}{X}
+ \newcommand{\srxu}{\underline X}
+ \newcommand{\sfx}{x}
+ \newcommand{\pfx}{\bm x}
+ 
+\newcommand{\prz}{\bm Z} 
+ \newcommand{\przu}{\underline{\bm Z}} 
+\newcommand{\srz}{Z}
+\newcommand{\srzu}{\underline Z}
+\newcommand{\sfz}{z}
+\newcommand{\pfz}{\bm z}
+ 
+ \newcommand{\prxk}{{{\widetilde{\bm X}}}}
+ \newcommand{\srxk}{\widetilde X}
+ \newcommand{\sfxk}{\widetilde x}
+ 
+ \newcommand{\pry}{{\bm Y}}
+ \newcommand{\pfy}{{\bm y}}
+ 
+  \newcommand{\pryu}{\underline{\bm Y}} 
+ \newcommand{\sry}{Y}
+ \newcommand{\sryu}{\underline Y}
+ \newcommand{\sfy}{y}
+ 
+\newcommand{\seps}{\epsilon}
+\newcommand{\peps}{\bm \epsilon}
+ \newcommand{\sepsu}{\underline \epsilon}
+ \newcommand{\pepsu}{\underline{\bm \epsilon}}
+
+\newcommand{\smu}{\mu}
+\newcommand{\pmu}{\bm \mu}
+\newcommand{\smuu}{\underline \mu}
+\newcommand{\pmuu}{\underline{\bm \mu}}
+
+\newcommand{\sSigma}{\Sigma}
+\newcommand{\pSigma}{\bm \Sigma}
+\newcommand{\sSigmau}{\underline \Sigma}
+\newcommand{\pSigmau}{\underline{\bm \Sigma}}
+
 
 %\def\T{{ \mathrm{\scriptscriptstyle T} }}
 %\def\v{{\varepsilon}}
@@ -37,10 +78,19 @@
 
 \section{Overview of Revisions} \label{sec:overview-of-revisions}
 
-\begin{enumerate}
-	\item We found that Proposition 1 was incorrect. Therefore, Theorem 1 now states optimality among conditionally valid tests, rather than among all (marginally) valid tests.
-	\item Added references to recent methods papers (Asher, Grunwald) inspired by our results.
-\end{enumerate}
+We thank the referees for their constructive comments, which we have incorporated into a further improved manuscript. The revisions includes the following updates:
+
+\paragraph{Updated Theorem 1.}
+
+Proposition 1 in the previous version of the manuscript stated that any valid MX CI test must also be conditionally valid. Unfortunately, we discovered a mistake in our proof of this fact, and subsequently found counterexamples. Therefore, we have removed Proposition 1 from the paper and formulated Theorem 1 as a statement about the most powerful conditionally valid test (and in particular the most powerful CRT) rather than the most powerful MX CI test overall. We leave it as an open question whether the most powerful MX CI test is in fact a CRT. 
+
+\paragraph{Added references to recent papers inspired by our results.} Recently, Grunwald et al (2022) proposed an extension of the CRT to the sequential setting. They proposed a test relying on a likelihood-based statistic, citing inspiration from our Theorem 1. Similarly, Spector and Fithian (2022) proposed a more powerful version of knockoffs based on a \textit{masked likelihood ratio} statistic, citing inspiration from our Theorem 5. We have added references to these two papers to our revised manuscript to demonstrate how our work has inspired new model-X methodologies.
+
+\paragraph{Moved the numerical simulation section to the appendix.} Over the course of the last two rounds of revisions, we have focused the paper on the subject of power of MX CI tests, and framed the MX(2) $F$-test and associated questions of robustness as secondary contributions. In line with this, we have moved the numerical simulations of the MX(2) $F$-test to Appendix B. This way, readers can move more quickly from Section 2 (power of the CRT in finite samples) to Section 4 (power of the CRT in large samples).
+
+\paragraph{}
+
+These and other updates are highlighted in blue in the revised manuscript for the reviewers' convenience. Below, we address the referees' comments point by point.
 
 \section{Responses to Referee 2}
 
@@ -56,8 +106,6 @@
 	\begin{quote}
 	\textcolor{blue}{We implicitly assume that $\mathcal L$ has a density with respect to some dominating measure on $\mathbb R^{1+1+p}$, and that all conditional densities are well-defined almost surely. Here and throughout the paper, we identify probability distributions with their densities with respect to the appropriate dominating measure.}
 	\end{quote}
-
-	We acknowledge that this statement is still rather informal, but prefer to avoid the measure-theoretic technicalities involved in defining conditional densities.
 
 	\item \textsl{It is perhaps also worth being a bit more formal in Proposition 1 where I believe that strictly speaking the supremum over y, z should be removed and the inequality should only hold almost everywhere. This point applies analogously to all the theoretical results.}
 	
@@ -79,9 +127,9 @@
 	
 	We agree with this observation, and we have added a footnote to page 12 stating that
 	\begin{quote}
-	\textcolor{blue}{The exponents in these moment conditions can be relaxed from 4 to $2+\delta$.}
+	\textcolor{blue}{``The exponents in these moment conditions can be relaxed from 4 to $2+\delta$.''}
 	\end{quote}
-	At this stage, we have not updated the actual statements and proofs of our theoretical results to reflect this change, in part because we could not find a reference (either textbook or paper) stating the triangular array weak law of large numbers with $1+\delta$ moments. In particular, note that the result of Shah and Peters cited by the referee is not in the triangular array setup. Therefore, we feel the slight relaxation of our moment assumptions may not be worth the extra effort required. If the referees disagree, we would be willing to add a statement and proof of the aforementioned weak law of large numbers and update our theorem statements and proofs accordingly.
+	At this stage, we have not updated the actual statements and proofs of our theoretical results to reflect this change, in part because we could not find a reference (either textbook or paper) stating the triangular array weak law of large numbers with $1+\delta$ moments. In particular, note that the result of Shah and Peters cited by the referee is not in the triangular array setup. Therefore, we feel the slight relaxation of our moment assumptions may not be worth the extra effort required. % If the referees disagree, we would be willing to add a statement and proof of the aforementioned weak law of large numbers and update our theorem statements and proofs accordingly.
 
 	\item \textsl{pg 24 I feel the sentence starting "Knockoff inference is then based on a form of data-carving..." is a bit too long and could be broken into two.}
 	
@@ -101,69 +149,125 @@
 
 \subsection{Overall impression}
 
-\textsl{This manuscript contains interesting ideas and it is clear that a good amount of work went into its preparation. I agree with the authors that this revision involves some improvements compared to the first submission, and I am glad to see the comments provided in the first round of review have been taken into (some) account. However, some concerns raised in the first round of review are still relevant. The paper still feels a bit disconnected and somewhat incomplete. I think I learned something by reading it, and yet I feel the abstract over-promised and in the end I have more questions than answers. These issues may not necessarily be fatal, but I would take them into consideration when deciding whether the paper could benefit from further revision.}
+\textsl{This manuscript contains interesting ideas and it is clear that a good amount of work went into its preparation. I agree with the authors that this revision involves some improvements compared to the first submission, and I am glad to see the comments provided in the first round of review have been taken into (some) account.} 
+\\
+
+\noindent We are happy to have improved the manuscript based on the referee's helpful comments.
+\\
+
+\textsl{However, some concerns raised in the first round of review are still relevant. The paper still feels a bit disconnected and somewhat incomplete. I think I learned something by reading it, and yet I feel the abstract over-promised and in the end I have more questions than answers. These issues may not necessarily be fatal, but I would take them into consideration when deciding whether the paper could benefit from further revision.}
+\\
+
+\noindent We hope that, in the latest revision, we have addressed the referee's remaining concerns. Please see below.
 
 \subsection{Major comments}
 
 \textsl{There are two interesting methodological/theoretical themes in this paper: (1) the optimal choice of test statistics for  model-X testing, and (2) the robustness of model-X testing to second-order approximations. These two ideas could be developed further into two very nice separate papers, but they don’t fit very well together now and they have not yet been explored to fully satisfactory depth.}
+\\
 
-\textcolor{red}{This is a very similar concern to what the referee expressed last time. We did a decent bit of rewriting last time to de-emphasize the robustness part, and to emphasize the unifying theme of ``power of model-X conditional independence tests.'' Perhaps the remaining issue is that Section 3 is still a bit of a detour from this main theme, despite our efforts in the first paragraph of that section to frame it as a prelude to the following section on CRT power. Navigating this issue may require some thought.}
+\noindent We understand how these two themes appeared disconnected in initial versions of the manuscript. In our responses to the referee's comments in the previous round, we stated that 
 
-\textsl{Regarding theme (1), Section 2.1 is interesting but very unsurprising. I would almost say Proposition  1 was not stated explicitly in prior literature because it is obvious. The authors seem to admit so in the last paragraph of Section 2.1, but perhaps this could have been pointed out sooner.}
+\begin{quote}
+``We thank the referee for pointing out the somewhat disconnected nature of the submitted manuscript, especially the transition from Section 2 to Section 3. We agree, and we have substantially edited the exposition in Section 3 for a smoother flow...Ultimately, the central goal of the manuscript is to study the power and optimality of the CRT, and the MX(2) F-test is mostly a means to that end---though we argue it is of independent interest as well. This logic is conveyed in the opening paragraph of Section 3 (p. 9)...''
+\end{quote}
 
-\textcolor{red}{Sure, we can point it out sooner.}
+\noindent We agree that Section 3 still seems like a detour from our primary focus of studying the power of the CRT. To this end, we have moved the former Section 3.4 (the numerical simulation for the MX(2) $F$-test) to Appendix B. The MX(2) $F$-test and the question of robustness are not our primary focus, so we hope relegating the simulation to the appendix makes the main text more focused and streamlined. Furthermore, we have updated the last paragraph of Section 3 for a smoother transition to Section 4:
 
-\textsl{My only technical concern here is that there may be a typo, or perhaps just some ambiguity, in the notation of its proof. I was expecting to see a delta function in the integrand. It could be a typo, or it could be that I misunderstood something in the notation of the proof (I’m quite sure the result is correct). In any case, Section 1 is valuable as a prelude to Section 2.2, which contains the less obvious Theorem 1.}
+\begin{quote}
+	\textcolor{blue}{``Having found that the dCRT is a natural test to apply for power against semiparametric alternatives, and that this test is equivalent to the simpler MX(2) $F$-test, we are ready to study the relationship between the power of the dCRT and the quality of the underlying machine learning procedure.''}
+\end{quote}
 
-\textcolor{red}{I believe the proof of Proposition 1 is correct as stated.}
+\textsl{Regarding theme (1), Section 2.1 is interesting but very unsurprising. I would almost say Proposition  1 was not stated explicitly in prior literature because it is obvious. The authors seem to admit so in the last paragraph of Section 2.1, but perhaps this could have been pointed out sooner. My only technical concern here is that there may be a typo, or perhaps just some ambiguity, in the notation of its proof. I was expecting to see a delta function in the integrand. It could be a typo, or it could be that I misunderstood something in the notation of the proof (I’m quite sure the result is correct). In any case, Section 1 is valuable as a prelude to Section 2.2, which contains the less obvious Theorem 1.}
+\\
+
+\noindent We appreciate the referee's suggestion for us to check the proof of Proposition 1. As it turns out, the proof was in fact wrong (though for a different reason than the referee suggested). Furthermore, we found the proposition itself to be false; please see the overview of the revisions (Section~\ref{sec:overview-of-revisions}) for more on this. What can be stated instead of Proposition 1 is that every CRT is a conditionally valid test (as opposed to every marginally valid MX CI test is also conditionally valid). We state this in Section 2.1 of the revision, but because it is obvious we do not even formalize this statement as a proposition. We mention in the second sentence of Section 2 that the observation of conditional validity of the CRT was implicit in earlier works, and later in the section that \textcolor{blue}{the existence of a single null distribution from which to resample $\widetilde X$ is central to the very definition of the CRT.} We view Section 2.1 as primarily setting the stage for the optimality result in Section 2.2, rather than a presentation of new results.
+\\
 
 \textsl{Theorem 1 is also very intuitive, as it follows quite directly from the Neyman-Pearson lemma, but it is definitely worth stating explicitly. My main concern with theme (1) is that this line of inquiry seems to terminate abruptly and prematurely after the statement of Corollary 1. What should we do with this Neyman-Pearson result? Does it have any practical relevance (as we don’t deal with point alternatives in practice)? Does it really answer any questions about which statistics should be used in practice? Does it provide “quantitative explanations for empirically observed phenomena and novel insights to guide the design of MX methodology”, as we were promised in the abstract?} 
+\\
 
-\textcolor{red}{We address the question of the practical relevance of Theorem 1 / Corollary 1 in the paragraph following Corollary 1. Admittedly, the referee is right in stating that this result, on its own, does not directly inform application of MX methodology, though we point to one or two possibilities for practical insights. In retrospect, I would formulate this result as a basic optimality result for MX testing, rather than a guide for practical application. I would agree with the referee that ``novel insights to guide the design of MX methodology'' is probably an oversell.}
+\noindent Our primary theme of power of MX CI tests is addressed not only in Section 2 (finite-sample power of CRT), but also in Section 4 (asymptotic power of CRT) and Section 5 (finite-sample power of knockoffs). As far as the consequences of the Neyman-Pearson result in Section 2, we discuss in the paragraph following Corollary 1 that this result provides evidence in favor of likelihood- or loss-based test statistics, and discuss other advantages of using such statistics. At least two recent papers have taken methodological inspiration from our optimality results (Grunwald et al, 2022 for CRT and Spector and Fithian, 2022 for knockoffs). We have acknowledged these works in this revision in Section 2:
+\begin{quote}
+	\textcolor{blue}{``Theorem 1 has inspired an extension of the CRT to the sequential setting using a likelihood-based test statistic, accompanied by a similar optimality result (Grunwald et al, 2022).''}
+\end{quote}
+and Section 5:
+\begin{quote}
+	\textcolor{blue}{``Recently, Theorem 5 inspired a more powerful variant of knockoffs based on \textit{masked likelihood ratio} statistics, which comes with a different kind of optimality guarantee (Spector and Fithian, 2022).''}
+\end{quote}
+Finally, we have updated the sentence in the abstract referenced by the referee to make it more concrete:
+\begin{quote}
+	``In this paper, we study the power of MX CI tests, \textcolor{blue}{yielding quantitative insights into the role of machine learning and providing evidence in favor of using likelihood-based statistics in practice.''}
+\end{quote}
+Here, ``quantitative insights into the role of machine learning'' refers to Theorem 4 (connecting the performane of the machine learning method to the power of the CRT) and ``evidence in favor of using likelihood-based statistics in practice'' refers to Theorem 1 (showing that the likelihood test statistic is finite-sample optimal).
+\\
 
 \textsl{Regarding theme (2), the second part of the paper focuses on the partially linear model, but there is no mention of that in the abstract. A partially linear semi-parametric model within the CRT framework is almost as big of an assumption as to assume a fully linear model, because the Z variables are essentially conditioned upon (Section 2.1). Then, if we believe in a linear model, do we still need model-X inference?}
+\\
 
-\textcolor{red}{The referee has misunderstood: We are using the partially linear model only as an alternative distribution against which we assess power, rather than an assumption required for validity of the MX(2) $F$-test. I thought we had included wording to clarify this nuance, but I can't find it in the manuscript.}
+\noindent It seems the referee has understood the partially linear model to be an additional assumption we make for the validity of inference. We have added a sentence immediately after the introduction of this model to clarify that this is not the case:
+
+\begin{quote}
+	\textcolor{blue}{``We emphasize that---in this section and throughout the paper---we use the partially linear model (17) exclusively as an alternative distribution against which to assess power, rather than an additional assumption required for Type-I error control.''}
+\end{quote}
+
 
 \textsl{In any case, what is the take-away message? Is there enough evidence to recommend practitioners to broadly utilize the MX(2) F-test (or the closely related GCM test) instead of the model-X test? The experimental section of this paper feels a bit shallow; clearly, this is a more theoretical paper. Yet, the theoretical analyses involve asymptotic approximations and a partially linear model which seem to go against the very core principles of model-X testing (finite-sample guarantees and no assumptions on Y|X). Theoretically, this feels counter-intuitive. For example, in the introduction the authors discuss GWAS as a success story for model-X testing. Do the results in this paper specifically explain why model-X testing has so far shown promise in GWAS? Do the results in this paper suggest instead that the MX(2) F-test can be safely applied to GWAS? What are some of the possible limitations or concerns of the MX(2) F-test in the applications that model-X testing has so far primarily focused on?}
+\\
 
-\textcolor{red}{We stated in our previous rebuttal that ``we view our contribution as primarily theoretical, establishing basic power and optimality results for increasingly popular methodologies like the CRT.'' I think we need to continue stressing this point. We should push back on the statement that ``the theoretical analyses involve...a partially linear model which seems to go against the very core principles of model-X testing''; see the red text above. As far as actual deployment of the MX(2) F-test as a *methodology* (e.g. for GWAS analysis) as opposed to as a *theoretical device*, I would reserve judgment or speculation for a future work. This is the reason why our numerical results section is not as fleshed out as in typical methods papers.}
+\noindent We fully agree that the MX(2) $F$-test is not fully fleshed out or tested as a methodology. As we suggest in a few places in the manuscript, for our purposes the MX(2) $F$-test is primarily a stepping stone to the analysis of the dCRT, rather than a methodology we advocate for immediate practical use. For example, in the introduction, we position our results on the MX(2) $F$-test as auxiliary:
+
+\begin{quote}
+``On the way to addressing Q2, we additionally establish a third result (Section 3) that may be of independent interest: \textbf{A resampling-free second-order approximation to the dCRT is equivalent to the dCRT and controls Type-I error under weaker assumptions.}''
+\end{quote}
+
+\noindent Our choice to move the MX(2) $F$-test simulations to the appendix in this revision also reflects this. A fuller methodological treatment of the MX(2) $F$-test is beyond the scope of the current paper, and accordingly we reserve judgment on its practical utility for applications. Finally, we point out that the validity of the MX(2) $F$-test \textit{does not} rely on a partially linear model assumption; as stated above, we use partially linear models only as alternatives against which to evaluate power.
 
 \subsection{Minor comments}
 
 \begin{itemize}
 	\item \textsl{Proof of Theorem 1: In equation (61), have $P_0$ and $P_1$ been defined before?}
 	
-	\textcolor{red}{This notation was a bit sloppy on my part. I can clarify this easily.}
+	Indeed, the notation had not been previously defined. We have updated the equation to remove this notation altogether, as the proof is still clear without it.
 
 	\item \textsl{On page 12, there is a typo “trained independent” below equation (31)}
 	
-	\textcolor{red}{Will fix.}
+	Thank you for pointing out this typo; we have fixed it.
 
 	\item \textsl{Theorem 2: should the partially linear model assumption be stated explicitly (if needed)?}
 	
-	\textcolor{red}{Again, the referee incorrectly understood that we are actually using the partially linear model assumption.}
+	See the discussion above: we use the partially linear model exclusively as an alternative distribution against which to assess power, rather than an additional assumption required for Type-I error control.
 
 	\item \textsl{Bottom of page 12: the conjecture seems quite strong. If some evidence will be provided later, it could be anticipated here.}
 	
-	\textcolor{red}{FYI, A version of this conjecture will be proved in a paper I have coming out soon. Perhaps I can just add another (handwavy) sentence providing intuition.}
+	We have added a sentence after the conjecture with our intuition for why it might hold:
+
+	\begin{quote}
+		\textcolor{blue}{``At least, we observe that the conditioning in the construction of the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ ensures that its mean and variance remain equal to $0$ and $\widehat S_n^2$ even when $\widehat g_n$ is fit in sample.''}
+	\end{quote}
 
 	
 	\item \textsl{Algorithm 2: Line 1 seems a bit vague (a mix of both). Should g-hat be fitted in sample or out of sample? This is a big recurring question in this paper but is not answered.}
 	
-	\textcolor{red}{The paper I have coming out soon shows that, if g-hat is sufficiently accurate, it's ok to fit it in sample in the context of the dCRT (even if there's some error in $\mathbb E[X|Z]$), like the GCM test. For this paper, I think we have to just leave this as a question for future work.}
+	While we conjecture that the MX(2) $F$-test continues to be valid for $\widehat g_n$ fit in sample, we acknowledge that at this stage this is just a conjecture. Therefore, in the algorithm box we have specified that $\widehat g_n$ is fit out of sample. It is unfortunately beyond the scope of the current work to theoretically investigate the properties of the MX(2) $F$-test in the case when $\widehat g_n$ is fit in sample.
 
 	\item \textsl{Last paragraph of Section 3.3. Again, this conjecture seems quite strong. Is there enough evidence to support it? Does it really never matter at all how g-hat is fitted?}
 	
-	\textcolor{red}{Again, I think we have to largely punt to future work. We could comment that under the MX(2) assumption, the quality of $\widehat g$ impacts power but not Type-I error control.}
+	In addition to the numerical simulation supporting this conjecture, we have added a sentence of intuition:
+
+	\begin{quote}
+		\textcolor{blue}{``One may expect this because the validity of the MX(2) $F$-test derives from the correctness of $(\mu_n, \Sigma_n)$ rather than that of $\widehat g_n$.''}
+	\end{quote}
+
+	Indeed, the spirit of model-X inference is to put the modeling burden on $\mathcal L(X|Z)$ rather than on $\mathcal L(Y|Z)$. Given that $\widehat g_n$ is a property of the latter, it makes sense that we can maintain Type-I error control without too many requirements on $\widehat g_n$.
 
 	\item \textsl{Section 3.4. My impression is that more effort could have gone into the simulations. Why try to validate empirically the robustness of MX(2) F-test but not do any experiments about anything else? In any case, I wouldn’t say MX(2) F-test has been validated super-extensively.}
 	
-	\textcolor{red}{I think the confusing part is that we are sometimes treating the MX(2) $F$-test as a \textit{methodology} (e.g. when we give it a name and an algorithm box) and other times as merely a \textit{theoretical device}. When viewed as a methodology, our numerical simulation does seem insufficient. When viewed as a theoretical device, you could say our numerical simulation is perhaps even more than people might typically do. We're walking a bit of a fine line here and trying to have it both ways, which is what the referee is picking up on. }
+	We agree that our validation of the MX(2) $F$-test falls far short of the threshold required to advocate for its practical use. As we discuss above, for the sake of this paper the MX(2) $F$-test is primarily an auxiliary construction used to help understand the dCRT, though it may be of independent interest. Investigating its practical performance is beyond the scope of the current paper.
 
 	\item \textsl{How does MX(2) F-test compare to the GCM test in practice?}
 	
-	\textcolor{red}{Similar to the above comment: we are not really trying to propose the MX(2) F-test as a methodological alternative to the GCM. It's purpose is mainly as a theoretical device. But then again, why give it a name and an algorithm box?}
+	Please see the answer to the previous question. We defer the comparison of the MX(2) $F$-test to alternatives like the GCM test to future work.
+
 \end{itemize}
 
 \end{document}

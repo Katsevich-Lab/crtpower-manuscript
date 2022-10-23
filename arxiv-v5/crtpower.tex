@@ -250,7 +250,7 @@
 
 	
 \begin{abstract}
-For testing conditional independence (CI) of a response $Y$ and a predictor $X$ given covariates $Z$, the recently introduced model-X (MX) framework has been the subject of active methodological research, especially in the context of MX knockoffs and their successful application to genome-wide association studies. In this paper, we study the power of MX CI tests, yielding quantitative explanations for empirically observed phenomena and novel insights to guide the design of MX methodology. We show that any valid MX CI test must also be valid conditionally on $\sry, \srz$; this conditioning allows us to reformulate the problem as testing a point null hypothesis involving the conditional distribution of $X$. The Neyman-Pearson lemma then implies that the conditional randomization test (CRT) based on a likelihood statistic is the most powerful MX CI test against a point alternative. We also obtain a related optimality result for MX knockoffs. Switching to an asymptotic framework with arbitrarily growing covariate dimension, we derive an expression for the limiting power of the CRT against local semiparametric alternatives in terms of the prediction error of the machine learning algorithm on which its test statistic is based. Finally, we exhibit a resampling-free test with uniform asymptotic Type-I error control under the assumption that \textit{only the first two moments of $X$ given $Z$ are known}, a significant relaxation of the MX assumption. 
+For testing conditional independence (CI) of a response $Y$ and a predictor $X$ given covariates $Z$, the recently introduced model-X (MX) framework has been the subject of active methodological research, especially in the context of MX knockoffs and their successful application to genome-wide association studies. In this paper, we study the power of MX CI tests, \textcolor{blue}{yielding quantitative insights into the role of machine learning and providing evidence in favor of using likelihood-based statistics in practice. Focusing on the conditional randomization test (CRT), we find that its conditional mode of inference allows us to reformulate it as testing a point null hypothesis involving the conditional distribution of $X$. The Neyman-Pearson lemma then implies that a likelihood-based statistic yields the most powerful CRT against a point alternative.} We also obtain a related optimality result for MX knockoffs. Switching to an asymptotic framework with arbitrarily growing covariate dimension, we derive an expression for the limiting power of the CRT against local semiparametric alternatives in terms of the prediction error of the machine learning algorithm on which its test statistic is based. Finally, we exhibit a resampling-free test with uniform asymptotic Type-I error control under the assumption that \textit{only the first two moments of $X$ given $Z$ are known}, a significant relaxation of the MX assumption. 
 \end{abstract}
 	
 %	\begin{keyword}
@@ -654,7 +654,7 @@ Now, consider a set of semiparametric \textcolor{blue}{(partially linear)} alter
 	\pry = \prx^T \beta_n + g_n(\prz) + \peps; \quad \peps \sim N(0, \sigma^2 ),\ \sigma^2 > 0
 	\label{eq:linearity}
 \end{equation}
-for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. By Theorem~\ref{prop:crt-optimality}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
+for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. \textcolor{blue}{We emphasize that---in this section and throughout the paper---we use the partially linear model~\eqref{eq:linearity} exclusively as an alternative distribution against which to assess power, rather than an additional assumption required for Type-I error control.} By Theorem~\ref{prop:crt-optimality}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
 \begin{equation}
 \begin{split}
 T_n^{\text{opt}}(\srx, \sry, \srz) &= \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - \srx_i^T \beta_n - g_n(\srz_i)\right)^2\right) \\
@@ -758,7 +758,7 @@ where
 \begin{equation}
 S_n^2 \equiv \mathbb E[\widehat S_n^2] = \mathbb E_{\mathcal L_n}\left[(\pry - \widehat g_n(\prz))^2 \Sigma_n(\prz)\right].
 \end{equation}
-Furthermore, to avoid technical complications, we assume that the estimate $\widehat g_n$ is trained independent dataset (whose size can vary arbitrarily with $n$ and is not included in the sample size $n$ used for testing). These training sets across $n$ and resulting estimates $\widehat g_n$ remain fixed throughout.
+Furthermore, to avoid technical complications, we assume that the estimate $\widehat g_n$ is trained on an independent dataset (whose size can vary arbitrarily with $n$ and is not included in the sample size $n$ used for testing). \textcolor{blue}{For example, this independent dataset may be a large observational dataset, while the primary dataset is a smaller experimental one \cite{Bates2020}.} These training sets across $n$ and resulting estimates $\widehat g_n$ remain fixed throughout.
 
 \begin{theorem} \label{thm:equivalence}
 Suppose that for each $n$, $\mathcal L_n$ is a law whose first and second conditional moments are given by $\mu_n(\prz)$ and $\Sigma_n(\prz)$~\eqref{eq:conditional-mean-variance}, which satisfies the moment conditions~\eqref{eq:moment-conditions} for fixed for some $c_1, c_2 > 0$. Let $\phi_n^{\mathcal L_n}$ be the dCRT based on the test statistic $T_n(\srx, \sry, \srz)$~\eqref{eq:s-n-hat}, \eqref{u-hat}, \eqref{t-n}, with $\widehat g_n$ trained out of sample. The threshold $C_n(\sry, \srz)$ of this test~\eqref{upper-quantile} converges in probability to the $\chi^2_d$ quantile:
@@ -778,7 +778,7 @@ Suppose that for each $n$, $\mathcal L_n$ is a law whose first and second condit
 	\end{equation}	
 \end{theorem}
 
-Informally, this theorem (proved in Appendix~\ref{sec:proofs-sec45}) suggests that the CRT resampling distribution of $T_n(\srx, \sry, \srz)$ converges to $\chi^2_d$, which is the resampling distribution of this test statistic under a normal $\mathcal L_n(\prx|\prz)$. Note that the resulting equivalence~\eqref{eq:asymptotic-equivalence} holds for the specific instance of the CRT based on the statistic $T_n$ defined in via equations~\eqref{u-hat} and~\eqref{t-n}, though other kinds of test statistics may lead to similar large-sample behavior. While Theorem~\ref{thm:equivalence} is stated for $\widehat g_n$ trained out of sample, we conjecture that it continues to hold when $\widehat g_n$ is fit in sample, as in the original dCRT construction \cite{Liu2020}. 
+Informally, this theorem (proved in Appendix~\ref{sec:proofs-sec45}) suggests that the CRT resampling distribution of $T_n(\srx, \sry, \srz)$ converges to $\chi^2_d$, which is the resampling distribution of this test statistic under a normal $\mathcal L_n(\prx|\prz)$. Note that the resulting equivalence~\eqref{eq:asymptotic-equivalence} holds for the specific instance of the CRT based on the statistic $T_n$ defined in via equations~\eqref{u-hat} and~\eqref{t-n}, though other kinds of test statistics may lead to similar large-sample behavior. While Theorem~\ref{thm:equivalence} is stated for $\widehat g_n$ trained out of sample, we conjecture that it continues to hold when $\widehat g_n$ is fit in sample, as in the original dCRT construction \cite{Liu2020}. \textcolor{blue}{At least, we observe that the conditioning in the construction of the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ ensures that its mean and variance remain equal to $0$ and $\widehat S_n^2$ even when $\widehat g_n$ is fit in sample.}
 
 Theorem~\ref{thm:equivalence} has several consequences. First, it allows us to study the power of the dCRT $\phi_n^{\mathcal L_n}$ against semiparametric alternatives~\eqref{eq:linearity} by studying instead the simpler test $\phi_n^{N(\mu_n, \Sigma_n)}$. We pursue this direction in Section~\ref{sec:asymptotic-power}. Second, it implies a certain robustness property of the dCRT. Indeed, suppose we run the dCRT based on an incorrect law $\mathcal L'_n \neq \mathcal L_n$, but whose first and second moments match that of $\mathcal L_n$ and such that $\mathcal L_n$ is contiguous with respect to $\mathcal L'_n$. Then, applying Theorem~\ref{thm:equivalence} to $\mathcal L_n$ and $\mathcal L'_n$ implies that $\mathbb P_{\mathcal L_n}[\phi^{\mathcal L'_n}_n(\srx, \sry, \srz) \neq \phi^{\mathcal L_n}_n(\srx, \sry, \srz)] \rightarrow 0$. It follows that since $\phi^{\mathcal L_n}_n$ controls the type-I error asymptotically (in fact, also in finite samples), then so does $\phi^{\mathcal L'_n}_n$. We omit the formal statement of this result for the sake of brevity. Third, it suggests a distinct conditional independence test with valid Type-I error control under the weaker assumption that only the first two moments of $\mathcal L_n(\prx|\prz)$ are known. We expand on this third consequence next.
 
@@ -812,7 +812,7 @@ Under the MX(2) assumption, the CRT is undefined because there is no conditional
 			\KwData{
 				$\{(\srx_i, \sry_i, \srz_i)\}_{i=1}^n$, $\mu_n(\cdot)$ and $\Sigma_n(\cdot)$ in \eqref{eq:conditional-mean-variance}, learning method $g$
 			}
-			Obtain $\widehat g_n$ by fitting $g$ (either in-sample, out-of-sample, or a mix of both)\;
+			Obtain $\widehat g_n$ by fitting $g$ \textcolor{blue}{out of sample}\;
 			Recall $\mu_n(\srz_i) \equiv \mathbb E_{\mathcal L_n}[\srx_i|\srz_i], \text{ set } \widehat S_n^2 \equiv \frac{1}{n}\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))^2\Sigma_n(\srz_i)$\;
 			Set $\smash{U_n \equiv \frac{\widehat S_n^{-1}}{\sqrt{n}}\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))(\srx_{i} - \mu_n(\srz_i))}$ and $T_n = \|U_n\|^2$\;
 			% Compute $T(\srx,\sry,\srz) \equiv \sum_{i = 1}^n \ell(\sry_i, (\srx_i-\mu_n(\srz_i)) \widehat \beta + \widehat g_n(\srz_i))$\;
@@ -845,69 +845,7 @@ Therefore, the MX(2) $F$-test controls Type-I error asympotically, uniformly ove
 \end{equation}
 \end{theorem}
 
-See Appendix~\ref{sec:proofs-sec45} for a proof of this theorem. The moment assumptions can be relaxed for pointwise error control (less desirable), but are unavoidable for uniform type-1 error control as stated in the corollary. More importantly, we conjecture that the MX(2) $F$-test continues to have asymptotic Type-I error control even if $\widehat g_n$ is fit in sample. This conjecture is supported by the results of a simulation study, described next.
-
-\subsection{Simulation: Finite sample error control of the MX(2) $F$-test}  \label{sec:simulations}
-
-In this section, we examine via numerical simulation the Type-I error control of the MX(2) $F$-test in finite samples, both if $\widehat g_n$ is fit out of sample (the case covered by Theorem~\ref{thm:asymptotic-alpha-level}) and if $\widehat g_n$ is fit in sample (conjectured). Code to reproduce the simulation is available online at \url{https://github.com/ekatsevi/crtpower-manuscript}.
-
-\paragraph{Simulation setup.}
-
-Recall that the MX(2) $F$-test is equivalent to the dCRT in finite samples when $\mathcal L_n(\prx|\prz)$ is Gaussian. Therefore, to test the Type-I error control of the MX(2) $F$-test in a nontrivial setting, we instead consider a discrete distribution for $(\prx,\prz)$. In particular, we sample $(\prx, \prz)$ from a Markov chain, as described next. (Such a Markovian setup has often been employed in MX analyses of GWAS studies \cite{SetC17, SetS19, Bates2020}, motivated by recombination models from population genetics.)
-
-Let's assume for simplicity that $\text{dim}(\prx) = 1$. Define $(\prx,\prz) \in \{0,1\}^{1+p}$ to have the distribution of a Markov chain with 
-\begin{equation*}
-	\text{initial state } \prx \sim \text{Ber}(\pi_{\text{init}}) \text{ and transition matrix } \begin{pmatrix}1-\pi_\text{flip} & \pi_{\text{flip}} \\  \pi_{\text{flip}} &  1-\pi_{\text{flip}}\end{pmatrix}.
-\end{equation*}
-More explicitly, we have
-\begin{equation*}
-	\mathbb P[\prx = x, \prz = z] = \pi_{\text{init}}^{x}(1-\pi_{\text{init}})^{1-x} \pi_{\text{flip}}^{\mathbbm 1(z_1 \neq x)} (1-\pi_{\text{flip}})^{\mathbbm 1(z_1 = x)} \prod_{j = 2}^p \pi_{\text{flip}}^{\mathbbm 1(z_j \neq z_{j-1})} (1-\pi_{\text{flip}})^{\mathbbm 1(z_j = z_{j-1})}.
-\end{equation*}
-The parameters $(\pi_{\text{init}}, \pi_{\text{flip}})$ describe the distribution of $\prx|\prz$ and are assumed known. Furthermore, let the response $\pry$ be distributed as a random effects model in $\prz$:
-\begin{equation*}
-	\pry = \prz^T \bm \gamma + \peps, \quad \bm \gamma \sim N(0, \sigma^2_{\gamma}I_p),\ \peps \sim N(0, \sigma^2_\eps I_n).
-\end{equation*}
-Thus, all simulations are conducted under the null hypothesis $H_0: \prx \independent \pry \mid \prz$. The signal-to-noise ratio in this relationship is defined via
-\begin{equation*}
-	\text{SNR} = \frac{\mathbb E[\|\prz\|^2]\sigma^2_\gamma}{\sigma^2_\eps}.
-\end{equation*}
-Suppose we have $n_{\text{train}}$ and $n_{\text{test}}$ training and test samples, respectively. Then, the function $\widehat g_n$ is defined by running a 10-fold cross-validated ridge regression of $\sry$ on $\srz$ using either the $n_{\text{train}}$ training samples (out of sample training) or the $n_{\text{test}}$ test samples (in sample training) and then the statistic $U_n(\srx, \sry, \srz)$ is computed using the $n_{\text{test}}$ test samples.
-
-\paragraph{Simulation parameters.}
-
-All simulations were run with 
-\begin{equation}
-	n_{\text{train}} = 100; \quad \pi_{\text{init}} = 0.1; \quad \pi_{\text{flip}} = 0.1; \quad \sigma^2_\eps = 1. 
-	\label{fixed-parameters}
-\end{equation}
-On the other hand, the three parameters $(n_{\text{test}}, \text{SNR}, p)$ were varied as follows:
-\begin{equation*}
-	n_{\text{test}} \in \{10, 25, \textbf{100}\}; \quad  \text{SNR} \in \{0, \textbf{1}, 5\}; \quad p \in \{20, 100, \textbf{500}\}.
-\end{equation*}
-The bolded values above represent the \textit{default values} for each parameter. Each of the three parameters was varied while keeping the other two parameters at their default values, giving a total of nine simulation settings. For each simulation setting, the training data were generated just once, since Theorem~\ref{thm:asymptotic-alpha-level} implicitly conditions on the training data. The entire test data $(\srx, \sry, \srz)$  were sampled 1000 times to generate the null distribution of $U_n(\srx, \sry, \srz)$. 
-
-\paragraph{Simulation results.}
-
-For each of the nine simulation settings, we produce normal QQ plots of the  $z$-statistics $U_n(\srx, \sry, \srz)$ based on out of sample or in sample training (Figures~\ref{fig:out-of-sample} and~\ref{fig:in-sample}, respectively). When $\widehat g_n$ is fit out of sample (Figure~\ref{fig:out-of-sample}), we see good calibration in most cases. In particular, the test sample size impacts calibration, but the SNR and the dimension do not. The test statistic's null distribution shows some inflation for the small sample size of $n_{\text{test}} = 10$, but is already well-calibrated starting with $n_{\text{test}} = 25$. Therefore, the asymptotic Type-I error control proved in Theorem~\ref{thm:asymptotic-alpha-level} extends to modest sample sizes as well. Furthermore, when $\widehat g_n$ is fit in sample (Figure~\ref{fig:in-sample}), we observe calibration that is as good as when $\widehat g_n$ is fit out of sample. This suggests that we may apply the MX(2) $F$-test even with in-sample-estimated $\widehat g_n$. We must bear in mind, however, that different choices of the fixed parameters~\eqref{fixed-parameters} may alter these conclusions. In particular, smaller $\pi_{\text{init}}$ leads to more discreteness in $\srx$ and therefore slower convergence to normality.
-
-\clearpage
-
-\begin{figure}[h!]
-	\includegraphics[width = \textwidth]{out-of-sample.png}
-	\caption{Distributions of 1000 samples of $U_n(\srx, \sry, \srz)$ each from nine simulation settings under the null, where $\widehat g_n$ is learned \textit{out of sample}.}
-	\label{fig:out-of-sample}
-\end{figure}
-
-\clearpage
-
-\begin{figure}[h!]
-	\includegraphics[width = \textwidth]{in-sample.png}
-	\caption{Distributions of 1000 samples of $U_n(\srx, \sry, \srz)$ each from nine simulation settings under the null, where $\widehat g_n$ is learned \textit{in sample}.}
-	\label{fig:in-sample}
-\end{figure}
-
-\clearpage
-
+See Appendix~\ref{sec:proofs-sec45} for a proof of this theorem. The moment assumptions can be relaxed for pointwise error control (less desirable), but are unavoidable for uniform type-I error control as stated in the corollary. More importantly, we conjecture that the MX(2) $F$-test continues to have asymptotic Type-I error control even if $\widehat g_n$ is fit in sample. \textcolor{blue}{One may expect this because the validity of the MX(2) $F$-test derives from the correctness of $(\mu_n, \Sigma_n)$ rather than that of $\widehat g_n$.} This conjecture is supported by the results of a simulation study \textcolor{blue}{presented in Appendix~\ref{sec:simulations}}.
 
 \subsection{Comparison to existing results} \label{sec:comparison-to-existing-results-3}
 
@@ -972,7 +910,7 @@ Theorem~\ref{thm:equivalence} is a statement about the asymptotic equivalence be
 
 \paragraph{}
 
-Next, we study the asymptotic power of the dCRT (and by Theorem~\ref{thm:equivalence}, of the MX(2) $F$-test). 
+\textcolor{blue}{Having found that the dCRT is a natural test to apply for power against semiparametric alternatives, and that this test is equivalent to the simpler MX(2) $F$-test, we are ready to study the relationship between the power of the dCRT and the quality of the underlying machine learning procedure.}
 
 %\begin{landscape} 
 %	\thispagestyle{empty}
@@ -995,7 +933,7 @@ Next, we study the asymptotic power of the dCRT (and by Theorem~\ref{thm:equival
 
 \section{dCRT power against semiparametric alternatives} \label{sec:asymptotic-power}
 
-Having prepared the groundwork in Section~\ref{sec:weakening}, we present our results on the power of the dCRT against the semiparametric alternatives~\eqref{eq:linearity}. We state these results first (Section~\ref{sec:power-results}), then apply these to lasso-based dCRT (Section~\ref{sec:power-lasso-based}), and finally compare our results to existing ones (Section~\ref{sec:comparison-to-existing-results-4}). All proofs are deferred to Appendix~\ref{sec:proofs-sec45}.
+In this section, we present our results on the asymptotic power of the dCRT against the semiparametric alternatives~\eqref{eq:linearity}. We state these results first (Section~\ref{sec:power-results}), then apply these to lasso-based dCRT (Section~\ref{sec:power-lasso-based}), and finally compare our results to existing ones (Section~\ref{sec:comparison-to-existing-results-4}). All proofs are deferred to Appendix~\ref{sec:proofs-sec45}.
 
 \subsection{Power against semiparametric alternatives} \label{sec:power-results}
 
@@ -1411,7 +1349,7 @@ Let $\phi$ be any test satisfying conditional validity property~\eqref{eq:condit
 	\end{equation*}
 	This is a simple testing problem, with point null and point alternative. By the Neyman-Pearson lemma, the most powerful test is the one that rejects for large values of the likelihood ratio
 	\begin{equation}
-		\prod_{i = 1}^n \frac{P_1(\sfx_i|\sfy_i, \sfz_i)}{P_0(\sfx_i|\sfy_i, \sfz_i)} = \prod_{i = 1}^n \frac{f^*(\sfx_i|\sfz_i)\frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)}}{f^*(\sfx_i|\sfz_i)} = \prod_{i = 1}^n \frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)} \propto T^{\text{opt}}(\sfx, \sfy, \sfz),
+ \frac{\prod_{i = 1}^n f^*(\sfx_i|\sfz_i)\frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)}}{\prod_{i = 1}^n f^*(\sfx_i|\sfz_i)} = \prod_{i = 1}^n \frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)} \propto T^{\text{opt}}(\sfx, \sfy, \sfz),
 	\label{eq:likelihood-ratio-derivation}
 	\end{equation}
 	verifying the conditional optimality claim~\eqref{conditional-optimality}. \color{blue}To obtain the unconditional claim~\eqref{unconditional}, we take an expectation over $\sry, \srz$ and use the fact that $\mathbb P[(\sry, \srz) \in \mathcal A] = 1$:
@@ -1426,6 +1364,68 @@ Let $\phi$ be any test satisfying conditional validity property~\eqref{eq:condit
 \color{black}
 This completes the proof.
 \end{proof}
+
+\section{Simulation: Finite sample error control of the MX(2) $F$-test}  \label{sec:simulations}
+
+In this section, we examine via numerical simulation the Type-I error control of the MX(2) $F$-test in finite samples, both if $\widehat g_n$ is fit out of sample (the case covered by Theorem~\ref{thm:asymptotic-alpha-level}) and if $\widehat g_n$ is fit in sample (conjectured). Code to reproduce the simulation is available online at \url{https://github.com/ekatsevi/crtpower-manuscript}.
+
+\paragraph{Simulation setup.}
+
+Recall that the MX(2) $F$-test is equivalent to the dCRT in finite samples when $\mathcal L_n(\prx|\prz)$ is Gaussian. Therefore, to test the Type-I error control of the MX(2) $F$-test in a nontrivial setting, we instead consider a discrete distribution for $(\prx,\prz)$. In particular, we sample $(\prx, \prz)$ from a Markov chain, as described next. (Such a Markovian setup has often been employed in MX analyses of GWAS studies \cite{SetC17, SetS19, Bates2020}, motivated by recombination models from population genetics.)
+
+Let's assume for simplicity that $\text{dim}(\prx) = 1$. Define $(\prx,\prz) \in \{0,1\}^{1+p}$ to have the distribution of a Markov chain with 
+\begin{equation*}
+	\text{initial state } \prx \sim \text{Ber}(\pi_{\text{init}}) \text{ and transition matrix } \begin{pmatrix}1-\pi_\text{flip} & \pi_{\text{flip}} \\  \pi_{\text{flip}} &  1-\pi_{\text{flip}}\end{pmatrix}.
+\end{equation*}
+More explicitly, we have
+\begin{equation*}
+	\mathbb P[\prx = x, \prz = z] = \pi_{\text{init}}^{x}(1-\pi_{\text{init}})^{1-x} \pi_{\text{flip}}^{\mathbbm 1(z_1 \neq x)} (1-\pi_{\text{flip}})^{\mathbbm 1(z_1 = x)} \prod_{j = 2}^p \pi_{\text{flip}}^{\mathbbm 1(z_j \neq z_{j-1})} (1-\pi_{\text{flip}})^{\mathbbm 1(z_j = z_{j-1})}.
+\end{equation*}
+The parameters $(\pi_{\text{init}}, \pi_{\text{flip}})$ describe the distribution of $\prx|\prz$ and are assumed known. Furthermore, let the response $\pry$ be distributed as a random effects model in $\prz$:
+\begin{equation*}
+	\pry = \prz^T \bm \gamma + \peps, \quad \bm \gamma \sim N(0, \sigma^2_{\gamma}I_p),\ \peps \sim N(0, \sigma^2_\eps I_n).
+\end{equation*}
+Thus, all simulations are conducted under the null hypothesis $H_0: \prx \independent \pry \mid \prz$. The signal-to-noise ratio in this relationship is defined via
+\begin{equation*}
+	\text{SNR} = \frac{\mathbb E[\|\prz\|^2]\sigma^2_\gamma}{\sigma^2_\eps}.
+\end{equation*}
+Suppose we have $n_{\text{train}}$ and $n_{\text{test}}$ training and test samples, respectively. Then, the function $\widehat g_n$ is defined by running a 10-fold cross-validated ridge regression of $\sry$ on $\srz$ using either the $n_{\text{train}}$ training samples (out of sample training) or the $n_{\text{test}}$ test samples (in sample training) and then the statistic $U_n(\srx, \sry, \srz)$ is computed using the $n_{\text{test}}$ test samples.
+
+\paragraph{Simulation parameters.}
+
+All simulations were run with 
+\begin{equation}
+	n_{\text{train}} = 100; \quad \pi_{\text{init}} = 0.1; \quad \pi_{\text{flip}} = 0.1; \quad \sigma^2_\eps = 1. 
+	\label{fixed-parameters}
+\end{equation}
+On the other hand, the three parameters $(n_{\text{test}}, \text{SNR}, p)$ were varied as follows:
+\begin{equation*}
+	n_{\text{test}} \in \{10, 25, \textbf{100}\}; \quad  \text{SNR} \in \{0, \textbf{1}, 5\}; \quad p \in \{20, 100, \textbf{500}\}.
+\end{equation*}
+The bolded values above represent the \textit{default values} for each parameter. Each of the three parameters was varied while keeping the other two parameters at their default values, giving a total of nine simulation settings. For each simulation setting, the training data were generated just once, since Theorem~\ref{thm:asymptotic-alpha-level} implicitly conditions on the training data. The entire test data $(\srx, \sry, \srz)$  were sampled 1000 times to generate the null distribution of $U_n(\srx, \sry, \srz)$. 
+
+\paragraph{Simulation results.}
+
+For each of the nine simulation settings, we produce normal QQ plots of the  $z$-statistics $U_n(\srx, \sry, \srz)$ based on out of sample or in sample training (Figures~\ref{fig:out-of-sample} and~\ref{fig:in-sample}, respectively). When $\widehat g_n$ is fit out of sample (Figure~\ref{fig:out-of-sample}), we see good calibration in most cases. In particular, the test sample size impacts calibration, but the SNR and the dimension do not. The test statistic's null distribution shows some inflation for the small sample size of $n_{\text{test}} = 10$, but is already well-calibrated starting with $n_{\text{test}} = 25$. Therefore, the asymptotic Type-I error control proved in Theorem~\ref{thm:asymptotic-alpha-level} extends to modest sample sizes as well. Furthermore, when $\widehat g_n$ is fit in sample (Figure~\ref{fig:in-sample}), we observe calibration that is as good as when $\widehat g_n$ is fit out of sample. This suggests that we may apply the MX(2) $F$-test even with in-sample-estimated $\widehat g_n$. We must bear in mind, however, that different choices of the fixed parameters~\eqref{fixed-parameters} may alter these conclusions. In particular, smaller $\pi_{\text{init}}$ leads to more discreteness in $\srx$ and therefore slower convergence to normality.
+
+\clearpage
+
+\begin{figure}[h!]
+	\includegraphics[width = \textwidth]{out-of-sample.png}
+	\caption{Distributions of 1000 samples of $U_n(\srx, \sry, \srz)$ each from nine simulation settings under the null, where $\widehat g_n$ is learned \textit{out of sample}.}
+	\label{fig:out-of-sample}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h!]
+	\includegraphics[width = \textwidth]{in-sample.png}
+	\caption{Distributions of 1000 samples of $U_n(\srx, \sry, \srz)$ each from nine simulation settings under the null, where $\widehat g_n$ is learned \textit{in sample}.}
+	\label{fig:in-sample}
+\end{figure}
+
+\clearpage
+
 
 \section{Proofs for Sections~\ref{sec:weakening} and~\ref{sec:asymptotic-power}} \label{sec:proofs-sec45}
 
