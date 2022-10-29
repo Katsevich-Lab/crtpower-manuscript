@@ -250,7 +250,7 @@
 
 	
 \begin{abstract}
-For testing conditional independence (CI) of a response $Y$ and a predictor $X$ given covariates $Z$, the recently introduced model-X (MX) framework has been the subject of active methodological research, especially in the context of MX knockoffs and their successful application to genome-wide association studies. In this paper, we study the power of MX CI tests, \textcolor{blue}{yielding quantitative insights into the role of machine learning and providing evidence in favor of using likelihood-based statistics in practice. Focusing on the conditional randomization test (CRT), we find that its conditional mode of inference allows us to reformulate it as testing a point null hypothesis involving the conditional distribution of $X$. The Neyman-Pearson lemma then implies that a likelihood-based statistic yields the most powerful CRT against a point alternative.} We also obtain a related optimality result for MX knockoffs. Switching to an asymptotic framework with arbitrarily growing covariate dimension, we derive an expression for the limiting power of the CRT against local semiparametric alternatives in terms of the prediction error of the machine learning algorithm on which its test statistic is based. Finally, we exhibit a resampling-free test with uniform asymptotic Type-I error control under the assumption that \textit{only the first two moments of $X$ given $Z$ are known}, a significant relaxation of the MX assumption. 
+For testing conditional independence (CI) of a response $Y$ and a predictor $X$ given covariates $Z$, the recently introduced model-X (MX) framework has been the subject of active methodological research, especially in the context of MX knockoffs and their successful application to genome-wide association studies. In this paper, we study the power of MX CI tests, yielding quantitative insights into the role of machine learning and providing evidence in favor of using likelihood-based statistics in practice. Focusing on the conditional randomization test (CRT), we find that its conditional mode of inference allows us to reformulate it as testing a point null hypothesis involving the conditional distribution of $X$. The Neyman-Pearson lemma then implies that a likelihood-based statistic yields the most powerful CRT against a point alternative. We also obtain a related optimality result for MX knockoffs. Switching to an asymptotic framework with arbitrarily growing covariate dimension, we derive an expression for the limiting power of the CRT against local semiparametric alternatives in terms of the prediction error of the machine learning algorithm on which its test statistic is based. Finally, we exhibit a resampling-free test with uniform asymptotic Type-I error control under the assumption that \textit{only the first two moments of $X$ given $Z$ are known}, a significant relaxation of the MX assumption. 
 \end{abstract}
 	
 %	\begin{keyword}
@@ -296,7 +296,7 @@ As formalized by Shah and Peters \cite{Shah2018}, the problem \eqref{conditional
 % A complementary recent line of work has focused on shifting assumptions to the distribution $f_{\prx, \prz}$. In particular, 
 Instead, we follow the lead of Candes et al. \cite{CetL16}, who proposed to avoid assumptions on $\mathcal L(\pry|\prx, \prz)$, but assume that we have access to $\mathcal L(\prx|\prz)$:\footnote{Candes et al. actually require that the full joint distribution $\mathcal L(\prx,\prz)$ is known, but this is because they also test for conditional associations between $\prz$ and $\pry$. We focus only on the relationship between $\prx$ and $\pry$ given $\prz$ and therefore require a weaker assumption.} 
 \begin{equation} \label{eq:modelX}
-\textit{model-X (MX) assumption}: \mathcal L(\prx| \prz)=  f^*_{\prx|\prz} \text{ for some known } f^*_{\prx|\prz}.\footnote{\textcolor{blue}{We implicitly assume that $\mathcal L$ has a density with respect to some dominating measure on $\mathbb R^{1+1+p}$, and that all conditional densities are well-defined almost surely. Here and throughout the paper, we identify probability distributions with their densities with respect to the appropriate dominating measure.}} 
+\textit{model-X (MX) assumption}: \mathcal L(\prx| \prz)=  f^*_{\prx|\prz} \text{ for some known } f^*_{\prx|\prz}.\footnote{We implicitly assume that $\mathcal L$ has a density with respect to some dominating measure on $\mathbb R^{1+1+p}$, and that all conditional densities are well-defined almost surely. Here and throughout the paper, we identify probability distributions with their densities with respect to the appropriate dominating measure.}
 \end{equation}
 Candes et al.\ argue that while both model-$Y|X$ and MX are strong assumptions---especially when $p,d$ are large---in certain cases much more is known about $\prx | \prz$ than about $\pry|\prx, \prz$. In the aforementioned GWAS example, $\prx|\prz$ reflects the joint distribution of genotypes at SNPs across the genome, which is well described by hidden Markov models from population genetics \cite{SetC17}. On the other hand, the distribution $\pry|\prx,\prz$ represents the genetic basis of a complex trait, about which much less is known. In the context of (stratified) randomized experiments, the distribution $\mathcal L(\prx | \prz)$ is the propensity function \cite{Imai2004} (the analog of the propensity score for non-binary treatments \cite{Rosenbaum1983}) and is experimentally controlled. In general causal inference contexts, the MX assumption can be viewed as the assumption that the propensity function is known. 
 
@@ -306,10 +306,10 @@ Testing CI hypotheses in the MX framework has been the subject of active methodo
 
 We start with any test statistic $T(\srx, \sry, \srz)$ measuring the association between $\prx$ and $\pry$, given $\prz$. Usually, this statistic involves learning some estimate $\widehat f_{\pry|\prx,\prz}$ based on machine learning, e.g. the magnitude of the fitted coefficient for $\prx$ (when $\text{dim}(\prx) = 1$) in a cross-validated lasso~\cite{T96} of $\sry$ on $\srx$ and $\srz$ \cite{CetL16}. To calculate the distribution of $T$ under the null hypothesis~\eqref{conditional-independence}, first define a matrix  $\srxk \in \mathbb R^{n \times d}$, where the $i$th row $\srxk_i$ is a sample from $\mathcal L(\prx \mid \prz = \srz_i)$. In other words, for each sample $i$, resample $\srx_i$ based on its distribution conditional on the observed covariate values $Z_i$ in that sample. We then use these resamples to build a null distribution $T(\srxk, \sry, \srz)$, from which the upper quantile
 \begin{equation}
-\color{blue}C(\sry,\srz)\color{black} \equiv Q_{1-\alpha}[T(\srxk, \sry, \srz)|\sry,\srz]
+C(\sry,\srz) \equiv Q_{1-\alpha}[T(\srxk, \sry, \srz)|\sry,\srz]
 	\label{upper-quantile}
 \end{equation}
-may be extracted \textcolor{blue}{(the dependence on $\alpha$ left implicit)}, where the randomness is over the resampling distribution $\srxk |  \sry, \srz$. Finally, the CRT rejects if the original test statistic exceeds this quantile:
+may be extracted (the dependence on $\alpha$ left implicit), where the randomness is over the resampling distribution $\srxk |  \sry, \srz$. Finally, the CRT rejects if the original test statistic exceeds this quantile:
 
 \begin{equation}
 	\label{eq:randomized-CRT}
@@ -371,7 +371,7 @@ We find that for the MX CI problem, the CRT is more natural to analyze; it is si
 
 \paragraph{A1: Conditional inference leads to finite-sample optimality against point alternatives.}
 
-While the composite nonparametric alternative of the CI problem~\eqref{conditional-independence} suggests that we cannot expect to find a uniformly most powerful test, we may still ask what is the most powerful test against a point alternative. \textcolor{blue}{Restricting our attention to tests valid conditionally on $(\sry, \srz)$ (as the CRT is)} allows us to reduce the composite null to a point null. We can therefore apply the Neyman-Pearson lemma to show (Section~\ref{sec:power}) that the optimal conditionally valid test against a point alternative $\mathcal L$ with $\mathcal L(\pry|\prx,\prz) = \bar f_{\pry|\prx,\prz}$ is the CRT based on the likelihood test statistic:
+While the composite nonparametric alternative of the CI problem~\eqref{conditional-independence} suggests that we cannot expect to find a uniformly most powerful test, we may still ask what is the most powerful test against a point alternative. Restricting our attention to tests valid conditionally on $(\sry, \srz)$ (as the CRT is) allows us to reduce the composite null to a point null. We can therefore apply the Neyman-Pearson lemma to show (Section~\ref{sec:power}) that the optimal conditionally valid test against a point alternative $\mathcal L$ with $\mathcal L(\pry|\prx,\prz) = \bar f_{\pry|\prx,\prz}$ is the CRT based on the likelihood test statistic:
 \begin{equation}
 	T^{\text{opt}}(\srx; \sry, \srz) \equiv \prod_{i = 1}^n \bar f(\sry_i|\srx_i, \srz_i).
 \end{equation}
@@ -513,7 +513,7 @@ We often use uppercase symbols to denote both random variables and their realiza
 
 \section{The most powerful CRT against point alternatives} \label{sec:power}
 
-In this section, we seek the most powerful CRT against a point alternative. To accomplish this, we make the observation---\textcolor{blue}{implicit in earlier works}---that the CRT is valid not just unconditionally but also conditionally on $\sry, \srz$ (Section~\ref{sec:bridge}). The latter conditioning step reduces the composite null to a point null. This reduction allows us to invoke the Neyman Pearson lemma to find the most powerful test  (Section~\ref{sec:NP}). Proofs are deferred to the appendix.
+In this section, we seek the most powerful CRT against a point alternative. To accomplish this, we make the observation---implicit in earlier works---that the CRT is valid not just unconditionally but also conditionally on $\sry, \srz$ (Section~\ref{sec:bridge}). The latter conditioning step reduces the composite null to a point null. This reduction allows us to invoke the Neyman Pearson lemma to find the most powerful test  (Section~\ref{sec:NP}). Proofs are deferred to the appendix.
 
 \subsection{CRT is conditionally valid and implicitly tests a point null} \label{sec:bridge}
 
@@ -532,12 +532,10 @@ A test $\phi: (\mathbb R^{d} \times \mathbb R^r \times \mathbb R^p)^n \rightarro
 	\label{marginal-validity}
 \end{equation}
 Recall that the CRT critical value $C(\sry, \srz)$ is defined via conditional calibration~\eqref{upper-quantile}. As is known to those familiar with MX, this implies that any CRT $\phi = \phi_T^{\text{CRT}}$ not only has level $\alpha$ in the sense of definition~\eqref{marginal-validity} but also has level $\alpha$ \textit{conditionally} on $\sry$ and $\srz$:
-\color{blue}
 \begin{equation}
 \sup_{\mathcal L \in \mathscr L_0^{\textnormal{MX}}(f^*)}\ \mathbb E_{\mathcal L}[\phi(\srx, \sry, \srz)|\sry, \srz] \leq \alpha \quad \text{almost surely}.
 \label{eq:conditional-validity}
 \end{equation}
-\color{black}
 
 One special property of such conditionally valid tests $\phi$ is that they can be viewed as testing a \textit{point null} rather than the original \textit{composite null} \eqref{conditional-independence}. To see this, we view $\phi \equiv \phi(\srx;\sry,\srz)$ as a \textit{family} of hypothesis tests, indexed by $(\sry, \srz)$, for the distribution $\mathcal L(\srx|\sry,\srz)$. Note that under the MX assumption,
 \small
@@ -546,11 +544,9 @@ One special property of such conditionally valid tests $\phi$ is that they can b
 \label{point-null}
 \end{equation}
 \normalsize
-In words, fixing $Y,Z$ at their realizations $\sfy,\sfz$ and viewing only $\srx$ as random, $\mathcal L(\srx|\sry = \sfy, \srz = \sfz)$ equals a fixed product distribution for any null $\mathcal L$. This yields a conditional point null hypothesis, with respect to which $\phi^{\CRT}_T(\sfx;\sfy,\sfz)$ is a level-$\alpha$ test for \textcolor{blue}{almost every} $(\sfy, \sfz)$. Note that the observations $\srx_i$ in this conditional distribution are independent \textit{but not identically distributed} due to the different conditioning events in~\eqref{point-null}.
+In words, fixing $Y,Z$ at their realizations $\sfy,\sfz$ and viewing only $\srx$ as random, $\mathcal L(\srx|\sry = \sfy, \srz = \sfz)$ equals a fixed product distribution for any null $\mathcal L$. This yields a conditional point null hypothesis, with respect to which $\phi^{\CRT}_T(\sfx;\sfy,\sfz)$ is a level-$\alpha$ test for almost every $(\sfy, \sfz)$. Note that the observations $\srx_i$ in this conditional distribution are independent \textit{but not identically distributed} due to the different conditioning events in~\eqref{point-null}.
 
-\color{blue}
 We emphasize that the aforementioned observations have been under the hood of MX papers, and the existence of a single null distribution from which to resample $\srxk$ is central to the very definition of the CRT. Nevertheless, we find it useful to state explicitly what has thus far been largely left implicit. Indeed, viewing the CRT through the conditional lens~\eqref{eq:conditional-validity} is the starting point that allows us to bring classical theoretical tools to bear on its analysis. We start doing so by considering point alternatives below.
-\color{black}
 
 \subsection{The most powerful conditionally valid test} \label{sec:NP}
 
@@ -571,7 +567,7 @@ Viewing the CRT as a test of a point null hypothesis, we can employ the  Neyman-
 \end{theorem}
 
 %The form of the optimal statistic $T^{\text{opt}}$ may be surprising, as it is a likelihood ratio with respect to $\sry|\srx,\srz$ rather than $\srx|\sry,\srz$. In fact, we see in the proof (Appendix~\ref{sec:proofs-sec2}) that these two likelihood ratios are equivalent, with the former yielding a more explicit expression. Note also that the denominator of $T^{\text{opt}}$ can be omitted if desired, since it is not a function of $\srx$. We keep it for a more direct parallel with the model-$\sry|\srx$ case. % Though this paper is primarily concerned with the CRT, we also obtain a parallel result about MX knockoffs in Section~\ref{sec:knockoffs}. 
-\textcolor{blue}{We leave open the question of whether $\phi^{\CRT}_{T^\textnormal{opt}}$ is also the most powerful test among not just conditionally valid tests~\eqref{eq:conditional-validity} but also among marginally valid tests~\eqref{marginal-validity}. There do at least exist marginally valid tests that are not conditionally valid.}
+We leave open the question of whether $\phi^{\CRT}_{T^\textnormal{opt}}$ is also the most powerful test among not just conditionally valid tests~\eqref{eq:conditional-validity} but also among marginally valid tests~\eqref{marginal-validity}. There do at least exist marginally valid tests that are not conditionally valid.
 
 The proof of Theorem~\ref{prop:crt-optimality} (Appendix~\ref{sec:proofs-sec2}) is based on the reduction in Section~\ref{sec:bridge} of the composite null to a point null by conditioning, followed by the Neyman-Pearson lemma. Note that the likelihood ratio in the model $\mathcal L(\prx|\pry, \prz)$ reduces to the likelihood in the model $\mathcal L(\pry|\prx, \prz)$ up to constant factors; see derivation~\eqref{eq:likelihood-ratio-derivation}. This argument has similar flavor to the theory of unbiased testing (see Lehmann and Romano \cite[Chapter 4]{TSH}), where uniformly most powerful unbiased tests can be found by conditioning on sufficient statistics for nuisance parameters. Our result is also analogous to but different from Lehmann's derivation of the most powerful permutation tests using conditioning followed by the Neyman-Pearson lemma, in randomization-based causal inference (see the rejoinder of Rosenbaum's 2002 discussion paper \cite{Rosenbaum2002}, Section 5.10 of Lehmann (1986), now Lehmann and Romano \cite[Section 5.9]{TSH}).
 
@@ -593,7 +589,7 @@ Theorem~\ref{prop:crt-optimality} and Corollary~\ref{cor:crt-optimality} imply t
 \bar f(\pry|\prx,\prz) = N(\prx^T\beta + \prz^T \gamma, \sigma^2) \text{ for coefficients } \beta \in \mathbb R^d \text{ and } \gamma \in \mathbb R^p,
 \label{linear-model}
 \end{equation}
-then the optimal test rejects for small values of $\|\sry - \srx \beta - \srz \gamma \|^2$. In Section~\ref{sec:knockoffs}, we establish an analogous optimality statement for MX knockoffs as well. Since the optimal test depends on the alternative distribution $\bar{\mathcal L}(\pry|\prx,\prz)$, CRT and MX knockoffs implementations usually employ a machine learning step to search through the composite alternative (not unlike a likelihood ratio test) for a good approximation $\widehat f_{\pry|\prx,\prz}$. These approximate models are then summarized in various ways to define a test statistic $T$. There is no consensus yet on the best test statistic to use, with some authors \cite{CetL16, SetC17, SetS19} using combinations of fitted coefficients $\widehat \beta$ and others  \cite{Tansey2018, Bates2020} using likelihood-based test statistics. The above optimality results align more closely with the latter strategy. \textcolor{blue}{Theorem~\ref{prop:crt-optimality} has inspired an extension of the CRT to the sequential setting using a likelihood-based test statistic, accompanied by a similar optimality result~\cite{Grunwald2022}.} Likelihood-based test statistics also have the advantage of avoiding ad hoc combination rules for $\widehat \beta \in \mathbb R^d$ when $d > 1$. It remains to be seen whether likelihood-based or coefficient-based test statistics yield greater power in practice, but a thorough empirical comparison is beyond the scope of this work. For now, it suffices to note that, despite its simplicity, this is the first such power optimality result in the CRT literature.
+then the optimal test rejects for small values of $\|\sry - \srx \beta - \srz \gamma \|^2$. In Section~\ref{sec:knockoffs}, we establish an analogous optimality statement for MX knockoffs as well. Since the optimal test depends on the alternative distribution $\bar{\mathcal L}(\pry|\prx,\prz)$, CRT and MX knockoffs implementations usually employ a machine learning step to search through the composite alternative (not unlike a likelihood ratio test) for a good approximation $\widehat f_{\pry|\prx,\prz}$. These approximate models are then summarized in various ways to define a test statistic $T$. There is no consensus yet on the best test statistic to use, with some authors \cite{CetL16, SetC17, SetS19} using combinations of fitted coefficients $\widehat \beta$ and others  \cite{Tansey2018, Bates2020} using likelihood-based test statistics. The above optimality results align more closely with the latter strategy. Theorem~\ref{prop:crt-optimality} has inspired an extension of the CRT to the sequential setting using a likelihood-based test statistic, accompanied by a similar optimality result~\cite{Grunwald2022}. Likelihood-based test statistics also have the advantage of avoiding ad hoc combination rules for $\widehat \beta \in \mathbb R^d$ when $d > 1$. It remains to be seen whether likelihood-based or coefficient-based test statistics yield greater power in practice, but a thorough empirical comparison is beyond the scope of this work. For now, it suffices to note that, despite its simplicity, this is the first such power optimality result in the CRT literature.
 
 %\begin{equation}
 %\begin{split}
@@ -649,12 +645,12 @@ First, we define an asymptotic framework within which we will work in Sections~\
 	\label{eq:conditional-mean-variance}
 \end{equation}
 
-Now, consider a set of semiparametric \textcolor{blue}{(partially linear)} alternatives $\mathcal L_n(\pry|\prx,\prz)$ such that
+Now, consider a set of semiparametric (partially linear) alternatives $\mathcal L_n(\pry|\prx,\prz)$ such that
 \begin{equation}
 	\pry = \prx^T \beta_n + g_n(\prz) + \peps; \quad \peps \sim N(0, \sigma^2 ),\ \sigma^2 > 0
 	\label{eq:linearity}
 \end{equation}
-for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. \textcolor{blue}{We emphasize that---in this section and throughout the paper---we use the partially linear model~\eqref{eq:linearity} exclusively as an alternative distribution against which to assess power, rather than an additional assumption required for Type-I error control.} By Theorem~\ref{prop:crt-optimality}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
+for $\peps \independent (\prx, \pry, \prz)$. Here, $\beta_n \in \mathbb R^d$ is a coefficient vector, $g_n: \mathbb R^p \rightarrow \mathbb R$ a general function, and $\sigma^2 > 0$ the residual variance. Of special interest are local alternatives where $\beta_n = h/\sqrt{n}$ for some $h \in \mathbb R^d$. We emphasize that---in this section and throughout the paper---we use the partially linear model~\eqref{eq:linearity} exclusively as an alternative distribution against which to assess power, rather than an additional assumption required for Type-I error control. By Theorem~\ref{prop:crt-optimality}, the most powerful test against the alternative~\eqref{eq:linearity} is the CRT based on the likelihood statistic 
 \begin{equation}
 \begin{split}
 T_n^{\text{opt}}(\srx, \sry, \srz) &= \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\left(-\frac{1}{2\sigma^2}\left(\sry_i - \srx_i^T \beta_n - g_n(\srz_i)\right)^2\right) \\
@@ -664,7 +660,7 @@ T_n^{\text{opt}}(\srx, \sry, \srz) &= \prod_{i = 1}^n\frac{1}{(2\pi)^{1/2}}\exp\
 \end{equation}
 where
 \begin{equation}
-\color{blue}\bar g_n(\prz)\color{black} \equiv \mathbb E[\pry|\prz] =  \mu_n(\prz)^T\beta_n  + g_n(\prz).
+\bar g_n(\prz) \equiv \mathbb E[\pry|\prz] =  \mu_n(\prz)^T\beta_n  + g_n(\prz).
 \label{eq:g-n-prime-def}
 \end{equation}
 Assuming local alternatives $\beta_n = h/\sqrt n$ and taking a logarithm, we obtain
@@ -747,7 +743,7 @@ It follows that the dCRT based on test statistic $T_n(\srx, \sry, \srz)$ yields 
 \end{equation}
 where we recall that $c_{d,1-\alpha}$ is defined as the $1-\alpha$ quantile of $\chi^2_d$. Note that all tests $\phi$ in Sections~\ref{sec:weakening} and~\ref{sec:asymptotic-power} will be (d)CRTs based on the test statistic $T_n$~\eqref{t-n}. To ease notation, we therefore omit the subscript $T_n$ and the superscript ``CRT'' from the notation introduced in equation~\eqref{eq:randomized-CRT}, replacing these with $n$ and the distribution of $\prx|\prz$ with respect to which resampling is done, respectively. For example, the superscript in the test defined in equation~\eqref{eq:crt-closed-form} is based on the resampling distribution $\prx|\prz \sim N(\mu_n(\prz), \Sigma_n(\prz))$.
 
-If the conditional distribution $\mathcal L_n(\prx|\prz)$ is not Gaussian, then the dCRT $\phi_n^{\mathcal L_n}$ based on $T_n(\srx, \sry, \srz)$ will not reduce to the closed-form expression~\eqref{eq:crt-closed-form}. However, we can think of the test $\phi^{N(\mu_n, \Sigma_n)}_n$ as a kind of second-order approximation for $\phi_n^{\mathcal L_n}$ as long as $\mathcal L_n(\prx|\prz)$ has first and second moments given by $\mu_n(\prz)$ and $\Sigma_n(\prz)$, respectively. Indeed, it is easy to check that the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ matches that derived in the normal case~\eqref{eq:normal-resampling-distribution} up to two moments. Under a few assumptions, we can make this intuition precise by showing that $\phi_n^{\mathcal L_n}$ is asymptotically equivalent to $\phi^{N(\mu_n, \Sigma_n)}_n$ (Theorem~\ref{thm:equivalence} below). We require the distribution $\mathcal L_n$ to satisfy the following moment conditions\color{blue}\footnote{\textcolor{blue}{The exponents in these moment conditions can be relaxed from 4 to $2+\delta$, in particular, requiring an appropriate triangular array weak law of large numbers with 1+$\delta$ moments. This slight weakening of moment conditions requires significantly more technical effort, so is omitted for simplicity since it does not alter the main takeaway messages of our analysis.}} \color{black} for fixed $c_1, c_2 > 0$:
+If the conditional distribution $\mathcal L_n(\prx|\prz)$ is not Gaussian, then the dCRT $\phi_n^{\mathcal L_n}$ based on $T_n(\srx, \sry, \srz)$ will not reduce to the closed-form expression~\eqref{eq:crt-closed-form}. However, we can think of the test $\phi^{N(\mu_n, \Sigma_n)}_n$ as a kind of second-order approximation for $\phi_n^{\mathcal L_n}$ as long as $\mathcal L_n(\prx|\prz)$ has first and second moments given by $\mu_n(\prz)$ and $\Sigma_n(\prz)$, respectively. Indeed, it is easy to check that the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ matches that derived in the normal case~\eqref{eq:normal-resampling-distribution} up to two moments. Under a few assumptions, we can make this intuition precise by showing that $\phi_n^{\mathcal L_n}$ is asymptotically equivalent to $\phi^{N(\mu_n, \Sigma_n)}_n$ (Theorem~\ref{thm:equivalence} below). We require the distribution $\mathcal L_n$ to satisfy the following moment conditions \footnote{The exponents in these moment conditions can be relaxed from 4 to $2+\delta$, in particular, requiring an appropriate triangular array weak law of large numbers with 1+$\delta$ moments. This slight weakening of moment conditions requires significantly more technical effort, so is omitted for simplicity since it does not alter the main takeaway messages of our analysis.}for fixed $c_1, c_2 > 0$:
 \small
 \begin{equation}
 \mathcal L_n \in \mathscr L_n(c_1, c_2) \equiv \{\mathcal L_n: \|S_{n}^{-1}\| \leq c_1, \mathbb E_{\mathcal L_n}\left[(\pry - \widehat g_n(\prz))^{4} \mathbb E_{\mathcal L_n}[\|\prx - \mu_n(\prz)\|^{4}|\prz]\right] \leq c_2 \},
@@ -758,7 +754,7 @@ where
 \begin{equation}
 S_n^2 \equiv \mathbb E[\widehat S_n^2] = \mathbb E_{\mathcal L_n}\left[(\pry - \widehat g_n(\prz))^2 \Sigma_n(\prz)\right].
 \end{equation}
-Furthermore, to avoid technical complications, we assume that the estimate $\widehat g_n$ is trained on an independent dataset (whose size can vary arbitrarily with $n$ and is not included in the sample size $n$ used for testing). \textcolor{blue}{For example, there has been recent interest in combining observational and experimental (randomized) data; typically, the former is much more abundant than the latter. We can think of $\widehat g_n$ being trained on the former, and then used for MX inference on the latter \cite{Bates2020}.}
+Furthermore, to avoid technical complications, we assume that the estimate $\widehat g_n$ is trained on an independent dataset (whose size can vary arbitrarily with $n$ and is not included in the sample size $n$ used for testing). For example, there has been recent interest in combining observational and experimental (randomized) data; typically, the former is much more abundant than the latter. We can think of $\widehat g_n$ being trained on the former, and then used for MX inference on the latter \cite{Bates2020}.
 These training sets across $n$ and resulting estimates $\widehat g_n$ remain fixed throughout.
 
 \begin{theorem} \label{thm:equivalence}
@@ -779,7 +775,7 @@ Suppose that for each $n$, $\mathcal L_n$ is a law whose first and second condit
 	\end{equation}	
 \end{theorem}
 
-Informally, this theorem (proved in Appendix~\ref{sec:proofs-sec45}) suggests that the CRT resampling distribution of $T_n(\srx, \sry, \srz)$ converges to $\chi^2_d$, which is the resampling distribution of this test statistic under a normal $\mathcal L_n(\prx|\prz)$. Note that the resulting equivalence~\eqref{eq:asymptotic-equivalence} holds for the specific instance of the CRT based on the statistic $T_n$ defined in via equations~\eqref{u-hat} and~\eqref{t-n}, though other kinds of test statistics may lead to similar large-sample behavior. While Theorem~\ref{thm:equivalence} is stated for $\widehat g_n$ trained out of sample, we conjecture that it continues to hold when $\widehat g_n$ is fit in sample, as in the original dCRT construction \cite{Liu2020}. \textcolor{blue}{At least, we observe that the conditioning in the construction of the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ ensures that its mean and variance remain equal to $0$ and $\widehat S_n^2$ even when $\widehat g_n$ is fit in sample.}
+Informally, this theorem (proved in Appendix~\ref{sec:proofs-sec45}) suggests that the CRT resampling distribution of $T_n(\srx, \sry, \srz)$ converges to $\chi^2_d$, which is the resampling distribution of this test statistic under a normal $\mathcal L_n(\prx|\prz)$. Note that the resulting equivalence~\eqref{eq:asymptotic-equivalence} holds for the specific instance of the CRT based on the statistic $T_n$ defined in via equations~\eqref{u-hat} and~\eqref{t-n}, though other kinds of test statistics may lead to similar large-sample behavior. While Theorem~\ref{thm:equivalence} is stated for $\widehat g_n$ trained out of sample, we conjecture that it continues to hold when $\widehat g_n$ is fit in sample, as in the original dCRT construction \cite{Liu2020}. At least, we observe that the conditioning in the construction of the resampling distribution $\mathcal L_n(\sqrt n \cdot \widehat \rho_n(\srxk, \sry, \srz) \mid \srx, \sry, \srz)$ ensures that its mean and variance remain equal to $0$ and $\widehat S_n^2$ even when $\widehat g_n$ is fit in sample.
 
 Theorem~\ref{thm:equivalence} has several consequences. First, it allows us to study the power of the dCRT $\phi_n^{\mathcal L_n}$ against semiparametric alternatives~\eqref{eq:linearity} by studying instead the simpler test $\phi_n^{N(\mu_n, \Sigma_n)}$. We pursue this direction in Section~\ref{sec:asymptotic-power}. Second, it implies a certain robustness property of the dCRT. Indeed, suppose we run the dCRT based on an incorrect law $\mathcal L'_n \neq \mathcal L_n$, but whose first and second moments match that of $\mathcal L_n$ and such that $\mathcal L_n$ is contiguous with respect to $\mathcal L'_n$. Then, applying Theorem~\ref{thm:equivalence} to $\mathcal L_n$ and $\mathcal L'_n$ implies that $\mathbb P_{\mathcal L_n}[\phi^{\mathcal L'_n}_n(\srx, \sry, \srz) \neq \phi^{\mathcal L_n}_n(\srx, \sry, \srz)] \rightarrow 0$. It follows that since $\phi^{\mathcal L_n}_n$ controls the type-I error asymptotically (in fact, also in finite samples), then so does $\phi^{\mathcal L'_n}_n$. We omit the formal statement of this result for the sake of brevity. Third, it suggests a distinct conditional independence test with valid Type-I error control under the weaker assumption that only the first two moments of $\mathcal L_n(\prx|\prz)$ are known. We expand on this third consequence next.
 
@@ -813,7 +809,7 @@ Under the MX(2) assumption, the CRT is undefined because there is no conditional
 			\KwData{
 				$\{(\srx_i, \sry_i, \srz_i)\}_{i=1}^n$, $\mu_n(\cdot)$ and $\Sigma_n(\cdot)$ in \eqref{eq:conditional-mean-variance}, learning method $g$
 			}
-			Obtain $\widehat g_n$ by fitting $g$ \textcolor{blue}{out of sample}\;
+			Obtain $\widehat g_n$ by fitting $g$ out of sample\;
 			Recall $\mu_n(\srz_i) \equiv \mathbb E_{\mathcal L_n}[\srx_i|\srz_i], \text{ set } \widehat S_n^2 \equiv \frac{1}{n}\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))^2\Sigma_n(\srz_i)$\;
 			Set $\smash{U_n \equiv \frac{\widehat S_n^{-1}}{\sqrt{n}}\sum_{i = 1}^n (\sry_{i} - \widehat g_n(\srz_{i}))(\srx_{i} - \mu_n(\srz_i))}$ and $T_n = \|U_n\|^2$\;
 			% Compute $T(\srx,\sry,\srz) \equiv \sum_{i = 1}^n \ell(\sry_i, (\srx_i-\mu_n(\srz_i)) \widehat \beta + \widehat g_n(\srz_i))$\;
@@ -846,7 +842,7 @@ Therefore, the MX(2) $F$-test controls Type-I error asympotically, uniformly ove
 \end{equation}
 \end{theorem}
 
-See Appendix~\ref{sec:proofs-sec45} for a proof of this theorem. The moment assumptions can be relaxed for pointwise error control (less desirable), but are unavoidable for uniform type-I error control as stated in the corollary. More importantly, we conjecture that the MX(2) $F$-test continues to have asymptotic Type-I error control even if $\widehat g_n$ is fit in sample. \textcolor{blue}{One may expect this because the validity of the MX(2) $F$-test derives from the correctness of $(\mu_n, \Sigma_n)$ rather than that of $\widehat g_n$.} This conjecture is supported by the results of a simulation study \textcolor{blue}{presented in Appendix~\ref{sec:simulations}}.
+See Appendix~\ref{sec:proofs-sec45} for a proof of this theorem. The moment assumptions can be relaxed for pointwise error control (less desirable), but are unavoidable for uniform type-I error control as stated in the corollary. More importantly, we conjecture that the MX(2) $F$-test continues to have asymptotic Type-I error control even if $\widehat g_n$ is fit in sample. One may expect this because the validity of the MX(2) $F$-test derives from the correctness of $(\mu_n, \Sigma_n)$ rather than that of $\widehat g_n$. This conjecture is supported by the results of a simulation study presented in Appendix~\ref{sec:simulations}.
 
 \subsection{Comparison to existing results} \label{sec:comparison-to-existing-results-3}
 
@@ -911,7 +907,7 @@ Theorem~\ref{thm:equivalence} is a statement about the asymptotic equivalence be
 
 \paragraph{}
 
-\textcolor{blue}{Having found that the dCRT is a natural test to apply for power against semiparametric alternatives, and that this test is equivalent to the simpler MX(2) $F$-test, we are ready to study the relationship between the power of the dCRT and the quality of the underlying machine learning procedure.}
+Having found that the dCRT is a natural test to apply for power against semiparametric alternatives, and that this test is equivalent to the simpler MX(2) $F$-test, we are ready to study the relationship between the power of the dCRT and the quality of the underlying machine learning procedure.
 
 %\begin{landscape} 
 %	\thispagestyle{empty}
@@ -1160,7 +1156,7 @@ Finally, we note a connection between Theorem~\ref{thm:power} and causal inferen
 %Figure~\ref{fig:optimal-training-fraction} depicts these relationships, and several interesting patterns emerge. When the aspect ratio is low ($\gamma = 0.25$), it is optimal to use some data for training even for weak signals. As signal strength increases, the optimal training fraction levels out slightly above 0.5. On the other hand, for higher aspect ratios ($\gamma = 0.5, 0.75$), the ridge regression problem is too challenging for weak signals and there is no hope of achieving any variance reduction for weak signals. Therefore, all data should be used for testing. As the signal strength increases, however, the benefit to training outweighs the cost and it is optimal to use training fractions of up to around 0.8. A phase transition is known to occur at $\gamma = 1$ \cite{dobriban2018a}, and this manifests itself in Figure~\ref{fig:optimal-training-fraction}: for this aspect ratio (and higher) the problem is hard enough that it is better to use a null model and reserve all the data for hypothesis testing purposes.
 
 
-\section{\textcolor{blue}{Most powerful} one-bit $p$-values for knockoffs}
+\section{Most powerful one-bit $p$-values for knockoffs}
 \label{sec:knockoffs}
 
 MX knockoffs \cite{CetL16} operate differently than the CRT; they simultaneously test the conditional associations of many variables with a response. Given $m$ variables $\prx_1, \dots, \prx_m$ and a response $\pry$, it is of interest to test the CI hypotheses
@@ -1181,7 +1177,7 @@ and conditional independence
 \pry \independent \prxk \mid \prx.
 \label{knockoff-conditional-independence}
 \end{equation}
-Here, $\prx_j \in \mathbb R$ denotes the $j$th element of the vector $\prx \in \mathbb R^m$ and $\prx_{-j} \in \mathbb R^{m-1}$ denotes all elements except the $j$th. Also, $\srx_{i,\bullet} \in \mathbb R^{n}$, $\srx_{\bullet, j} \in \mathbb R^m$, and $\srx_{\bullet, -j} \in \mathbb R^{n \times (m-1)}$ denote the $i$th row, $j$th column, and all columns but the $j$th of the matrix $\srx \in \mathbb R^{n \times m}$. Given such a construction, a set of knockoff variables $\srxk_{i,\bullet}$ is sampled from  $\mathcal L(\prxk|\prx = \srx_{i,\bullet})$ for each $i$. \color{blue} Knockoff inference is then based on a form of data-carving: variables are given an ordering $\tau(1), \dots, \tau(m)$ determined arbitrarily from $([\srx, \srxk], \sry)$ as long as $\srx_{\bullet, j}$ and $\srxk_{\bullet, j}$ are treated symmetrically. Variables are then tested in that order based on \textit{one-bit $p$-values} $p_j$ measuring the contrast between the strength of association between $\srx_{\bullet, j}$ and $\sry$ and that between $\srxk_{\bullet, j}$ and $\sry$. \color{black} Given any statistic $T_j([\srx, \srxk], \sry)$ measuring the strength of association between $\srx_j$ and $\sry$, define the one-bit $p$-value
+Here, $\prx_j \in \mathbb R$ denotes the $j$th element of the vector $\prx \in \mathbb R^m$ and $\prx_{-j} \in \mathbb R^{m-1}$ denotes all elements except the $j$th. Also, $\srx_{i,\bullet} \in \mathbb R^{n}$, $\srx_{\bullet, j} \in \mathbb R^m$, and $\srx_{\bullet, -j} \in \mathbb R^{n \times (m-1)}$ denote the $i$th row, $j$th column, and all columns but the $j$th of the matrix $\srx \in \mathbb R^{n \times m}$. Given such a construction, a set of knockoff variables $\srxk_{i,\bullet}$ is sampled from  $\mathcal L(\prxk|\prx = \srx_{i,\bullet})$ for each $i$. Knockoff inference is then based on a form of data-carving: variables are given an ordering $\tau(1), \dots, \tau(m)$ determined arbitrarily from $([\srx, \srxk], \sry)$ as long as $\srx_{\bullet, j}$ and $\srxk_{\bullet, j}$ are treated symmetrically. Variables are then tested in that order based on \textit{one-bit $p$-values} $p_j$ measuring the contrast between the strength of association between $\srx_{\bullet, j}$ and $\sry$ and that between $\srxk_{\bullet, j}$ and $\sry$. Given any statistic $T_j([\srx, \srxk], \sry)$ measuring the strength of association between $\srx_j$ and $\sry$, define the one-bit $p$-value
 \begin{equation}
 p_j([\srx, \srxk], \sry) \equiv 
 \begin{cases}
@@ -1193,9 +1189,9 @@ p_j([\srx, \srxk], \sry) \equiv
 Here, $[\srx, \srxk]_{\text{swap}(j)}$ is defined as the result of swapping $\srx_{\bullet, j}$ with $\srxk_{\bullet, j}$ in $[\srx, \srxk]$ while keeping all other columns in place. A set of variables with guaranteed false discovery rate control is chosen via the ordered testing procedure \textit{Selective SeqStep} \cite{BC15}, applied to the $p$-values $p_j$ in the order $\tau$.
 
 
-\subsection{\textcolor{blue}{Most powerful} one-bit $p$-value}
+\subsection{Most powerful one-bit $p$-value}
 
-It is harder to analyze the power of knockoffs than that of the CRT for several reasons. Knockoffs is fundamentally a \textit{multiple} testing procedure, coupling the analysis of $H_j$ across variables $j$. Furthermore, the qualities of the ordering $\tau$ and of the one-bit $p$-values $p_j$ both contribute to the power of knockoffs. Due to these challenges, no optimality results are currently available for knockoffs. We take a first step in this direction by exhibiting the test statistics $T_j$ that lead to \textcolor{blue}{most powerful} one-bit $p$-values against a point alternative. 
+It is harder to analyze the power of knockoffs than that of the CRT for several reasons. Knockoffs is fundamentally a \textit{multiple} testing procedure, coupling the analysis of $H_j$ across variables $j$. Furthermore, the qualities of the ordering $\tau$ and of the one-bit $p$-values $p_j$ both contribute to the power of knockoffs. Due to these challenges, no optimality results are currently available for knockoffs. We take a first step in this direction by exhibiting the test statistics $T_j$ that lead to most powerful one-bit $p$-values against a point alternative. 
 
 \begin{theorem} \label{prop:knockoff-optimality}
 	Let $\bar{\mathcal L}$ be a fixed alternative distribution for $(\prx,\pry)$, with $\bar{\mathcal L}(\pry|\prx) = \bar f(\pry|\prx)$. Define the likelihood statistic
@@ -1209,7 +1205,7 @@ It is harder to analyze the power of knockoffs than that of the CRT for several 
 	\mathbb P_{\bar {\mathcal L}}[T^{\textnormal{opt}}_j([\srx, \srxk], \sry) = T^{\textnormal{opt}}_j([\srx, \srxk]_{\textnormal{swap}(j)}, \sry), \srx_{\bullet, j} \neq \srxk_{\bullet, j}] = 0, 
 	\label{nondegeneracy-assumption}
 	\end{equation}
-	we have that the above likelihood statistic yields \textcolor{blue}{an optimal one-bit $p$-value:}
+	we have that the above likelihood statistic yields an optimal one-bit $p$-value:
 	\begin{equation}
 	T_j^{\textnormal{opt}} \in \underset{T_j}{\arg \max}\ \mathbb P[T_j([\srx, \srxk], \sry) > T_j([\srx, \srxk]_{\textnormal{swap}(j)}, \sry)].
 	\label{unconditional-knockoff-optimality}
@@ -1235,7 +1231,7 @@ Theorem~\ref{prop:knockoff-optimality} requires that ties occur with probability
 %\prod_{i = 1}^n \frac{\bar f(\sry_i|\srx_i, \srz_i)}{\bar f(\sry_i|\srxk_i,\srz_i)} > \prod_{i = 1}^n \frac{\bar f(\sry_i|\srxk_i, \srz_i)}{\bar f(\sry_i|\srx_i,\srz_i)} \ \ \Longleftrightarrow \ \  \prod_{i = 1}^n \frac{\bar f(\sry_i|\srx_i, \srz_i)}{\bar f(\sry_i|\srz_i)} > \prod_{i = 1}^n \frac{\bar f(\sry_i|\srxk_i, \srz_i)}{\bar f(\sry_i|\srz_i)}.
 %\end{equation*}
 %While the likelihood ratio gives the most powerful one-bit $p$-values for a given set of knockoff variables, note that the resulting test is not necessarily the most powerful level-1/2 test of $H_0$. It follows from  Theorem~\ref{prop:crt-optimality} that this most powerful test is the CRT. For level $\alpha = 1/2$, this reduces to the optimal knockoffs test if the knockoffs variables were independently sampled from the originals, conditionally on $\srz$. This reflects the well-known phenomenon that the power of knockoffs degrades as the correlation between $\srx$ and $\srxk$ increases. While in the CRT it is always possible to sample $\srxk$ independently of $\srx$, for knockoffs one must settle for only exchangeability due to the extra constraints that characterize this method when applied simultaneously to test many variables. 
-Finally, we remark that there are a few existing power analyses for knockoffs, all in high-dimensional asymptotic regimes and assuming lasso-based test statistics. Weinstein et al \cite{Weinstein2017} analyze the power of a knockoffs variant in the case of independent Gaussian covariates, while Liu and Rigollet \cite{Liu2019} and Fan et al \cite{Fan2020} study conditions for consistency under correlated designs. Our finite-sample optimality result for the likelihood statistic is complementary to these previous works. \textcolor{blue}{Recently, Theorem~\ref{prop:knockoff-optimality} inspired a more powerful variant of knockoffs based on \textit{masked likelihood ratio} statistics, which comes with a different kind of optimality guarantee \cite{Spector2022}.}
+Finally, we remark that there are a few existing power analyses for knockoffs, all in high-dimensional asymptotic regimes and assuming lasso-based test statistics. Weinstein et al \cite{Weinstein2017} analyze the power of a knockoffs variant in the case of independent Gaussian covariates, while Liu and Rigollet \cite{Liu2019} and Fan et al \cite{Fan2020} study conditions for consistency under correlated designs. Our finite-sample optimality result for the likelihood statistic is complementary to these previous works. Recently, Theorem~\ref{prop:knockoff-optimality} inspired a more powerful variant of knockoffs based on \textit{masked likelihood ratio} statistics, which comes with a different kind of optimality guarantee \cite{Spector2022}.
 
 
 
@@ -1315,7 +1311,7 @@ Much still remains to be done to systematically understand the theoretical prope
 
 
 \section*{Acknowledgments}
-We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments on earlier versions of the manuscript, as well as Ed Kennedy and Larry Wasserman for discussions of the connections to causal inference. \textcolor{blue}{We also thank two anonymous referees for constructive feedback that greatly helped us improve the manuscript.}
+We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments on earlier versions of the manuscript, as well as Ed Kennedy and Larry Wasserman for discussions of the connections to causal inference. We also thank two anonymous referees for constructive feedback that greatly helped us improve the manuscript.
 
 
 \printbibliography
@@ -1325,7 +1321,7 @@ We thank Asaf Weinstein, Timothy Barry, and Stephen Bates for detailed comments 
 \section{Proofs of Theorem~\ref{prop:crt-optimality}} \label{sec:proofs-sec2}
 
 \begin{proof}
-Let $\phi$ be any test satisfying conditional validity property~\eqref{eq:conditional-validity}. \color{blue}Let $\mathcal A$ be a set of pairs $(\sfy, \sfz)$, for which both $\phi$ and $\phi^{\CRT}_{T^{\textnormal{opt}}}$ have level $\alpha$ conditionally on $\sry = \sfy, \srz = \sfz$. By assumption, $\mathbb P[(\sry, \srz) \in \mathcal A] = 1$. \color{black} Now, fix realizations $(\sfy, \sfz) \in \mathcal A$. We first claim that the conditional power of $\phi$ is bounded above by that of $\phi^{\CRT}_{T^{\textnormal{opt}}}$, i.e.
+Let $\phi$ be any test satisfying conditional validity property~\eqref{eq:conditional-validity}. Let $\mathcal A$ be a set of pairs $(\sfy, \sfz)$, for which both $\phi$ and $\phi^{\CRT}_{T^{\textnormal{opt}}}$ have level $\alpha$ conditionally on $\sry = \sfy, \srz = \sfz$. By assumption, $\mathbb P[(\sry, \srz) \in \mathcal A] = 1$. Now, fix realizations $(\sfy, \sfz) \in \mathcal A$. We first claim that the conditional power of $\phi$ is bounded above by that of $\phi^{\CRT}_{T^{\textnormal{opt}}}$, i.e.
 	\begin{equation}
 		\mathbb E_{\bar{\mathcal L}}[\phi(\srx,\sfy,\sfz)|\sry = \sfy, \srz = \sfz] \leq \mathbb E_{\bar{\mathcal L}}[\phi^{\CRT}_{T^\textnormal{opt}}(\srx, \sfy, \sfz)|\sry = \sfy, \srz = \sfz]
 		\label{conditional-optimality}
@@ -1353,7 +1349,7 @@ Let $\phi$ be any test satisfying conditional validity property~\eqref{eq:condit
  \frac{\prod_{i = 1}^n f^*(\sfx_i|\sfz_i)\frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)}}{\prod_{i = 1}^n f^*(\sfx_i|\sfz_i)} = \prod_{i = 1}^n \frac{\bar f(\sfy_i|\sfx_i, \sfz_i)}{\bar f(\sfy_i|\sfz_i)} \propto T^{\text{opt}}(\sfx, \sfy, \sfz),
 	\label{eq:likelihood-ratio-derivation}
 	\end{equation}
-	verifying the conditional optimality claim~\eqref{conditional-optimality}. \color{blue}To obtain the unconditional claim~\eqref{unconditional}, we take an expectation over $\sry, \srz$ and use the fact that $\mathbb P[(\sry, \srz) \in \mathcal A] = 1$:
+	verifying the conditional optimality claim~\eqref{conditional-optimality}. To obtain the unconditional claim~\eqref{unconditional}, we take an expectation over $\sry, \srz$ and use the fact that $\mathbb P[(\sry, \srz) \in \mathcal A] = 1$:
 	\begin{equation}
 		\begin{split}
 			\mathbb E_{\bar{\mathcal L}}[\phi(\srx,\sry,\srz)] &= \mathbb E_{\bar{\mathcal L}}[\phi(\srx,\sry,\srz) \mid (\sry, \srz) \in \mathcal A] \\
@@ -1362,7 +1358,6 @@ Let $\phi$ be any test satisfying conditional validity property~\eqref{eq:condit
 			&= \mathbb E_{\bar{\mathcal L}}\left[\phi^{\CRT}_{T^\textnormal{opt}}(\srx,\sry,\srz) \mid (\sry, \srz) \in \mathcal A\right] = \mathbb E_{\bar{\mathcal L}}[\phi^{\CRT}_{T^\textnormal{opt}}(\srx, \sry, \srz)].
 		\end{split}	
 	\end{equation}
-\color{black}
 This completes the proof.
 \end{proof}
 
