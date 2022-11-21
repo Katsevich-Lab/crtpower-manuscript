@@ -139,9 +139,9 @@ Machine Learning Department, Carnegie Mellon University \\
 \end{abstract}
 
 \begin{keyword}[class=MSC]
-\kwd[Primary ]{60K35}
-\kwd{60K35}
-\kwd[; secondary ]{60K35}
+\kwd[Primary ]{62G10}
+\kwd{62G20}
+\kwd[; secondary ]{62J07}
 \end{keyword}
 
 \begin{keyword}
@@ -574,12 +574,14 @@ where $\widehat \mu_n(\prz)$ and $\widehat g_n(\prz)$ are estimates of $\mu_n(\p
 
 \begin{table}[h!]
 	\small
-	\begin{tabular}{l|lllll}
-		Method & $\mathcal E(\mathbb E[\prx|\prz]$) & $\mathcal E(\text{Var}[\prx|\prz])$ & $\mathcal E(\mathcal L(\prx|\prz))$ & $\mathcal E(\mathbb E[\pry|\prz]$) & $\mathcal E(\mathbb E[\prx|\prz]) \times \mathcal E(\mathbb E[\pry|\prz])$ \\
+	\begin{tabular}{l|lll}
+		 & CRT & MX(2) $F$-test & GCM test \\
 		\hline
-		CRT & 0 & 0 & 0 & --& --  \\
-		MX(2) $F$-test  & 0 & 0 & -- & -- & -- \\
-		GCM test & $o_p(1)$ & -- & -- & $o_p(1)$ & $o_p(n^{-1/2})$
+		$\mathcal E(\mathbb E[\prx|\prz]$) & 0 & 0 & $o_p(1)$  \\
+		$\mathcal E(\text{Var}[\prx|\prz])$  & 0  & 0 & -- \\
+		$\mathcal E(\mathcal L(\prx|\prz))$ & 0 & -- & -- \\
+		$\mathcal E(\mathbb E[\pry|\prz]$) & -- & -- & $o_p(1)$ \\
+		$\mathcal E(\mathbb E[\prx|\prz]) \times \mathcal E(\mathbb E[\pry|\prz])$ & -- & -- & $o_p(n^{-1/2})$
 	\end{tabular}
 	\caption{Assumptions necessary for each method compared (excluding moment assumptions). Here, $\mathcal E(\cdot)$ refers to the root-mean-squared estimation error of a given quantity.}
 	\label{tab:summary-2}
@@ -850,9 +852,14 @@ Let's assume for simplicity that $\text{dim}(\prx) = 1$. Define $(\prx,\prz) \in
 	\text{initial state } \prx \sim \text{Ber}(\pi_{\text{init}}) \text{ and transition matrix } \begin{pmatrix}1-\pi_\text{flip} & \pi_{\text{flip}} \\  \pi_{\text{flip}} &  1-\pi_{\text{flip}}\end{pmatrix}.
 \end{equation*}
 More explicitly, we have
+\small
 \begin{equation*}
-	\mathbb P[\prx = x, \prz = z] = \pi_{\text{init}}^{x}(1-\pi_{\text{init}})^{1-x} \pi_{\text{flip}}^{\mathbbm 1(z_1 \neq x)} (1-\pi_{\text{flip}})^{\mathbbm 1(z_1 = x)} \prod_{j = 2}^p \pi_{\text{flip}}^{\mathbbm 1(z_j \neq z_{j-1})} (1-\pi_{\text{flip}})^{\mathbbm 1(z_j = z_{j-1})}.
+	\begin{split}
+	&\mathbb P[\prx = x, \prz = z] \\
+	&\quad= \pi_{\text{init}}^{x}(1-\pi_{\text{init}})^{1-x} \pi_{\text{flip}}^{\mathbbm 1(z_1 \neq x)} (1-\pi_{\text{flip}})^{\mathbbm 1(z_1 = x)} \prod_{j = 2}^p \pi_{\text{flip}}^{\mathbbm 1(z_j \neq z_{j-1})} (1-\pi_{\text{flip}})^{\mathbbm 1(z_j = z_{j-1})}.
+	\end{split}
 \end{equation*}
+\normalsize
 The parameters $(\pi_{\text{init}}, \pi_{\text{flip}})$ describe the distribution of $\prx|\prz$ and are assumed known. Furthermore, let the response $\pry$ be distributed as a random effects model in $\prz$:
 \begin{equation*}
 	\pry = \prz^T \bm \gamma + \peps, \quad \bm \gamma \sim N(0, \sigma^2_{\gamma}I_p),\ \peps \sim N(0, \sigma^2_\eps I_n).
@@ -984,7 +991,11 @@ Now, we have $\widehat S_n^{-1}S_n \overset{\mathcal L_n}\rightarrow _p  I_d$ by
 \[
 \|\overline \Sigma \beta\| \geq \lambda_{\min}(\overline \Sigma)\|\beta\| = \|\overline \Sigma^{-1}\|^{-1}\|\beta\| \geq \left(\sup_n \|\overline \Sigma_n^{-1}\|\right)^{-1}\|\beta\| > 0,
 \]
-since $\beta \neq 0$ by assumption and assumptions~\eqref{eq:s-n-inverse-assump} and \eqref{eq:limits} imply that $\|\overline \Sigma^{-1}\| \leq \sup_n \|\overline \Sigma_n^{-1}\| < \infty$. Putting these facts together implies that $\sqrt{n}\lambda_{\min}(\widehat S_n^{-1}S_n)\lambda_{\min}(S_n^{-1}) \|\widehat \rho_n\|\overset{\mathcal L_n}\rightarrow _p \infty$, and therefore $T_n(\srx, \sry, \srz) \overset{\mathcal L_n}\rightarrow _p \infty$. Hence,
+since $\beta \neq 0$ by assumption and assumptions~\eqref{eq:s-n-inverse-assump} and \eqref{eq:limits} imply that $\|\overline \Sigma^{-1}\| \leq \sup_n \|\overline \Sigma_n^{-1}\| < \infty$. Putting these facts together implies that 
+\begin{equation*}
+\sqrt{n}\lambda_{\min}(\widehat S_n^{-1}S_n)\lambda_{\min}(S_n^{-1}) \|\widehat \rho_n\|\overset{\mathcal L_n}\rightarrow _p \infty, 
+\end{equation*}
+and therefore $T_n(\srx, \sry, \srz) \overset{\mathcal L_n}\rightarrow _p \infty$. Hence,
 \begin{equation}
 \begin{split}
 \mathbb E_{\mathcal L_n}[\phi_n^{N(\mu_n, \Sigma_n)}(\srx, \sry, \srz)] = \mathbb P_{\mathcal L_n}[T_n(\srx, \sry, \srz) > c_{d,1-\alpha}] \rightarrow 1.
