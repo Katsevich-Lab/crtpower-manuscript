@@ -1,0 +1,31 @@
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Conditional independence testing and the MX assumption}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}MX methodology and open questions}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Our contributions}{4}{subsection.1.3}%
+\contentsline {paragraph}{A1: Conditional inference leads to finite-sample optimality against point alternatives.}{4}{section*.3}%
+\contentsline {paragraph}{A2: The prediction error of the machine learning method impacts the asymptotic efficiency of the dCRT but not its consistency.}{5}{section*.4}%
+\contentsline {paragraph}{A resampling-free second-order approximation to the dCRT is equivalent to the dCRT and controls Type-I error under weaker assumptions.}{5}{section*.5}%
+\contentsline {paragraph}{Notation.}{6}{section*.7}%
+\contentsline {section}{\numberline {2}The most powerful CRT against point alternatives}{6}{section.2}%
+\contentsline {subsection}{\numberline {2.1}CRT is conditionally valid and implicitly tests a point null}{6}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The most powerful conditionally valid test}{7}{subsection.2.2}%
+\contentsline {section}{\numberline {3}An asymptotic equivalent to the distilled CRT}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Semiparametric alternatives and the distilled CRT}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}A second-order approximation to the dCRT}{11}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}The MX(2) assumption and the MX(2) $F$-test}{13}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Comparison to existing results}{15}{subsection.3.4}%
+\contentsline {paragraph}{Comparison to model-X literature.}{15}{section*.9}%
+\contentsline {paragraph}{Comparison to doubly-robust literature.}{15}{section*.10}%
+\contentsline {paragraph}{Comparison to causal inference literature.}{16}{section*.11}%
+\contentsline {paragraph}{}{16}{section*.12}%
+\contentsline {section}{\numberline {4}Notes}{17}{section.4}%
+\contentsline {section}{\numberline {5}Displayed text}{17}{section.5}%
+\contentsline {section}{\numberline {6}Tables and figures}{18}{section.6}%
+\contentsline {section}{\numberline {7}Headings}{20}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Subsection}{20}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}Subsubsection}{20}{subsubsection.7.1.1}%
+\contentsline {section}{\numberline {8}Equations and the like}{20}{section.8}%
+\contentsline {section}{\numberline {A}Appendix section}{21}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Appendix subsection}{21}{subsection.A.1}%
+\contentsline {section}{Acknowledgments}{21}{section*.14}%
+\contentsline {section}{Supplementary Material}{22}{section*.16}%
