@@ -1,0 +1,39 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Conditional independence testing and the MX assumption}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}MX methodology and open questions}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Our contributions}{5}{subsection.1.3}%
+\contentsline {paragraph}{A1: Conditional inference leads to finite-sample optimality against point alternatives.}{5}{section*.3}%
+\contentsline {paragraph}{A2: The prediction error of the machine learning method impacts the asymptotic efficiency of the dCRT but not its consistency.}{5}{section*.4}%
+\contentsline {paragraph}{A resampling-free second-order approximation to the dCRT is equivalent to the dCRT and controls Type-I error under weaker assumptions.}{6}{section*.5}%
+\contentsline {paragraph}{Notation.}{6}{section*.7}%
+\contentsline {section}{\numberline {2}The most powerful CRT against point alternatives}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}CRT is conditionally valid and implicitly tests a point null}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}The most powerful conditionally valid test}{8}{subsection.2.2}%
+\contentsline {section}{\numberline {3}An asymptotic equivalent to the distilled CRT}{10}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Semiparametric alternatives and the distilled CRT}{10}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}A second-order approximation to the dCRT}{12}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}The MX(2) assumption and the MX(2) $F$-test}{14}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Comparison to existing results}{16}{subsection.3.4}%
+\contentsline {paragraph}{Comparison to model-X literature.}{16}{section*.9}%
+\contentsline {paragraph}{Comparison to doubly-robust literature.}{16}{section*.10}%
+\contentsline {paragraph}{Comparison to causal inference literature.}{17}{section*.11}%
+\contentsline {paragraph}{}{18}{section*.12}%
+\contentsline {section}{\numberline {4}dCRT power against semiparametric alternatives}{18}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Power against semiparametric alternatives}{18}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Example: Power of lasso-based CRT}{20}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Comparison to existing results}{21}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Most powerful one-bit $p$-values for knockoffs}{22}{section.5}%
+\contentsline {subsection}{\numberline {5.1}A brief overview of knockoffs}{22}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Most powerful one-bit $p$-value}{23}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Discussion}{24}{section.6}%
+\contentsline {section}{Acknowledgments}{25}{section*.14}%
+\contentsline {section}{References}{25}{section*.16}%
+\contentsline {section}{\numberline {A}Proof of Theorem\nobreakspace {}\ref {prop:crt-optimality}}{28}{appendix.A}%
+\contentsline {section}{\numberline {B}Simulation: Finite sample error control of the MX(2) $F$-test}{29}{appendix.B}%
+\contentsline {paragraph}{Simulation setup.}{29}{section*.17}%
+\contentsline {paragraph}{Simulation parameters.}{30}{section*.18}%
+\contentsline {paragraph}{Simulation results.}{30}{section*.19}%
+\contentsline {section}{\numberline {C}Proofs for Sections\nobreakspace {}\ref {sec:weakening} and\nobreakspace {}\ref {sec:asymptotic-power}}{34}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Proofs of main results}{34}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Technical lemmas}{39}{subsection.C.2}%
+\contentsline {section}{\numberline {D}Proofs for Section\nobreakspace {}\ref {sec:knockoffs}}{45}{appendix.D}%
